@@ -1,0 +1,4 @@
+[core]
+	ignorecase = false
+[pull]
+  	rebase = false 
