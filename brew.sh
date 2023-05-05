@@ -9,6 +9,8 @@ else
 fi
 echo "done"
 
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 brew install git
 brew install anyenv
 brew install --cask google-chrome
