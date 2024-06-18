@@ -12,10 +12,10 @@ echo "done"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 brew install git
-brew install anyenv
+# brew install anyenv
 brew install --cask google-chrome
 brew install --cask docker
 brew install --cask visual-studio-code
-brew install --cask miniconda
-brew install --cask google-cloud-sdk
-brew install --cask spotify
+# brew install --cask miniconda
+# brew install --cask google-cloud-sdk
+# brew install --cask spotify
