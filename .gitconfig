@@ -2,3 +2,6 @@
 	ignorecase = false
 [pull]
   	rebase = false 
+[user]
+	email = masaki.yoshiiwa@gmail.com
+	name = Masaki Yoshiiwa
