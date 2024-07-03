@@ -19,3 +19,5 @@ brew install --cask visual-studio-code
 # brew install --cask miniconda
 # brew install --cask google-cloud-sdk
 # brew install --cask spotify
+# brew tap hashicorp/tap
+# brew install hashicorp/tap/terraform
