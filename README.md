@@ -8,7 +8,6 @@ If you have a brand new PC, you'll need setup your SSH key first.
 
 https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 
-
 1. Generate a new SSH key
 
 ```sh
@@ -39,7 +38,6 @@ pbcopy < ~/.ssh/id_ed25519.pub
 Click `New SSH key` and paste it in your GitHub.
 
 https://github.com/settings/keys
-
 
 ## How to use this
 

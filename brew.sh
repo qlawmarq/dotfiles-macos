@@ -16,8 +16,10 @@ brew install git
 brew install --cask google-chrome
 brew install --cask docker
 brew install --cask visual-studio-code
-# brew install --cask miniconda
 # brew install --cask google-cloud-sdk
 # brew install --cask spotify
+# brew install --cask notion
+# brew install --cask slack
+# brew install --cask claude
 # brew tap hashicorp/tap
 # brew install hashicorp/tap/terraform
