@@ -1,0 +1,13 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "launch": {
+    "configurations": [],
+    "compounds": []
+  },
+  "notebook.lineNumbers": "on",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "svelte.enable-ts-plugin": true,
+  "github.copilot.editor.enableAutoCompletions": true
+}
