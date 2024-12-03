@@ -9,3 +9,11 @@
 [user]
 	email = masaki.yoshiiwa@gmail.com
 	name = Masaki Yoshiiwa
+[alias]
+	st = status
+	co = commit
+	br = branch
+	cm = commit
+	ch = checkout
+	di = diff
+	br-d = !git pull origin main && git branch --merged | grep -v 'main' | xargs git branch -d
