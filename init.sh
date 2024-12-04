@@ -102,11 +102,27 @@ else
     echo "VSCode is not installed yet. Skipping VSCode settings..."
 fi
 
+# Check and setup Claude Desktop configuration
+if [ -d "/Applications/Claude.app" ]; then
+    echo "Setting up Claude Desktop configuration..."
+    CLAUDE_CONFIG_DIR=~/Library/Application\ Support/Claude
+    mkdir -p "$CLAUDE_CONFIG_DIR"
+    cp "${SCRIPT_DIR}/claude_desktop_config.json" "$CLAUDE_CONFIG_DIR/claude_desktop_config.json"
+else
+    echo "Claude Desktop is not installed. Please install it first using 'brew install --cask claude'"
+    echo "Skipping Claude Desktop configuration..."
+fi
+
 # Setup anyenv
 echo "Setting up anyenv..."
 bash "${SCRIPT_DIR}/anyenv.sh"
 
 # Source profile
 source ~/.zprofile
+
+# install latest stable Node.js
+latest_stable=$(nodenv install -l | grep -v - | grep -v a | tail -1)
+nodenv install $latest_stable
+nodenv global $latest_stable
 
 echo "Setup completed! Please restart your terminal."

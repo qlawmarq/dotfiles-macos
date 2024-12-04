@@ -47,4 +47,12 @@ if [ -f ~/Library/Application\ Support/Code/User/settings.json ]; then
     echo "✓ VSCode settings synced"
 fi
 
+# Sync Claude Desktop configuration
+echo "Syncing Claude Desktop configuration..."
+CLAUDE_CONFIG_DIR=~/Library/Application\ Support/Claude
+if [ -f "$CLAUDE_CONFIG_DIR/claude_desktop_config.json" ]; then
+    cp "$CLAUDE_CONFIG_DIR/claude_desktop_config.json" "${SCRIPT_DIR}/claude_desktop_config.json"
+    echo "✓ Claude Desktop configuration synced"
+fi
+
 echo "All configurations have been synced!" 
