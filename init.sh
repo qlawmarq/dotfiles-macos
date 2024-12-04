@@ -13,7 +13,7 @@ xcode-select --install > /dev/null
 
 # Setup Homebrew
 echo "Setting up Homebrew..."
-bash "${SCRIPT_DIR}/brew.sh"
+bash "${SCRIPT_DIR}/brew/init.sh"
 
 # Setup dotfiles
 echo "Setting up dotfiles..."
@@ -23,19 +23,19 @@ cp "${SCRIPT_DIR}/.zprofile" ~/.zprofile
 
 # Setup git
 echo "Setting up git..."
-bash "${SCRIPT_DIR}/git.sh"
+bash "${SCRIPT_DIR}/git/init.sh"
 
 # Setup VSCode
 echo "Setting up VSCode..."
-bash "${SCRIPT_DIR}/vscode.sh"
+bash "${SCRIPT_DIR}/editor/init.sh"
 
 # Setup Claude Desktop
 echo "Setting up Claude Desktop..."
-bash "${SCRIPT_DIR}/claude.sh"
+bash "${SCRIPT_DIR}/claude/init.sh"
 
 # Setup anyenv
 echo "Setting up anyenv..."
-bash "${SCRIPT_DIR}/anyenv.sh"
+bash "${SCRIPT_DIR}/anyenv/init.sh"
 
 # Source profile
 source ~/.zprofile
