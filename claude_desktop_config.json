@@ -11,10 +11,6 @@
     "git": {
       "command": "uvx",
       "args": ["mcp-server-git", "--repository", "/Users/masaki/MCP"]
-    },
-    "sqlite": {
-      "command": "uvx",
-      "args": ["mcp-server-sqlite", "--db-path", "/Users/masaki/test.db"]
     }
   }
 }
