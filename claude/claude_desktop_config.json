@@ -1,16 +1,27 @@
 {
   "mcpServers": {
     "filesystem": {
-      "command": "/Users/masaki/.anyenv/envs/nodenv/shims/npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "/Users/masaki/MCP"
-      ]
+      "command": "$HOME/.anyenv/envs/nodenv/shims/npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "$HOME/MCP"]
     },
     "git": {
       "command": "uvx",
-      "args": ["mcp-server-git", "--repository", "/Users/masaki/MCP"]
+      "args": ["mcp-server-git", "--repository", "$HOME/MCP"]
+    },
+    "fetch": {
+      "command": "uvx",
+      "args": ["mcp-server-fetch"]
+    },
+    "puppeteer": {
+      "command": "$HOME/.anyenv/envs/nodenv/shims/npx",
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer"]
+    },
+    "github": {
+      "command": "$HOME/.anyenv/envs/nodenv/shims/npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "$GITHUB_TOKEN"
+      }
     }
   }
 }

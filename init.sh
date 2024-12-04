@@ -15,12 +15,6 @@ xcode-select --install > /dev/null
 echo "Setting up Homebrew..."
 bash "${SCRIPT_DIR}/brew/init.sh"
 
-# Setup dotfiles
-echo "Setting up dotfiles..."
-# Setup .zprofile
-cp "${SCRIPT_DIR}/.zprofile" ~/.zprofile
-
-
 # Setup git
 echo "Setting up git..."
 bash "${SCRIPT_DIR}/git/init.sh"
