@@ -11,7 +11,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Sync Brewfile
 echo "Syncing Brewfile..."
-brew bundle dump --force --file="${SCRIPT_DIR}/brew/Brewfile"
+brew bundle dump --force --file="${SCRIPT_DIR}/brew/.Brewfile"
 echo "✓ Brewfile updated"
 
 # Sync VSCode extensions
@@ -43,7 +43,7 @@ fi
 # VSCode settings
 if [ -f ~/Library/Application\ Support/Code/User/settings.json ]; then
     mkdir -p "${SCRIPT_DIR}/editor"
-    cp ~/Library/Application\ Support/Code/User/settings.json "${SCRIPT_DIR}/editor/settings.json"
+    cp ~/Library/Application\ Support/Code/User/settings.json "${SCRIPT_DIR}/editor/vscode/settings.json"
     echo "✓ VSCode settings synced"
 fi
 
