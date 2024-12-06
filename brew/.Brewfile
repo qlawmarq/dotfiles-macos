@@ -1,7 +1,6 @@
 tap "hashicorp/tap"
 tap "homebrew/bundle"
-brew "anyenv"
-brew "icu4c@76"
+brew "mise"
 brew "sqlite"
 brew "tree"
 cask "claude"

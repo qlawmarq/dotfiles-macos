@@ -23,20 +23,15 @@ bash "${SCRIPT_DIR}/git/init.sh"
 echo "Setting up VSCode..."
 bash "${SCRIPT_DIR}/editor/init.sh"
 
+# Setup mise and runtimes
+echo "Setting up mise and runtimes..."
+bash "${SCRIPT_DIR}/mise/init.sh"
+
 # Setup Claude Desktop
 echo "Setting up Claude Desktop..."
 bash "${SCRIPT_DIR}/claude/init.sh"
 
-# Setup anyenv
-echo "Setting up anyenv..."
-bash "${SCRIPT_DIR}/anyenv/init.sh"
-
 # Source profile
 source ~/.zprofile
-
-# install latest stable Node.js
-latest_stable=$(nodenv install -l | grep -v - | grep -v a | tail -1)
-nodenv install $latest_stable
-nodenv global $latest_stable
 
 echo "Setup completed! Please restart your terminal."

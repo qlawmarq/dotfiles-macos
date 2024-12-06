@@ -1,35 +1,37 @@
 {
   "mcpServers": {
     "filesystem": {
-      "command": "$HOME/.anyenv/envs/nodenv/shims/npx",
+      "command": "$HOME/.local/share/mise/installs/node/VERSION_NODE/bin/npx",
       "args": [
         "-y",
         "@modelcontextprotocol/server-filesystem",
         "$HOME/MCP",
         "$HOME/Code"
-      ]
-    },
-    "git": {
-      "command": "$HOME/.anyenv/envs/pyenv/shims/uvx",
-      "args": [
-        "mcp-server-git",
-        "--repository",
-        "$HOME/Code/pointsystem-poc"
-      ]
+      ],
+      "env": {
+        "PATH": "$HOME/.local/share/mise/installs/node/VERSION_NODE/bin:/usr/local/bin:/usr/bin:/bin"
+      }
     },
     "fetch": {
-      "command": "$HOME/.anyenv/envs/pyenv/shims/uvx",
-      "args": ["mcp-server-fetch"]
+      "command": "$HOME/.local/share/mise/installs/python/VERSION_PYTHON/bin/uvx",
+      "args": ["mcp-server-fetch"],
+      "env": {
+        "PATH": "$HOME/.local/share/mise/installs/python/VERSION_PYTHON/bin:/usr/local/bin:/usr/bin:/bin"
+      }
     },
     "puppeteer": {
-      "command": "$HOME/.anyenv/envs/nodenv/shims/npx",
-      "args": ["-y", "@modelcontextprotocol/server-puppeteer"]
+      "command": "$HOME/.local/share/mise/installs/node/VERSION_NODE/bin/npx",
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer"],
+      "env": {
+        "PATH": "$HOME/.local/share/mise/installs/node/VERSION_NODE/bin:/usr/local/bin:/usr/bin:/bin"
+      }
     },
     "github": {
-      "command": "$HOME/.anyenv/envs/nodenv/shims/npx",
+      "command": "$HOME/.local/share/mise/installs/node/VERSION_NODE/bin/npx",
       "args": ["-y", "@modelcontextprotocol/server-github"],
       "env": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": "$GITHUB_TOKEN"
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "$GITHUB_TOKEN",
+        "PATH": "$HOME/.local/share/mise/installs/node/VERSION_NODE/bin:/usr/local/bin:/usr/bin:/bin"
       }
     }
   }
