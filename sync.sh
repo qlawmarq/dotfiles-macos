@@ -51,8 +51,17 @@ fi
 echo "Syncing Claude Desktop configuration..."
 CLAUDE_CONFIG_DIR=~/Library/Application\ Support/Claude
 if [ -f "$CLAUDE_CONFIG_DIR/claude_desktop_config.json" ]; then
-    cp "$CLAUDE_CONFIG_DIR/claude_desktop_config.json" "${SCRIPT_DIR}/claude/claude_desktop_config.json"
-    echo "✓ Claude Desktop configuration synced"
+    HOME_ESCAPED=$(echo "$HOME" | sed 's/\//\\\//g')
+    
+    # Get GitHub token from existing config file
+    GITHUB_TOKEN=$(grep -o '"GITHUB_PERSONAL_ACCESS_TOKEN": "[^"]*"' "$CLAUDE_CONFIG_DIR/claude_desktop_config.json" | cut -d'"' -f4)
+    GITHUB_TOKEN_ESCAPED=$(echo "$GITHUB_TOKEN" | sed 's/\//\\\//g')
+    
+    # Replace actual values with variables and copy
+    cat "$CLAUDE_CONFIG_DIR/claude_desktop_config.json" | \
+    sed "s|$HOME_ESCAPED|\$HOME|g; s|$GITHUB_TOKEN_ESCAPED|\$GITHUB_TOKEN|g" \
+    > "${SCRIPT_DIR}/claude/claude_desktop_config.json"
+    echo "✓ Claude Desktop configuration synced (variables templated)"
 fi
 
-echo "All configurations have been synced!" 
+echo "All configurations have been synced!"

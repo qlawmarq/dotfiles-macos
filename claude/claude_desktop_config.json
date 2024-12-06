@@ -2,14 +2,23 @@
   "mcpServers": {
     "filesystem": {
       "command": "$HOME/.anyenv/envs/nodenv/shims/npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "$HOME/MCP"]
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "$HOME/MCP",
+        "$HOME/Code"
+      ]
     },
     "git": {
-      "command": "uvx",
-      "args": ["mcp-server-git", "--repository", "$HOME/MCP"]
+      "command": "$HOME/.anyenv/envs/pyenv/shims/uvx",
+      "args": [
+        "mcp-server-git",
+        "--repository",
+        "$HOME/Code/pointsystem-poc"
+      ]
     },
     "fetch": {
-      "command": "uvx",
+      "command": "$HOME/.anyenv/envs/pyenv/shims/uvx",
       "args": ["mcp-server-fetch"]
     },
     "puppeteer": {
