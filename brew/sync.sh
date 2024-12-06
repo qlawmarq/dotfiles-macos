@@ -8,11 +8,7 @@ fi
 # Directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Setup dotfiles
-echo "Setting up dotfiles..."
-
-# Setup .zprofile
-cp "${SCRIPT_DIR}/.zprofile" ~/.zprofile
-
-# Setup .zshrc
-cp "${SCRIPT_DIR}/.zshrc" ~/.zshrc
+# Sync Brewfile
+echo "Syncing Brewfile..."
+brew bundle dump --force --file="${SCRIPT_DIR}/.Brewfile"
+echo "✓ Brewfile updated"
