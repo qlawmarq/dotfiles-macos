@@ -1,7 +1,5 @@
-tap "hashicorp/tap"
 tap "homebrew/bundle"
 brew "mise"
-brew "sqlite"
 brew "tree"
 cask "claude"
 cask "cursor"

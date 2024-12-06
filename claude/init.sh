@@ -14,24 +14,27 @@ if ! command -v mise &> /dev/null; then
     exit 1
 fi
 
-# Check if pip is installed
-if ! command -v pip &> /dev/null; then
-    echo "pip could not be found"
-    exit 1
-fi
-
 # Check if uv is installed
 if ! command -v uvx &> /dev/null; then
     echo "uvx could not be found"
-    pip install uv
+    if command -v pip &> /dev/null; then
+        pip install uv
+    elif command -v pip3 &> /dev/null; then
+        pip3 install uv
+    else
+        echo "pip or pip3 is not installed. Please install pip or pip3 first."
+        exit 1
+    fi
 fi
 
-# Create MCP directory if not exists
-echo "Setting up MCP directory..."
-mkdir -p "$HOME/MCP"
 
 # Claude Desktop configuration
 if [ -d "/Applications/Claude.app" ]; then
+    # Create MCP directory if not exists
+    echo "Setting up MCP directory..."
+    mkdir -p "$HOME/MCP"
+    mkdir -p "$HOME/Codes"
+
     echo "Setting up Claude Desktop configuration..."
     CLAUDE_CONFIG_DIR=~/Library/Application\ Support/Claude
     mkdir -p "$CLAUDE_CONFIG_DIR"

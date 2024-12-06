@@ -6,7 +6,7 @@
         "-y",
         "@modelcontextprotocol/server-filesystem",
         "$HOME/MCP",
-        "$HOME/Code"
+        "$HOME/Codes"
       ],
       "env": {
         "PATH": "$HOME/.local/share/mise/installs/node/VERSION_NODE/bin:/usr/local/bin:/usr/bin:/bin"

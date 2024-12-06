@@ -31,6 +31,10 @@ bash "${SCRIPT_DIR}/mise/init.sh"
 echo "Setting up Claude Desktop..."
 bash "${SCRIPT_DIR}/claude/init.sh"
 
+# Setup dotfiles
+echo "Setting up dotfiles..."
+bash "${SCRIPT_DIR}/dotfiles/init.sh"
+
 # Source profile
 source ~/.zprofile
 
