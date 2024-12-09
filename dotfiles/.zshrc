@@ -1,5 +1,4 @@
 export PATH="$HOME/.local/bin:$PATH"
-eval "$(~/.local/bin/mise activate zsh)"
 eval "$(mise activate zsh)"
 eval "$(mise activate --shims)"
 path_append ()  { path_remove $1; export PATH="$PATH:$1"; }
