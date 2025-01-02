@@ -17,6 +17,10 @@ if [ -d "/Applications/Visual Studio Code.app" ]; then
     # Install VSCode extensions
     if [ -f "${SCRIPT_DIR}/vscode-extensions.txt" ]; then
         echo "Installing VSCode extensions..."
+        if ! command -v code &> /dev/null; then
+            echo "VSCode CLI command not found. Please restart your terminal and run this script again."
+            exit 1
+        fi
         while IFS= read -r extension; do
             code --install-extension "$extension"
         done < "${SCRIPT_DIR}/vscode-extensions.txt"
