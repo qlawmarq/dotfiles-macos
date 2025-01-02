@@ -8,9 +8,6 @@ fi
 # Directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Install Command Line Tools
-xcode-select --install > /dev/null
-
 # Setup Homebrew
 echo "Setting up Homebrew..."
 bash "${SCRIPT_DIR}/brew/init.sh"
