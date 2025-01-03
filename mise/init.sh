@@ -28,14 +28,14 @@ if confirm "Would you like to install Go?"; then
 fi
 
 # Install Python
-if confirm "Would you like to install Python?"; then
+if confirm "Would you like to install Python? (necessary for Claude Desktop)"; then
     echo "Installing Python..."
     mise use -g python@latest
     echo "✓ Python installed"
 fi
 
 # Install Node.js
-if confirm "Would you like to install Node.js?"; then
+if confirm "Would you like to install Node.js? (necessary for Claude Desktop)"; then
     echo "Installing Node.js..."
     mise use -g node@lts
     echo "✓ Node.js installed"
