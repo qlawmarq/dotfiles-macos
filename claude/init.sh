@@ -32,7 +32,6 @@ fi
 if [ -d "/Applications/Claude.app" ]; then
     # Create MCP directory if not exists
     echo "Setting up MCP directory..."
-    mkdir -p "$HOME/MCP"
     mkdir -p "$HOME/Codes"
 
     echo "Setting up Claude Desktop configuration..."
