@@ -27,6 +27,16 @@ if ! command -v uvx &> /dev/null; then
     fi
 fi
 
+# Check if node is installed
+if ! command -v node &> /dev/null; then
+    echo "Node.js is not installed. Please install Node.js first."
+    exit 1
+fi
+
+# install mcp server-filesystem if not installed
+if ! npm list -g | grep -q "@modelcontextprotocol/server-filesystem"; then
+    npm install @modelcontextprotocol/server-filesystem -g
+fi
 
 # Claude Desktop configuration
 if [ -d "/Applications/Claude.app" ]; then
