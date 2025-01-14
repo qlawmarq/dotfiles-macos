@@ -13,3 +13,4 @@
 	ch = checkout
 	di = diff
 	br-d = !git pull origin main && git branch --merged | grep -v 'main' | xargs git branch -d
+	br-p = !git fetch -p && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D
