@@ -39,6 +39,11 @@ if confirm "Would you like to install Node.js? (necessary for Claude Desktop)"; 
     echo "Installing Node.js..."
     mise use -g node@lts
     echo "✓ Node.js installed"
+    if confirm "Would you like to install `pnpm`?"; then
+        echo "Installing pnpm..."
+        mise use -g pnpm@latest
+        echo "✓ pnpm installed"
+    fi
 fi
 
 # Source the new environment
