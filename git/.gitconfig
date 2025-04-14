@@ -1,16 +1,25 @@
 [core]
 	ignorecase = false
 [pull]
-  	rebase = false 
+  	rebase 	= false 
+	ff 		= only
+[init]
+	defaultBranch = main
 [user]
-	email = masaki.yoshiiwa@gmail.com
-	name = Masaki Yoshiiwa
+	email 	= masaki.yoshiiwa@gmail.com
+	name 	= Masaki Yoshiiwa
 [alias]
-	st = status
-	co = commit
-	br = branch
-	cm = commit
-	ch = checkout
-	di = diff
-	br-d = !git pull origin main && git branch --merged | grep -v 'main' | xargs git branch -d
-	br-p = !git fetch -p && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D
+	a 		= add
+	st 		= status
+	c 		= commit
+	cm 		= commit -m
+	cmm 	= commit -m --amend
+	ck 		= checkout
+	ckb		= checkout -b
+	br 		= branch
+	ch 		= checkout
+	di 		= diff
+	rlc 	= reset HEAD~
+	rb 		= "!git fetch origin main:main && git rebase main"
+	br-d 	= !git pull origin main && git branch --merged | grep -v 'main' | xargs git branch -d
+	br-p 	= !git fetch -p && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D
