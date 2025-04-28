@@ -6,27 +6,52 @@ if [ "$(uname)" != "Darwin" ] ; then
     exit 1
 fi
 
+# Function to ask for confirmation
+confirm() {
+    read -p "$1 (y/N): " yn
+    case $yn in
+        [Yy]* ) return 0;;
+        * ) return 1;;
+    esac
+}
+
 # Directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Sync brew
-echo "Syncing brew..."
-bash "${SCRIPT_DIR}/brew/sync.sh"
+if confirm "Would you like to sync brew?"; then
+    echo "Syncing brew..."
+    bash "${SCRIPT_DIR}/brew/sync.sh"
+fi
 
 # Sync dotfiles
-echo "Syncing dotfiles..."
-bash "${SCRIPT_DIR}/dotfiles/sync.sh"
-
-# Sync editor
-echo "Syncing editor..."
-bash "${SCRIPT_DIR}/editor/sync.sh"
+if confirm "Would you like to sync dotfiles?"; then
+    echo "Syncing dotfiles..."
+    bash "${SCRIPT_DIR}/dotfiles/sync.sh"
+fi
 
 # Sync git
-echo "Syncing git..."
-bash "${SCRIPT_DIR}/git/sync.sh"
+if confirm "Would you like to sync git?"; then
+    echo "Syncing git..."
+    bash "${SCRIPT_DIR}/git/sync.sh"
+fi
+
+# Sync vscode
+if confirm "Would you like to sync vscode?"; then
+    echo "Syncing vscode..."
+    bash "${SCRIPT_DIR}/vscode/sync.sh"
+fi
+
+# Sync cursor
+if confirm "Would you like to sync cursor?"; then
+    echo "Syncing cursor..."
+    bash "${SCRIPT_DIR}/cursor/sync.sh"
+fi
 
 # Sync claude
-echo "Syncing claude..."
-bash "${SCRIPT_DIR}/claude/sync.sh"
+if confirm "Would you like to sync claude?"; then
+    echo "Syncing claude..."
+    bash "${SCRIPT_DIR}/claude/sync.sh"
+fi
 
 echo "All configurations have been synced!"

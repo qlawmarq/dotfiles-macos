@@ -68,7 +68,7 @@ if [ -d "/Applications/Visual Studio Code.app" ]; then
     
     # First replace versions in a temporary file
     TMP_CONFIG=$(mktemp)
-    cat "${SCRIPT_DIR}/vscode/settings.json" | \
+    cat "${SCRIPT_DIR}/settings.json" | \
         sed -e "s|\$NODE_VERSION|$NODE_VERSION|g" > "$TMP_CONFIG"
     
     # Then replace environment variables
