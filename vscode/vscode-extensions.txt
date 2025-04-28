@@ -1,0 +1,17 @@
+bierner.markdown-mermaid
+corschenzi.mermaid-graphical-editor
+dbaeumer.vscode-eslint
+docker.docker
+esbenp.prettier-vscode
+golang.go
+ms-azuretools.vscode-docker
+ms-python.black-formatter
+ms-python.debugpy
+ms-python.flake8
+ms-python.isort
+ms-python.python
+ms-python.vscode-pylance
+ms-vscode-remote.remote-containers
+octref.vetur
+saoudrizwan.claude-dev
+svelte.svelte-vscode

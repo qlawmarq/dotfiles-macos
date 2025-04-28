@@ -1,4 +1,0 @@
-bierner.markdown-mermaid
-corschenzi.mermaid-graphical-editor
-dbaeumer.vscode-eslint
-esbenp.prettier-vscode

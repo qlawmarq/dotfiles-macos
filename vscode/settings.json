@@ -1,0 +1,49 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "launch": {
+    "configurations": [],
+    "compounds": []
+  },
+  "notebook.lineNumbers": "on",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "svelte.enable-ts-plugin": true,
+  "[go]": {
+    "editor.defaultFormatter": "golang.go",
+    "editor.formatOnSave": true
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "flake8.args": ["--max-line-length=88", "--ignore=E203,W503,W504"],
+  "go.toolsManagement.autoUpdate": true,
+  "mcp": {
+    "inputs": [],
+    "servers": {
+      "github": {
+        "type": "stdio",
+        "command": "docker",
+        "args": [
+          "run",
+          "-i",
+          "--rm",
+          "-e",
+          "GITHUB_PERSONAL_ACCESS_TOKEN",
+          "ghcr.io/github/github-mcp-server"
+        ],
+        "env": {
+          "GITHUB_PERSONAL_ACCESS_TOKEN": "$GITHUB_TOKEN"
+        }
+      },
+      "context7": {
+        "type": "stdio",
+        "command": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin/npx",
+        "args": ["-y", "@upstash/context7-mcp@latest"],
+        "env": {
+          "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
+        }
+      }
+    }
+  }
+}

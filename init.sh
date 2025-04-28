@@ -32,7 +32,13 @@ fi
 # Setup VSCode
 if confirm "Would you like to setup VSCode?"; then
     echo "Setting up VSCode..."
-    bash "${SCRIPT_DIR}/editor/init.sh"
+    bash "${SCRIPT_DIR}/vscode/init.sh"
+fi
+
+# Setup Cursor
+if confirm "Would you like to setup Cursor?"; then
+    echo "Setting up Cursor..."
+    bash "${SCRIPT_DIR}/cursor/init.sh"
 fi
 
 # Setup mise and runtimes
