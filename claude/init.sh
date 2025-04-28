@@ -68,6 +68,12 @@ if [ -d "/Applications/Claude.app" ]; then
         echo "Please enter your GitHub Personal Access Token:"
         read -r GITHUB_TOKEN
     fi
+
+    # Ask for Brave API key if not already set in environment
+    if [ -z "$BRAVE_API_KEY" ]; then
+        echo "Please enter your Brave API Key:"
+        read -r BRAVE_API_KEY
+    fi
     
     # Create temporary config with current versions
     echo "Updating configuration with Python $PYTHON_VERSION and Node.js $NODE_VERSION..."
@@ -75,12 +81,13 @@ if [ -d "/Applications/Claude.app" ]; then
     # First replace versions in a temporary file
     TMP_CONFIG=$(mktemp)
     cat "${SCRIPT_DIR}/claude_desktop_config.json" | \
-        perl -pe "s/VERSION_PYTHON/$PYTHON_VERSION/g" | \
-        perl -pe "s/VERSION_NODE/$NODE_VERSION/g" > "$TMP_CONFIG"
+        perl -pe "s/$PYTHON_VERSION/$PYTHON_VERSION/g" | \
+        perl -pe "s/$NODE_VERSION/$NODE_VERSION/g" > "$TMP_CONFIG"
     
     # Then replace environment variables
     sed -e "s|\$HOME|$HOME|g" \
         -e "s|\$GITHUB_TOKEN|$GITHUB_TOKEN|g" \
+        -e "s|\$BRAVE_API_KEY|$BRAVE_API_KEY|g" \
         "$TMP_CONFIG" > "$CLAUDE_CONFIG_DIR/claude_desktop_config.json"
     
     # Clean up

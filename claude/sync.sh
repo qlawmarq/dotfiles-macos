@@ -25,12 +25,16 @@ if [ -f "$CLAUDE_CONFIG_DIR/claude_desktop_config.json" ]; then
     # Process the configuration file in steps
     cat "$CLAUDE_CONFIG_DIR/claude_desktop_config.json" | \
     # First, replace the actual versions with VERSION placeholders
-    sed -E "s|node/${NODE_VERSION}|node/VERSION_NODE|g; \
-            s|python/${PYTHON_VERSION}|python/VERSION_PYTHON|g" | \
+    sed -E "s|node/${NODE_VERSION}|node/$NODE_VERSION|g; \
+            s|python/${PYTHON_VERSION}|python/$PYTHON_VERSION|g" | \
     # Then, replace the home directory with $HOME
     sed "s|${HOME}|\$HOME|g" | \
-    # Finally, replace the GitHub token with $GITHUB_TOKEN
+    # Then, replace the GitHub token with $GITHUB_TOKEN
     sed "s|${GITHUB_TOKEN}|\$GITHUB_TOKEN|g" \
+    > "$TMP_CONFIG"
+
+    # Then, replace the Brave API key with $BRAVE_API_KEY
+    sed "s|${BRAVE_API_KEY}|\$BRAVE_API_KEY|g" \
     > "$TMP_CONFIG"
     
     # Check if the file was processed correctly
