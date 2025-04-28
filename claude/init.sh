@@ -1,5 +1,16 @@
 #!/bin/bash
 
+echo "Starting installation..."
+
+# Function to ask for confirmation
+confirm() {
+    read -p "$1 (y/N): " yn
+    case $yn in
+        [Yy]* ) return 0;;
+        * ) return 1;;
+    esac
+}
+
 if [ "$(uname)" != "Darwin" ] ; then
     echo "Not macOS!"
     exit 1
@@ -12,30 +23,65 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 if ! command -v mise &> /dev/null; then
     echo "mise is not installed. Please install mise first."
     exit 1
+else
+    echo "mise is already installed"
 fi
 
 # Check if uv is installed
 if ! command -v uvx &> /dev/null; then
     echo "uvx could not be found"
     if command -v pip &> /dev/null; then
-        pip install uv
+        confirm "Would you like to install uv using pip?"
+        if [ $? -eq 0 ]; then
+            pip install uv
+        else
+            echo "Skipping uv installation, please install uv manually"
+            exit 1
+        fi
     elif command -v pip3 &> /dev/null; then
-        pip3 install uv
+        confirm "Would you like to install uv using pip3?"
+        if [ $? -eq 0 ]; then
+            pip3 install uv
+        else
+            echo "Skipping uv installation, please install uv manually"
+            exit 1
+        fi
     else
         echo "pip or pip3 is not installed. Please install pip or pip3 first."
         exit 1
     fi
+else
+    echo "uv is already installed"
 fi
 
 # Check if node is installed
 if ! command -v node &> /dev/null; then
     echo "Node.js is not installed. Please install Node.js first."
     exit 1
+else
+    echo "Node.js is already installed"
 fi
 
 # install mcp server-filesystem if not installed
 if ! npm list -g | grep -q "@modelcontextprotocol/server-filesystem"; then
-    npm install @modelcontextprotocol/server-filesystem -g
+    if confirm "Would you like to install @modelcontextprotocol/server-filesystem?"; then
+        npm install @modelcontextprotocol/server-filesystem -g
+    else
+        echo "Skipping @modelcontextprotocol/server-filesystem installation"
+    fi
+else
+    echo "@modelcontextprotocol/server-filesystem is already installed"
+fi
+
+# install markitdown-mcp if not installed
+if ! uv tool list | grep -q "markitdown-mcp"; then
+    if confirm "Would you like to install markitdown-mcp?"; then
+        uv tool install markitdown-mcp
+    else
+        echo "Skipping markitdown-mcp installation"
+    fi
+else
+    echo "markitdown-mcp is already installed"
 fi
 
 # Claude Desktop configuration
@@ -63,10 +109,31 @@ if [ -d "/Applications/Claude.app" ]; then
         exit 1
     fi
     
-    # Ask for GitHub token if not already set in environment
+    # Try to get tokens from existing config file
+    CONFIG_FILE="$CLAUDE_CONFIG_DIR/claude_desktop_config.json"
+    if [ -f "$CONFIG_FILE" ]; then
+        # Extract GitHub token if present
+        EXTRACTED_GITHUB_TOKEN=$(grep -o '"GITHUB_PERSONAL_ACCESS_TOKEN": "[^"]*"' "$CONFIG_FILE" | cut -d'"' -f4)
+        if [ -n "$EXTRACTED_GITHUB_TOKEN" ]; then
+            GITHUB_TOKEN="$EXTRACTED_GITHUB_TOKEN"
+        fi
+        # Extract Brave API key if present
+        EXTRACTED_BRAVE_API_KEY=$(grep -o '"BRAVE_API_KEY": "[^"]*"' "$CONFIG_FILE" | cut -d'"' -f4)
+        if [ -n "$EXTRACTED_BRAVE_API_KEY" ]; then
+            BRAVE_API_KEY="$EXTRACTED_BRAVE_API_KEY"
+        fi
+    fi
+
+    # Ask for GitHub token if not already set in environment or config
     if [ -z "$GITHUB_TOKEN" ]; then
         echo "Please enter your GitHub Personal Access Token:"
         read -r GITHUB_TOKEN
+    fi
+
+    # Ask for Brave API key if not already set in environment or config
+    if [ -z "$BRAVE_API_KEY" ]; then
+        echo "Please enter your Brave API Key:"
+        read -r BRAVE_API_KEY
     fi
     
     # Create temporary config with current versions
@@ -75,12 +142,13 @@ if [ -d "/Applications/Claude.app" ]; then
     # First replace versions in a temporary file
     TMP_CONFIG=$(mktemp)
     cat "${SCRIPT_DIR}/claude_desktop_config.json" | \
-        perl -pe "s/VERSION_PYTHON/$PYTHON_VERSION/g" | \
-        perl -pe "s/VERSION_NODE/$NODE_VERSION/g" > "$TMP_CONFIG"
+        sed -e "s|\$NODE_VERSION|$NODE_VERSION|g" \
+            -e "s|\$PYTHON_VERSION|$PYTHON_VERSION|g" > "$TMP_CONFIG"
     
     # Then replace environment variables
     sed -e "s|\$HOME|$HOME|g" \
         -e "s|\$GITHUB_TOKEN|$GITHUB_TOKEN|g" \
+        -e "s|\$BRAVE_API_KEY|$BRAVE_API_KEY|g" \
         "$TMP_CONFIG" > "$CLAUDE_CONFIG_DIR/claude_desktop_config.json"
     
     # Clean up

@@ -1,32 +1,60 @@
 {
   "mcpServers": {
     "filesystem": {
-      "command": "$HOME/.local/share/mise/installs/node/VERSION_NODE/bin/npx",
+      "command": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin/npx",
       "args": ["-y", "@modelcontextprotocol/server-filesystem", "$HOME/Codes"],
       "env": {
-        "PATH": "$HOME/.local/share/mise/installs/node/VERSION_NODE/bin:/usr/local/bin:/usr/bin:/bin"
+        "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
       }
     },
     "fetch": {
-      "command": "$HOME/.local/share/mise/installs/python/VERSION_PYTHON/bin/uvx",
+      "command": "$HOME/.local/share/mise/installs/python/$PYTHON_VERSION/bin/uvx",
       "args": ["mcp-server-fetch"],
       "env": {
-        "PATH": "$HOME/.local/share/mise/installs/python/VERSION_PYTHON/bin:/usr/local/bin:/usr/bin:/bin"
+        "PATH": "$HOME/.local/share/mise/installs/python/$PYTHON_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
       }
     },
     "puppeteer": {
-      "command": "$HOME/.local/share/mise/installs/node/VERSION_NODE/bin/npx",
+      "command": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin/npx",
       "args": ["-y", "@modelcontextprotocol/server-puppeteer"],
       "env": {
-        "PATH": "$HOME/.local/share/mise/installs/node/VERSION_NODE/bin:/usr/local/bin:/usr/bin:/bin"
+        "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
       }
     },
     "github": {
-      "command": "$HOME/.local/share/mise/installs/node/VERSION_NODE/bin/npx",
-      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "ghcr.io/github/github-mcp-server"
+      ],
       "env": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": "$GITHUB_TOKEN",
-        "PATH": "$HOME/.local/share/mise/installs/node/VERSION_NODE/bin:/usr/local/bin:/usr/bin:/bin"
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "$GITHUB_TOKEN"
+      }
+    },
+    "brave-search": {
+      "command": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin/npx",
+      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
+      "env": {
+        "BRAVE_API_KEY": "$BRAVE_API_KEY",
+        "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
+      }
+    },
+    "context7": {
+      "command": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin/npx",
+      "args": ["-y", "@upstash/context7-mcp@latest"],
+      "env": {
+        "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
+      }
+    },
+    "markitdown": {
+      "command": "$HOME/.local/share/mise/installs/python/$PYTHON_VERSION/bin/uv",
+      "args": ["tool", "run", "markitdown-mcp"],
+      "env": {
+        "PATH": "$HOME/.local/share/mise/installs/python/$PYTHON_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
       }
     }
   }

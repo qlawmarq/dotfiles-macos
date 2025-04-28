@@ -15,3 +15,11 @@ When setting up a new Mac:
 ```sh
 ./sync.sh
 ```
+
+## Troubleshooting
+
+### Debug MCP server for Claude Desktop
+
+```sh
+tail -n 20 -f ~/Library/Logs/Claude/mcp*.log
+```
