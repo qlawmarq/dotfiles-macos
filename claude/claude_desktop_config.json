@@ -49,6 +49,13 @@
       "env": {
         "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
       }
+    },
+    "markitdown": {
+      "command": "$HOME/.local/share/mise/installs/python/$PYTHON_VERSION/bin/uv",
+      "args": ["tool", "run", "markitdown-mcp"],
+      "env": {
+        "PATH": "$HOME/.local/share/mise/installs/python/$PYTHON_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
+      }
     }
   }
 }

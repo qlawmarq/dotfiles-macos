@@ -1,5 +1,15 @@
 #!/bin/bash
 
+
+# Function to ask for confirmation
+confirm() {
+    read -p "$1 (y/N): " yn
+    case $yn in
+        [Yy]* ) return 0;;
+        * ) return 1;;
+    esac
+}
+
 if [ "$(uname)" != "Darwin" ] ; then
     echo "Not macOS!"
     exit 1
@@ -35,7 +45,24 @@ fi
 
 # install mcp server-filesystem if not installed
 if ! npm list -g | grep -q "@modelcontextprotocol/server-filesystem"; then
-    npm install @modelcontextprotocol/server-filesystem -g
+    if confirm "Would you like to install @modelcontextprotocol/server-filesystem?"; then
+        npm install @modelcontextprotocol/server-filesystem -g
+    else
+        echo "Skipping @modelcontextprotocol/server-filesystem installation"
+    fi
+else
+    echo "@modelcontextprotocol/server-filesystem is already installed"
+fi
+
+# install markitdown-mcp if not installed
+if ! uv tool list | grep -q "markitdown-mcp"; then
+    if confirm "Would you like to install markitdown-mcp?"; then
+        uv tool install markitdown-mcp
+    else
+        echo "Skipping markitdown-mcp installation"
+    fi
+else
+    echo "markitdown-mcp is already installed"
 fi
 
 # Claude Desktop configuration
