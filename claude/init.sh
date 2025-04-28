@@ -96,8 +96,8 @@ if [ -d "/Applications/Claude.app" ]; then
     # First replace versions in a temporary file
     TMP_CONFIG=$(mktemp)
     cat "${SCRIPT_DIR}/claude_desktop_config.json" | \
-        perl -pe "s/$PYTHON_VERSION/$PYTHON_VERSION/g" | \
-        perl -pe "s/$NODE_VERSION/$NODE_VERSION/g" > "$TMP_CONFIG"
+        sed -e "s|\$NODE_VERSION|$NODE_VERSION|g" \
+            -e "s|\$PYTHON_VERSION|$PYTHON_VERSION|g" > "$TMP_CONFIG"
     
     # Then replace environment variables
     sed -e "s|\$HOME|$HOME|g" \
