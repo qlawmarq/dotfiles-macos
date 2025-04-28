@@ -15,6 +15,39 @@ echo "✓ VSCode extensions list updated"
 
 # VSCode settings
 if [ -f ~/Library/Application\ Support/Code/User/settings.json ]; then
-    cp ~/Library/Application\ Support/Code/User/settings.json "${SCRIPT_DIR}/vscode/settings.json"
-    echo "✓ VSCode settings synced"
+    echo "Found existing configuration file"
+    
+    # Get GitHub token from existing config file
+    GITHUB_TOKEN=$(grep -o '"GITHUB_PERSONAL_ACCESS_TOKEN": "[^"]*"' ~/Library/Application\ Support/Code/User/settings.json | cut -d'"' -f4)
+    echo "Extracted GitHub token: ${GITHUB_TOKEN:+[token exists]}"
+    
+    # Get current runtime versions from mise
+    NODE_VERSION=$(mise current node | awk '{print $1}')
+    echo "Current version - Node: $NODE_VERSION"
+    
+    # Create temporary file for processing
+    TMP_CONFIG=$(mktemp)
+    echo "Created temporary file: $TMP_CONFIG"
+    
+    # Process the configuration file in a single sed command
+    cat ~/Library/Application\ Support/Code/User/settings.json | \
+    sed -E "s|node/[0-9]+\.[0-9]+\.[0-9]+|node/\$NODE_VERSION|g; \
+            s|${HOME}|\$HOME|g; \
+            s|\"GITHUB_PERSONAL_ACCESS_TOKEN\": \"[^\"]*\"|\"GITHUB_PERSONAL_ACCESS_TOKEN\": \"\$GITHUB_TOKEN\"|g" \
+    > "$TMP_CONFIG"
+    
+    echo "Configuration processed. Checking file size..."
+    
+    # Check if the file was processed correctly
+    if [ -s "$TMP_CONFIG" ]; then
+        echo "Moving processed configuration to template..."
+        mv "$TMP_CONFIG" "${SCRIPT_DIR}/vscode/settings.json"
+        echo "✓ VSCode settings synced with version placeholders"
+    else
+        echo "Error: Processed configuration file is empty"
+        rm "$TMP_CONFIG"
+        exit 1
+    fi
+else
+    echo "VSCode settings file not found at ~/Library/Application Support/Code/User/settings.json"
 fi
