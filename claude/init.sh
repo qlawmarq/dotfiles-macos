@@ -63,13 +63,28 @@ if [ -d "/Applications/Claude.app" ]; then
         exit 1
     fi
     
-    # Ask for GitHub token if not already set in environment
+    # Try to get tokens from existing config file
+    CONFIG_FILE="$CLAUDE_CONFIG_DIR/claude_desktop_config.json"
+    if [ -f "$CONFIG_FILE" ]; then
+        # Extract GitHub token if present
+        EXTRACTED_GITHUB_TOKEN=$(grep -o '"GITHUB_PERSONAL_ACCESS_TOKEN": "[^"]*"' "$CONFIG_FILE" | cut -d'"' -f4)
+        if [ -n "$EXTRACTED_GITHUB_TOKEN" ]; then
+            GITHUB_TOKEN="$EXTRACTED_GITHUB_TOKEN"
+        fi
+        # Extract Brave API key if present
+        EXTRACTED_BRAVE_API_KEY=$(grep -o '"BRAVE_API_KEY": "[^"]*"' "$CONFIG_FILE" | cut -d'"' -f4)
+        if [ -n "$EXTRACTED_BRAVE_API_KEY" ]; then
+            BRAVE_API_KEY="$EXTRACTED_BRAVE_API_KEY"
+        fi
+    fi
+
+    # Ask for GitHub token if not already set in environment or config
     if [ -z "$GITHUB_TOKEN" ]; then
         echo "Please enter your GitHub Personal Access Token:"
         read -r GITHUB_TOKEN
     fi
 
-    # Ask for Brave API key if not already set in environment
+    # Ask for Brave API key if not already set in environment or config
     if [ -z "$BRAVE_API_KEY" ]; then
         echo "Please enter your Brave API Key:"
         read -r BRAVE_API_KEY
