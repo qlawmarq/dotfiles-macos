@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo "Starting installation..."
 
 # Function to ask for confirmation
 confirm() {
@@ -22,25 +23,43 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 if ! command -v mise &> /dev/null; then
     echo "mise is not installed. Please install mise first."
     exit 1
+else
+    echo "mise is already installed"
 fi
 
 # Check if uv is installed
 if ! command -v uvx &> /dev/null; then
     echo "uvx could not be found"
     if command -v pip &> /dev/null; then
-        pip install uv
+        confirm "Would you like to install uv using pip?"
+        if [ $? -eq 0 ]; then
+            pip install uv
+        else
+            echo "Skipping uv installation, please install uv manually"
+            exit 1
+        fi
     elif command -v pip3 &> /dev/null; then
-        pip3 install uv
+        confirm "Would you like to install uv using pip3?"
+        if [ $? -eq 0 ]; then
+            pip3 install uv
+        else
+            echo "Skipping uv installation, please install uv manually"
+            exit 1
+        fi
     else
         echo "pip or pip3 is not installed. Please install pip or pip3 first."
         exit 1
     fi
+else
+    echo "uv is already installed"
 fi
 
 # Check if node is installed
 if ! command -v node &> /dev/null; then
     echo "Node.js is not installed. Please install Node.js first."
     exit 1
+else
+    echo "Node.js is already installed"
 fi
 
 # install mcp server-filesystem if not installed
