@@ -126,13 +126,13 @@ if [ -d "/Applications/Claude.app" ]; then
 
     # Ask for GitHub token if not already set in environment or config
     if [ -z "$GITHUB_TOKEN" ]; then
-        echo "Please enter your GitHub Personal Access Token:"
+        echo "Please enter your GitHub Personal Access Token: (https://github.com/settings/personal-access-tokens)"
         read -r GITHUB_TOKEN
     fi
 
     # Ask for Brave API key if not already set in environment or config
     if [ -z "$BRAVE_API_KEY" ]; then
-        echo "Please enter your Brave API Key:"
+        echo "Please enter your Brave API Key: (https://api-dashboard.search.brave.com/app/keys)"
         read -r BRAVE_API_KEY
     fi
     

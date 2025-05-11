@@ -59,7 +59,7 @@ if [ -d "/Applications/Visual Studio Code.app" ]; then
 
     # Ask for GitHub token if not already set in environment or config
     if [ -z "$GITHUB_TOKEN" ]; then
-        echo "Please enter your GitHub Personal Access Token:"
+        echo "Please enter your GitHub Personal Access Token: (https://github.com/settings/personal-access-tokens)"
         read -r GITHUB_TOKEN
     fi
     
