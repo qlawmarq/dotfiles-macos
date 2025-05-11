@@ -56,6 +56,13 @@
       "env": {
         "PATH": "$HOME/.local/share/mise/installs/python/$PYTHON_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
       }
+    },
+    "youtube-transcript": {
+      "command": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin/npx",
+      "args": ["-y", "@kimtaeyoon83/mcp-server-youtube-transcript"],
+      "env": {
+        "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
+      }
     }
   }
 }
