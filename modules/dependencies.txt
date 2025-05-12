@@ -1,15 +1,10 @@
 # Module dependencies definition
 # Format: module: dependency1 dependency2 ...
 
-# Claude Desktop dependencies
 claude: brew mise
-
-# VS Code dependencies
 vscode: brew
-
-# Other modules without dependencies
 brew: 
-mise: 
+mise: brew
 git: 
-dotfiles: 
-cursor: 
+dotfiles: git
+cursor: brew mise

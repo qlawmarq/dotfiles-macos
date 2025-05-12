@@ -9,14 +9,12 @@ A modular, interactive setup and configuration tool for quickly provisioning and
 - [Overview](#overview)
 - [Available Modules](#available-modules)
 - [Module Dependencies](#module-dependencies)
-- [Script Descriptions](#script-descriptions)
 - [Requirements](#requirements)
+- [Usage](#usage)
 - [Module Structure](#module-structure)
 - [Customization](#customization)
-- [Usage](#usage)
 - [Dependency Management](#dependency-management)
 - [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
 - [License](#license)
 
 ---
@@ -49,25 +47,7 @@ Each module is independent but may depend on other modules for proper functional
 
 Modules can have dependencies on other modules. For example, the `claude` module requires both `brew` and `mise` to be installed first. The dependency relationships are defined in `modules/dependencies.txt` and are automatically resolved during installation.
 
-Current module dependencies:
-- `claude`: depends on `brew` and `mise` 
-- `vscode`: depends on `brew`
-- Other modules have no dependencies
-
 The installation script automatically detects these dependencies and ensures modules are installed in the correct order.
-
----
-
-## Script Descriptions
-
-- **init.sh**  
-  The main entry point for initial setup. It interactively lists available modules and lets you choose which ones to install. The script automatically resolves dependencies and installs modules in the correct order.
-
-- **sync.sh**  
-  Used to synchronize configuration files for selected modules. This is useful for keeping your dotfiles and settings up-to-date across multiple machines.
-
-- **lib/dependencies.sh**  
-  Contains utility functions for resolving module dependencies using a topological sort algorithm.
 
 ---
 
@@ -75,11 +55,38 @@ The installation script automatically detects these dependencies and ensures mod
 
 Before running these scripts, ensure you have the following:
 
-- **macOS** (tested on recent versions including Big Sur, Monterey, and Ventura)
+- **MacOS** (tested on recent versions including Big Sur, Monterey, and Ventura)
 - **bash/zsh/sh** (available by default on macOS)
 - **git** (for cloning this repository, if not already downloaded)
 
 The scripts will check for and attempt to install other necessary dependencies as needed.
+
+---
+
+## Usage
+
+### Initial Setup
+
+When setting up a new Mac:
+
+```sh
+sh init.sh
+```
+
+- You will be prompted to select which modules to install.
+- The script will resolve dependencies and determine the correct installation order.
+- Each selected module will run its own setup script in the proper sequence.
+
+### Sync Configurations
+
+To synchronize configuration files (e.g., after updating dotfiles):
+
+```sh
+sh sync.sh
+```
+
+- Select which modules to sync.
+- Each selected module will run its sync script.
 
 ---
 
@@ -118,6 +125,7 @@ You can easily add, remove, or modify modules to suit your needs:
 
 2. **Add module dependencies:**  
    Edit `modules/dependencies.txt` to define dependencies for your new module using the format:
+
    ```
    module_name: dependency1 dependency2 ...
    ```
@@ -133,43 +141,18 @@ You can easily add, remove, or modify modules to suit your needs:
 
 ---
 
-## Usage
-
-### Initial Setup
-
-When setting up a new Mac:
-
-```sh
-sh init.sh
-```
-
-- You will be prompted to select which modules to install.
-- The script will resolve dependencies and determine the correct installation order.
-- Each selected module will run its own setup script in the proper sequence.
-
-### Sync Configurations
-
-To synchronize configuration files (e.g., after updating dotfiles):
-
-```sh
-sh sync.sh
-```
-
-- Select which modules to sync.
-- Each selected module will run its sync script.
-
----
-
 ## Dependency Management
 
 ### How Dependencies Work
 
 1. **Definition**: Dependencies are defined in `modules/dependencies.txt` using a simple format:
+
    ```
    module_name: dependency1 dependency2 ...
    ```
 
 2. **Resolution**: When modules are selected for installation, the system:
+
    - Builds a directed graph of dependencies
    - Performs a topological sort to determine installation order
    - Detects circular dependencies and provides appropriate warnings
@@ -190,7 +173,7 @@ mynewmodule: dependency1 dependency2
 If your module has no dependencies, still add an entry with an empty dependency list:
 
 ```
-mynewmodule: 
+mynewmodule:
 ```
 
 ---
@@ -219,20 +202,6 @@ tail -n 20 -f ~/Library/Logs/Claude/mcp*.log
 ```sh
 cat ~/Library/Application\ Support/Claude/claude_desktop_config.json
 ```
-
----
-
-## Contributing
-
-Contributions are welcome! To contribute:
-
-1. Fork this repository
-2. Create a feature branch
-3. Make your changes
-4. Add or update documentation
-5. Submit a pull request
-
-Please follow the existing coding style and document any new modules or major changes.
 
 ---
 
