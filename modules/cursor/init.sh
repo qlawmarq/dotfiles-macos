@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Starting installation..."
+echo "Starting Cursor editor installation..."
 
 # Function to ask for confirmation
 confirm() {
@@ -18,6 +18,7 @@ fi
 
 # Directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTFILES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 # Check if mise is installed
 if ! command -v mise &> /dev/null; then
@@ -25,33 +26,6 @@ if ! command -v mise &> /dev/null; then
     exit 1
 else
     echo "mise is already installed"
-fi
-
-# Check if uv is installed
-if ! command -v uvx &> /dev/null; then
-    echo "uvx could not be found"
-    if command -v pip &> /dev/null; then
-        confirm "Would you like to install uv using pip?"
-        if [ $? -eq 0 ]; then
-            pip install uv
-        else
-            echo "Skipping uv installation, please install uv manually"
-            exit 1
-        fi
-    elif command -v pip3 &> /dev/null; then
-        confirm "Would you like to install uv using pip3?"
-        if [ $? -eq 0 ]; then
-            pip3 install uv
-        else
-            echo "Skipping uv installation, please install uv manually"
-            exit 1
-        fi
-    else
-        echo "pip or pip3 is not installed. Please install pip or pip3 first."
-        exit 1
-    fi
-else
-    echo "uv is already installed"
 fi
 
 # Check if node is installed
@@ -62,55 +36,27 @@ else
     echo "Node.js is already installed"
 fi
 
-# install mcp server-filesystem if not installed
-if ! npm list -g | grep -q "@modelcontextprotocol/server-filesystem"; then
-    if confirm "Would you like to install @modelcontextprotocol/server-filesystem?"; then
-        npm install @modelcontextprotocol/server-filesystem -g
-    else
-        echo "Skipping @modelcontextprotocol/server-filesystem installation"
-    fi
-else
-    echo "@modelcontextprotocol/server-filesystem is already installed"
-fi
-
-# install markitdown-mcp if not installed
-if ! uv tool list | grep -q "markitdown-mcp"; then
-    if confirm "Would you like to install markitdown-mcp?"; then
-        uv tool install markitdown-mcp
-    else
-        echo "Skipping markitdown-mcp installation"
-    fi
-else
-    echo "markitdown-mcp is already installed"
-fi
-
-# Claude Desktop configuration
-if [ -d "/Applications/Claude.app" ]; then
+# Cursor configuration
+if [ -d "/Applications/Cursor.app" ]; then
     # Create MCP directory if not exists
     echo "Setting up MCP directory..."
     mkdir -p "$HOME/Codes"
 
-    echo "Setting up Claude Desktop configuration..."
-    CLAUDE_CONFIG_DIR=~/Library/Application\ Support/Claude
-    mkdir -p "$CLAUDE_CONFIG_DIR"
+    echo "Setting up Cursor configuration..."
+    CURSOR_CONFIG_DIR=~/.cursor
+    mkdir -p "$CURSOR_CONFIG_DIR"
     
     # Get current versions from mise
-    PYTHON_VERSION=$(mise current python | awk '{print $1}')
     NODE_VERSION=$(mise current node | awk '{print $1}')
     
     # Check if runtimes are installed
-    if [ -z "$PYTHON_VERSION" ]; then
-        echo "Python is not installed."
-        exit 1
-    fi
-    
     if [ -z "$NODE_VERSION" ]; then
         echo "Node.js is not installed."
         exit 1
     fi
     
     # Try to get tokens from existing config file
-    CONFIG_FILE="$CLAUDE_CONFIG_DIR/claude_desktop_config.json"
+    CONFIG_FILE="$CURSOR_CONFIG_DIR/mcp.json"
     if [ -f "$CONFIG_FILE" ]; then
         # Extract GitHub token if present
         EXTRACTED_GITHUB_TOKEN=$(grep -o '"GITHUB_PERSONAL_ACCESS_TOKEN": "[^"]*"' "$CONFIG_FILE" | cut -d'"' -f4)
@@ -137,24 +83,23 @@ if [ -d "/Applications/Claude.app" ]; then
     fi
     
     # Create temporary config with current versions
-    echo "Updating configuration with Python $PYTHON_VERSION and Node.js $NODE_VERSION..."
+    echo "Updating configuration with Node.js $NODE_VERSION..."
     
     # First replace versions in a temporary file
     TMP_CONFIG=$(mktemp)
-    cat "${SCRIPT_DIR}/claude_desktop_config.json" | \
-        sed -e "s|\$NODE_VERSION|$NODE_VERSION|g" \
-            -e "s|\$PYTHON_VERSION|$PYTHON_VERSION|g" > "$TMP_CONFIG"
+    cat "${SCRIPT_DIR}/mcp.json" | \
+        sed -e "s|\$NODE_VERSION|$NODE_VERSION|g" > "$TMP_CONFIG"
     
     # Then replace environment variables
     sed -e "s|\$HOME|$HOME|g" \
         -e "s|\$GITHUB_TOKEN|$GITHUB_TOKEN|g" \
         -e "s|\$BRAVE_API_KEY|$BRAVE_API_KEY|g" \
-        "$TMP_CONFIG" > "$CLAUDE_CONFIG_DIR/claude_desktop_config.json"
+        "$TMP_CONFIG" > "$CURSOR_CONFIG_DIR/mcp.json"
     
     # Clean up
     rm "$TMP_CONFIG"
     
-    echo "✓ Claude Desktop configuration updated successfully"
+    echo "✓ Cursor configuration updated successfully"
 else
-    echo "Claude Desktop is not installed..."
-fi
+    echo "Cursor is not installed..."
+fi 

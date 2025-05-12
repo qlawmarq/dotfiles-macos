@@ -6,52 +6,61 @@ if [ "$(uname)" != "Darwin" ] ; then
     exit 1
 fi
 
-# Function to ask for confirmation
-confirm() {
-    read -p "$1 (y/N): " yn
-    case $yn in
-        [Yy]* ) return 0;;
-        * ) return 1;;
-    esac
-}
-
 # Directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Sync brew
-if confirm "Would you like to sync brew?"; then
-    echo "Syncing brew..."
-    bash "${SCRIPT_DIR}/brew/sync.sh"
+# Source menu functions
+if [ -f "$SCRIPT_DIR/lib/menu.sh" ]; then
+    source "$SCRIPT_DIR/lib/menu.sh"
+else
+    echo "Error: menu.sh not found at $SCRIPT_DIR/lib/menu.sh"
+    exit 1
 fi
 
-# Sync dotfiles
-if confirm "Would you like to sync dotfiles?"; then
-    echo "Syncing dotfiles..."
-    bash "${SCRIPT_DIR}/dotfiles/sync.sh"
+# List all available sync modules
+MODULES=()
+MODULES_DIR="$SCRIPT_DIR/modules"
+
+for dir in "$MODULES_DIR"/*; do
+    [ -d "$dir" ] || continue
+    module_name="$(basename "$dir")"
+    # sync.shが存在するモジュールのみ対象
+    if [ -f "$dir/sync.sh" ]; then
+        MODULES+=("$module_name")
+    fi
+done
+
+if [ ${#MODULES[@]} -eq 0 ]; then
+    print_error "No sync modules found in $MODULES_DIR. Exiting."
+    exit 1
 fi
 
-# Sync git
-if confirm "Would you like to sync git?"; then
-    echo "Syncing git..."
-    bash "${SCRIPT_DIR}/git/sync.sh"
+# Select which modules to sync
+select_modules "${MODULES[@]}"
+
+# No modules selected
+if [ -z "$SELECTED_MODULE_INDICES" ]; then
+    print_warning "No modules selected. Exiting."
+    exit 0
 fi
 
-# Sync vscode
-if confirm "Would you like to sync vscode?"; then
-    echo "Syncing vscode..."
-    bash "${SCRIPT_DIR}/vscode/sync.sh"
-fi
+# Process selected modules
+print_info "Starting selected module sync..."
 
-# Sync cursor
-if confirm "Would you like to sync cursor?"; then
-    echo "Syncing cursor..."
-    bash "${SCRIPT_DIR}/cursor/sync.sh"
-fi
+for idx in $SELECTED_MODULE_INDICES; do
+    module="${MODULES[$idx]}"
+    print_info "Syncing $module..."
+    if [ -f "$MODULES_DIR/$module/sync.sh" ]; then
+        bash "$MODULES_DIR/$module/sync.sh"
+        if [ $? -eq 0 ]; then
+            print_success "$module sync completed"
+        else
+            print_error "$module sync failed"
+        fi
+    else
+        print_error "Sync script for $module not found at $MODULES_DIR/$module/sync.sh"
+    fi
+    echo ""
+done
 
-# Sync claude
-if confirm "Would you like to sync claude?"; then
-    echo "Syncing claude..."
-    bash "${SCRIPT_DIR}/claude/sync.sh"
-fi
-
-echo "All configurations have been synced!"
+print_success "All configurations have been synced!"
