@@ -11,6 +11,10 @@ if ! command -v mise &> /dev/null; then
     exit 1
 fi
 
+# Directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTFILES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
 # Function to ask for confirmation
 confirm() {
     read -p "$1 (y/N): " yn

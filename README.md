@@ -23,3 +23,9 @@ When setting up a new Mac:
 ```sh
 tail -n 20 -f ~/Library/Logs/Claude/mcp*.log
 ```
+
+### Check the current config for Claude Desktop
+
+```sh
+cat ~/Library/Application\ Support/Claude/claude_desktop_config.json
+```

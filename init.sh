@@ -1,67 +1,83 @@
 #!/bin/bash
 
-if [ "$(uname)" != "Darwin" ] ; then
-    echo "Not macOS!"
-    exit 1
-fi
-
-# Function to ask for confirmation
-confirm() {
-    read -p "$1 (y/N): " yn
-    case $yn in
-        [Yy]* ) return 0;;
-        * ) return 1;;
-    esac
-}
+# ====================
+# Main dotfiles initialization script
+# ====================
 
 # Directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Setup Homebrew
-if confirm "Would you like to install Homebrew?"; then
-    echo "Setting up Homebrew..."
-    bash "${SCRIPT_DIR}/brew/init.sh"
+# Source menu functions
+if [ -f "$SCRIPT_DIR/lib/menu.sh" ]; then
+    source "$SCRIPT_DIR/lib/menu.sh"
+else
+    echo "Error: menu.sh not found at $SCRIPT_DIR/lib/menu.sh"
+    exit 1
 fi
 
-# Setup git
-if confirm "Would you like to setup git?"; then
-    echo "Setting up git..."
-    bash "${SCRIPT_DIR}/git/init.sh"
+# Check if running on macOS
+if [ "$(uname)" != "Darwin" ]; then
+    print_error "Not macOS!"
+    exit 1
 fi
 
-# Setup VSCode
-if confirm "Would you like to setup VSCode?"; then
-    echo "Setting up VSCode..."
-    bash "${SCRIPT_DIR}/vscode/init.sh"
+# Print welcome message
+clear
+echo "===================================="
+echo "     MacOS Dotfiles Setup Tool      "
+echo "===================================="
+echo ""
+
+# List all available setup modules
+MODULES=()
+MODULES_DIR="$SCRIPT_DIR/modules"
+
+# modulesディレクトリ配下のサブディレクトリを列挙
+for dir in "$MODULES_DIR"/*; do
+    [ -d "$dir" ] || continue
+    module_name="$(basename "$dir")"
+    MODULES+=("$module_name")
+done
+
+if [ ${#MODULES[@]} -eq 0 ]; then
+    print_error "No modules found in $MODULES_DIR. Exiting."
+    exit 1
 fi
 
-# Setup Cursor
-if confirm "Would you like to setup Cursor?"; then
-    echo "Setting up Cursor..."
-    bash "${SCRIPT_DIR}/cursor/init.sh"
+# Select which modules to install
+select_modules "${MODULES[@]}"
+
+# No modules selected
+if [ -z "$SELECTED_MODULE_INDICES" ]; then
+    print_warning "No modules selected. Exiting."
+    exit 0
 fi
 
-# Setup mise and runtimes
-if confirm "Would you like to setup mise and runtimes?"; then
-    echo "Setting up mise and runtimes..."
-    bash "${SCRIPT_DIR}/mise/init.sh"
+# Process selected modules
+print_info "Starting selected module installations..."
+
+for idx in $SELECTED_MODULE_INDICES; do
+    module="${MODULES[$idx]}"
+    print_info "Setting up $module..."
+    # Check if module init script exists
+    if [ -f "$MODULES_DIR/$module/init.sh" ]; then
+        bash "$MODULES_DIR/$module/init.sh"
+        if [ $? -eq 0 ]; then
+            print_success "$module setup completed"
+        else
+            print_error "$module setup failed"
+        fi
+    else
+        print_error "Setup script for $module not found at $MODULES_DIR/$module/init.sh"
+    fi
+    echo ""
+done
+
+# Source profile to apply changes
+if [ -f ~/.zprofile ]; then
+    print_info "Sourcing ~/.zprofile to apply changes"
+    source ~/.zprofile
 fi
 
-# Setup Claude Desktop
-if confirm "Would you like to setup Claude Desktop?"; then
-    echo "Setting up Claude Desktop..."
-    bash "${SCRIPT_DIR}/claude/init.sh"
-fi
-
-# Setup dotfiles
-if confirm "Would you like to setup dotfiles?"; then
-    echo "Setting up dotfiles..."
-    bash "${SCRIPT_DIR}/dotfiles/init.sh"
-fi
-
-# Source profile
-source ~/.zprofile
-
-# restart terminal
-echo "Setup completed! Please restart your terminal."
+print_success "Setup completed! Please restart your terminal."
 exit 0
