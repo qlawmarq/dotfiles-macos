@@ -6,8 +6,8 @@
 [init]
 	defaultBranch = main
 [user]
-	email 	= masaki.yoshiiwa@gmail.com
-	name 	= Masaki Yoshiiwa
+	email 	= $GIT_EMAIL
+	name 	= $GIT_NAME
 [alias]
 	a 		= add
 	st 		= status
