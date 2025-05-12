@@ -92,12 +92,23 @@ tui_multi_select() {
     
     # Function to print the menu
     print_menu() {
+        # Clear the entire screen first
+        tput clear
+        
+        # Print header
+        echo "$header"
+        echo "Use ↑/↓ arrows to navigate, SPACE to select/deselect, ENTER to confirm"
+        echo "----------------------------------------"
+        
         local i=0
         # Move cursor to line after header
         tput cup 3 0
         
         # Print each item
         for item in "${items[@]}"; do
+            # Clear the current line first
+            tput el
+            
             if [ $i -eq $pos ]; then
                 # Current position highlight
                 tput setaf 0  # Black text
@@ -123,6 +134,9 @@ tui_multi_select() {
         done
         
         tput sgr0 # Reset colors
+        
+        # Clear the rest of the screen
+        tput ed
         
         # Print controls hint at the bottom
         tput cup $((3 + ${#items[@]} + 1)) 0
@@ -166,13 +180,7 @@ tui_multi_select() {
                 tput bold
                 echo "[✓] ${items[$pos]}"
                 tput sgr0
-                
-                # Brief message at the bottom
-                tput cup $((3 + ${#items[@]} + 2)) 0
-                tput setaf 2
-                echo "「${items[$pos]}」を選択しました"
-                tput sgr0
-                sleep 0.3  # Short delay for feedback
+
             else
                 selected[$pos]=0
                 
@@ -183,12 +191,6 @@ tui_multi_select() {
                 echo "[ ] ${items[$pos]}"
                 tput sgr0
                 
-                # Brief message at the bottom
-                tput cup $((3 + ${#items[@]} + 2)) 0
-                tput setaf 1
-                echo "「${items[$pos]}」の選択を解除しました"
-                tput sgr0
-                sleep 0.3  # Short delay for feedback
             fi
         elif [ "$key" = '' ]; then # Enter key
             break
@@ -314,87 +316,6 @@ select_from_brewfile() {
     fi
 }
 
-# Function to build a Brewfile from selections
-# Usage: build_brewfile "output_path" "taps" "brews" "casks" "vscode"
-build_brewfile() {
-    local output="$1"
-    local taps="$2"
-    local brews="$3"
-    local casks="$4"
-    local vscode="$5"
-    
-    # Clear output file
-    > "$output"
-    
-    # Add taps
-    for tap in $taps; do
-        echo "tap \"$tap\"" >> "$output"
-    done
-    
-    # Add brews
-    for brew in $brews; do
-        echo "brew \"$brew\"" >> "$output"
-    done
-    
-    # Add casks
-    for cask in $casks; do
-        echo "cask \"$cask\"" >> "$output"
-    done
-    
-    # Add vscode extensions
-    for ext in $vscode; do
-        echo "vscode \"$ext\"" >> "$output"
-    done
-}
-
-# Function to select from JSON configuration (for Claude)
-# Usage: select_from_json "header_message" "json_file" "parent_key"
-# Returns: Selected keys in $SELECTED_JSON_KEYS
-select_from_json() {
-    local header="$1"
-    local json_file="$2"
-    local parent_key="${3:-mcpServers}"
-    
-    # Check if jq exists
-    if ! command_exists "jq"; then
-        print_error "jq is required for JSON parsing but not found"
-        return 1
-    fi
-    
-    # Extract keys
-    keys=()
-    local keys_file=$(mktemp)
-    jq -r ".$parent_key | keys[]" "$json_file" > "$keys_file" 2>/dev/null
-    
-    while IFS= read -r line; do
-        keys+=("$line")
-    done < "$keys_file"
-    rm -f "$keys_file"
-    
-    # Select items
-    smart_select_items "$header" "${keys[@]}"
-    SELECTED_JSON_KEYS="$SELECTED_ITEMS"
-}
-
-# Function to filter JSON based on selected keys (for Claude)
-# Usage: filter_json "input_file" "output_file" "parent_key" "selected_keys"
-filter_json() {
-    local input="$1"
-    local output="$2"
-    local parent_key="${3:-mcpServers}"
-    local keys="$4"
-    
-    # Create a new JSON with just the parent object
-    echo "{\"$parent_key\":{}}" > "$output"
-    
-    # Add each selected key
-    for key in $keys; do
-        local temp_file=$(mktemp)
-        value=$(jq ".$parent_key.\"$key\"" "$input")
-        jq --arg key "$key" --argjson value "$value" ".$parent_key[\$key] = \$value" "$output" > "$temp_file"
-        mv "$temp_file" "$output"
-    done
-}
 
 # Function to select modules for main init script
 # Usage: select_modules "modules_array"

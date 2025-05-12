@@ -1,0 +1,10 @@
+# Module dependencies definition
+# Format: module: dependency1 dependency2 ...
+
+claude: brew mise
+vscode: brew
+brew: 
+mise: brew
+git: 
+dotfiles: git
+cursor: brew mise

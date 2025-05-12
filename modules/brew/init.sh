@@ -4,11 +4,44 @@
 # Homebrew initialization script
 # ====================
 
+# Function to build a Brewfile from selections
+# Usage: build_brewfile "output_path" "taps" "brews" "casks" "vscode"
+build_brewfile() {
+    local output="$1"
+    local taps="$2"
+    local brews="$3"
+    local casks="$4"
+    local vscode="$5"
+    
+    # Clear output file
+    > "$output"
+    
+    # Add taps
+    for tap in $taps; do
+        echo "tap \"$tap\"" >> "$output"
+    done
+    
+    # Add brews
+    for brew in $brews; do
+        echo "brew \"$brew\"" >> "$output"
+    done
+    
+    # Add casks
+    for cask in $casks; do
+        echo "cask \"$cask\"" >> "$output"
+    done
+    
+    # Add vscode extensions
+    for ext in $vscode; do
+        echo "vscode \"$ext\"" >> "$output"
+    done
+}
+
 # Directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DOTFILES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-# 共通ユーティリティを読み込む
+# Load utils
 if [ -f "$DOTFILES_DIR/lib/utils.sh" ]; then
     source "$DOTFILES_DIR/lib/utils.sh"
 else
