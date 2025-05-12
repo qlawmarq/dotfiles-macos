@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 共通ユーティリティを読み込む
+# Load utils
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 if [ -f "$SCRIPT_DIR/lib/utils.sh" ]; then
     source "$SCRIPT_DIR/lib/utils.sh"
@@ -26,7 +26,7 @@ MODULES_DIR="$SCRIPT_DIR/modules"
 for dir in "$MODULES_DIR"/*; do
     [ -d "$dir" ] || continue
     module_name="$(basename "$dir")"
-    # sync.shが存在するモジュールのみ対象
+    # Only modules with sync.sh are included
     if [ -f "$dir/sync.sh" ]; then
         MODULES+=("$module_name")
     fi

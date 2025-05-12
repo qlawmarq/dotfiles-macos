@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 共通ユーティリティを読み込む
+# Load utils
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DOTFILES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 if [ -f "$DOTFILES_DIR/lib/utils.sh" ]; then

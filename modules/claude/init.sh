@@ -4,11 +4,62 @@
 # Claude Desktop initialization script
 # ====================
 
+# Function to select from JSON configuration (for Claude)
+# Usage: select_from_json "header_message" "json_file" "parent_key"
+# Returns: Selected keys in $SELECTED_JSON_KEYS
+select_from_json() {
+    local header="$1"
+    local json_file="$2"
+    local parent_key="${3:-mcpServers}"
+    
+    # Check if jq exists
+    if ! command_exists "jq"; then
+        print_error "jq is required for JSON parsing but not found"
+        return 1
+    fi
+    
+    # Extract keys
+    keys=()
+    local keys_file=$(mktemp)
+    jq -r ".$parent_key | keys[]" "$json_file" > "$keys_file" 2>/dev/null
+    
+    while IFS= read -r line; do
+        keys+=("$line")
+    done < "$keys_file"
+    rm -f "$keys_file"
+    
+    # Select items
+    smart_select_items "$header" "${keys[@]}"
+    SELECTED_JSON_KEYS="$SELECTED_ITEMS"
+}
+
+
+
+# Function to filter JSON based on selected keys (for Claude)
+# Usage: filter_json "input_file" "output_file" "parent_key" "selected_keys"
+filter_json() {
+    local input="$1"
+    local output="$2"
+    local parent_key="${3:-mcpServers}"
+    local keys="$4"
+    
+    # Create a new JSON with just the parent object
+    echo "{\"$parent_key\":{}}" > "$output"
+    
+    # Add each selected key
+    for key in $keys; do
+        local temp_file=$(mktemp)
+        value=$(jq ".$parent_key.\"$key\"" "$input")
+        jq --arg key "$key" --argjson value "$value" ".$parent_key[\$key] = \$value" "$output" > "$temp_file"
+        mv "$temp_file" "$output"
+    done
+}
+
 # Directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DOTFILES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-# Read common utils
+# Load utils
 if [ -f "$DOTFILES_DIR/lib/utils.sh" ]; then
     source "$DOTFILES_DIR/lib/utils.sh"
 else
