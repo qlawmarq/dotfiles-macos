@@ -1,18 +1,23 @@
 # macOS Setup Scripts
 
-A modular, interactive setup and configuration tool for quickly provisioning and synchronizing your macOS development environment using dotfiles and custom scripts.
+A modular, interactive setup and configuration tool for quickly provisioning and synchronizing your macOS development environment using dotfiles and custom scripts. The system intelligently manages dependencies between modules to ensure proper installation order.
 
 ---
 
 ## Table of Contents
 
 - [Overview](#overview)
+- [Available Modules](#available-modules)
+- [Module Dependencies](#module-dependencies)
 - [Script Descriptions](#script-descriptions)
-- [Dependencies](#dependencies)
+- [Requirements](#requirements)
 - [Module Structure](#module-structure)
 - [Customization](#customization)
 - [Usage](#usage)
+- [Dependency Management](#dependency-management)
 - [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [License](#license)
 
 ---
 
@@ -20,31 +25,61 @@ A modular, interactive setup and configuration tool for quickly provisioning and
 
 This repository provides a set of scripts to automate the initial setup and ongoing synchronization of your macOS environment. It is designed to be modular, allowing you to select which components (modules) to install or sync, making it easy to maintain and customize your dotfiles and related configurations.
 
+The system intelligently manages dependencies between modules, ensuring they are installed in the correct order.
+
+---
+
+## Available Modules
+
+The following modules are currently available:
+
+- **brew**: Installs and configures Homebrew and selected packages
+- **mise**: Sets up runtime environment manager for Node.js, Python, and other tools
+- **claude**: Configures Claude Desktop with MCP servers for AI assistant integration
+- **cursor**: Sets up Cursor IDE, the AI-powered code editor
+- **dotfiles**: Configures shell profiles, aliases, and environment variables
+- **git**: Sets up Git configuration, aliases, and global settings
+- **vscode**: Installs and configures Visual Studio Code and extensions
+
+Each module is independent but may depend on other modules for proper functionality.
+
+---
+
+## Module Dependencies
+
+Modules can have dependencies on other modules. For example, the `claude` module requires both `brew` and `mise` to be installed first. The dependency relationships are defined in `modules/dependencies.txt` and are automatically resolved during installation.
+
+Current module dependencies:
+- `claude`: depends on `brew` and `mise` 
+- `vscode`: depends on `brew`
+- Other modules have no dependencies
+
+The installation script automatically detects these dependencies and ensures modules are installed in the correct order.
+
 ---
 
 ## Script Descriptions
 
 - **init.sh**  
-  The main entry point for initial setup. It interactively lists available modules and lets you choose which ones to install. Each module can contain its own initialization logic.
+  The main entry point for initial setup. It interactively lists available modules and lets you choose which ones to install. The script automatically resolves dependencies and installs modules in the correct order.
 
 - **sync.sh**  
   Used to synchronize configuration files for selected modules. This is useful for keeping your dotfiles and settings up-to-date across multiple machines.
 
+- **lib/dependencies.sh**  
+  Contains utility functions for resolving module dependencies using a topological sort algorithm.
+
 ---
 
-## Dependencies
+## Requirements
 
 Before running these scripts, ensure you have the following:
 
-- **macOS** (tested on recent versions)
-- **bash/zsh/sh** (should be available by default)
-- **Standard macOS command-line tools** (e.g., `git`, `curl`, etc.)
-- **jq** (required for JSON parsing and selection menus; install via Homebrew: `brew install jq`)
-- **tput** and **stty** (for interactive terminal menus; should be available by default on macOS)
-- **python3** or **python** (used as a fallback for JSON parsing if jq is not available; can be installed via mise: `mise use -g python@latest`)
-- **npm** (required for installing some Node.js-based tools in certain modules; can be installed via mise: `mise use -g node@lts`)
-- **VSCode CLI (`code`)** (required for installing VSCode extensions in the VSCode module; see [VSCode documentation](https://code.visualstudio.com/docs/editor/command-line))
-- (Optional) Any additional dependencies required by individual modules (see each module's README or script for details)
+- **macOS** (tested on recent versions including Big Sur, Monterey, and Ventura)
+- **bash/zsh/sh** (available by default on macOS)
+- **git** (for cloning this repository, if not already downloaded)
+
+The scripts will check for and attempt to install other necessary dependencies as needed.
 
 ---
 
@@ -60,16 +95,17 @@ Example structure:
 
 ```
 modules/
-  zsh/
-    init.sh
-    sync.sh
-  vim/
-    init.sh
-    sync.sh
-  ...
+  ├── dependencies.txt     # Defines module dependencies
+  ├── brew/
+  │   ├── .Brewfile       # List of packages to install
+  │   ├── init.sh         # Installation script
+  │   └── sync.sh         # Synchronization script
+  ├── claude/
+  │   ├── claude_desktop_config.json  # Configuration template
+  │   ├── init.sh                     # Installation script
+  │   └── sync.sh                     # Synchronization script
+  ├── ...
 ```
-
-The main scripts (`init.sh` and `sync.sh`) will automatically detect available modules and their scripts.
 
 ---
 
@@ -80,13 +116,19 @@ You can easily add, remove, or modify modules to suit your needs:
 1. **Add a new module:**  
    Create a new directory under `modules/` (e.g., `modules/mytool/`). Add `init.sh` and/or `sync.sh` as needed.
 
-2. **Customize existing modules:**  
+2. **Add module dependencies:**  
+   Edit `modules/dependencies.txt` to define dependencies for your new module using the format:
+   ```
+   module_name: dependency1 dependency2 ...
+   ```
+
+3. **Customize existing modules:**  
    Edit the `init.sh` or `sync.sh` scripts within any module to change its setup or sync behavior.
 
-3. **Change the selection menu:**  
+4. **Change the selection menu:**  
    The menu logic is handled in `lib/menu.sh`. You can modify this script to change how modules are presented or selected.
 
-4. **Shared utilities:**  
+5. **Shared utilities:**  
    Common functions and helpers are in `lib/utils.sh`. You can add your own utility functions here for use across modules.
 
 ---
@@ -102,7 +144,8 @@ sh init.sh
 ```
 
 - You will be prompted to select which modules to install.
-- Each selected module will run its own setup script.
+- The script will resolve dependencies and determine the correct installation order.
+- Each selected module will run its own setup script in the proper sequence.
 
 ### Sync Configurations
 
@@ -117,7 +160,53 @@ sh sync.sh
 
 ---
 
+## Dependency Management
+
+### How Dependencies Work
+
+1. **Definition**: Dependencies are defined in `modules/dependencies.txt` using a simple format:
+   ```
+   module_name: dependency1 dependency2 ...
+   ```
+
+2. **Resolution**: When modules are selected for installation, the system:
+   - Builds a directed graph of dependencies
+   - Performs a topological sort to determine installation order
+   - Detects circular dependencies and provides appropriate warnings
+   - Shows the resolved installation order before proceeding
+
+3. **Installation**: Modules are installed in the resolved order, ensuring that dependencies are satisfied before a dependent module is installed.
+
+4. **Failure Handling**: If a dependency fails to install, the system warns about potential impact on dependent modules and offers the choice to continue or abort.
+
+### Adding Dependencies to New Modules
+
+When creating a new module, simply add an entry to `modules/dependencies.txt` to define its dependencies:
+
+```
+mynewmodule: dependency1 dependency2
+```
+
+If your module has no dependencies, still add an entry with an empty dependency list:
+
+```
+mynewmodule: 
+```
+
+---
+
 ## Troubleshooting
+
+### Common Issues
+
+- **Module fails to install**: Check if all its dependencies were successfully installed. Try running the module's init script directly to see detailed error messages.
+
+- **Dependency resolution error**: Ensure there are no circular dependencies in your `dependencies.txt` file.
+
+- **Permission issues**: Make sure all script files have execution permissions:
+  ```sh
+  chmod +x init.sh sync.sh lib/*.sh modules/*/init.sh modules/*/sync.sh
+  ```
 
 ### Debug MCP server for Claude Desktop
 
@@ -130,6 +219,20 @@ tail -n 20 -f ~/Library/Logs/Claude/mcp*.log
 ```sh
 cat ~/Library/Application\ Support/Claude/claude_desktop_config.json
 ```
+
+---
+
+## Contributing
+
+Contributions are welcome! To contribute:
+
+1. Fork this repository
+2. Create a feature branch
+3. Make your changes
+4. Add or update documentation
+5. Submit a pull request
+
+Please follow the existing coding style and document any new modules or major changes.
 
 ---
 
