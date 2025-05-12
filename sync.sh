@@ -1,13 +1,15 @@
 #!/bin/bash
 
-# Check if running on macOS
-if [ "$(uname)" != "Darwin" ] ; then
-    echo "Not macOS!"
+# 共通ユーティリティを読み込む
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -f "$SCRIPT_DIR/lib/utils.sh" ]; then
+    source "$SCRIPT_DIR/lib/utils.sh"
+else
+    echo "Error: utils.sh not found at $SCRIPT_DIR/lib/utils.sh"
     exit 1
 fi
 
-# Directory where this script is located
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+check_macos
 
 # Source menu functions
 if [ -f "$SCRIPT_DIR/lib/menu.sh" ]; then

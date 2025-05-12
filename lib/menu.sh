@@ -4,37 +4,6 @@
 # Improved menu functions for dotfiles scripts
 # ====================
 
-# Function to print colored output
-print_info() {
-    echo -e "\033[0;34m[INFO]\033[0m $1"
-}
-
-print_success() {
-    echo -e "\033[0;32m[SUCCESS]\033[0m $1"
-}
-
-print_warning() {
-    echo -e "\033[0;33m[WARNING]\033[0m $1" >&2
-}
-
-print_error() {
-    echo -e "\033[0;31m[ERROR]\033[0m $1" >&2
-}
-
-# Check command existence
-command_exists() {
-    command -v "$1" > /dev/null 2>&1
-}
-
-# Function to ask for confirmation
-confirm() {
-    read -p "$1 (y/N): " yn
-    case $yn in
-        [Yy]* ) return 0;;
-        * ) return 1;;
-    esac
-}
-
 # Simple Y/N selection for each item in a list
 # Usage: yn_select_items "Header message" "item1" "item2" ...
 # Returns: Space-separated list of selected items in $SELECTED_ITEMS

@@ -8,6 +8,16 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DOTFILES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
+# Read common utils
+if [ -f "$DOTFILES_DIR/lib/utils.sh" ]; then
+    source "$DOTFILES_DIR/lib/utils.sh"
+else
+    echo "Error: utils.sh not found at $DOTFILES_DIR/lib/utils.sh"
+    exit 1
+fi
+
+check_macos
+
 # Source menu functions
 if [ -f "$DOTFILES_DIR/lib/menu.sh" ]; then
     source "$DOTFILES_DIR/lib/menu.sh"
@@ -16,11 +26,7 @@ else
     exit 1
 fi
 
-# Check if running on macOS
-if [ "$(uname)" != "Darwin" ]; then
-    print_error "Not macOS!"
-    exit 1
-fi
+check_macos
 
 # Print header
 print_info "Claude Desktop Setup"

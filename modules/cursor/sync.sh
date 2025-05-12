@@ -1,12 +1,16 @@
 #!/bin/bash
 
-if [ "$(uname)" != "Darwin" ] ; then
-    echo "Not macOS!"
+# 共通ユーティリティを読み込む
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTFILES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
+if [ -f "$DOTFILES_DIR/lib/utils.sh" ]; then
+    source "$DOTFILES_DIR/lib/utils.sh"
+else
+    echo "Error: utils.sh not found at $DOTFILES_DIR/lib/utils.sh"
     exit 1
 fi
 
-# Directory where this script is located
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+check_macos
 
 # Sync Cursor configuration
 echo "Syncing Cursor configuration..."
