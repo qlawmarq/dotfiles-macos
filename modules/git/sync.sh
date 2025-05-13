@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 共通ユーティリティを読み込む
+# Load utils
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DOTFILES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 if [ -f "$DOTFILES_DIR/lib/utils.sh" ]; then
@@ -17,8 +17,21 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # .gitconfig
 if [ -f ~/.gitconfig ]; then
-    cp ~/.gitconfig "${SCRIPT_DIR}/.gitconfig"
-    echo "✓ .gitconfig synced"
+    # Create temporary file
+    TMP_CONFIG=$(mktemp)
+    
+    # Copy current config
+    cp ~/.gitconfig "$TMP_CONFIG"
+    
+    # Replace personal information with placeholders
+    sed -i '' -e "s/^[[:space:]]*email[[:space:]]*=.*$/	email 	= \$GIT_EMAIL/" \
+              -e "s/^[[:space:]]*name[[:space:]]*=.*$/	name 	= \$GIT_NAME/" \
+              "$TMP_CONFIG"
+    
+    # Copy to dotfiles
+    cp "$TMP_CONFIG" "${SCRIPT_DIR}/.gitconfig"
+    rm -f "$TMP_CONFIG"
+    echo "✓ .gitconfig synced (personal information replaced with placeholders)"
 fi
 
 # Global gitignore

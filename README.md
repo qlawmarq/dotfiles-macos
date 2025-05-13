@@ -55,7 +55,7 @@ The installation script automatically detects these dependencies and ensures mod
 
 Before running these scripts, ensure you have the following:
 
-- **MacOS** (tested on recent versions including Big Sur, Monterey, and Ventura)
+- **macOS** (tested on the latest version Sequoia)
 - **bash/zsh/sh** (available by default on macOS)
 - **git** (for cloning this repository, if not already downloaded)
 

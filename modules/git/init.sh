@@ -16,6 +16,40 @@ check_macos
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DOTFILES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
+# Get current git config if exists
+if [ -f ~/.gitconfig ]; then
+    CURRENT_EMAIL=$(git config --global user.email)
+    CURRENT_NAME=$(git config --global user.name)
+else
+    CURRENT_EMAIL=""
+    CURRENT_NAME=""
+fi
+
+# Function to get user input with default value
+get_user_input() {
+    local prompt="$1"
+    local default="$2"
+    local input
+    
+    if [ -n "$default" ]; then
+        read -p "$prompt [$default]: " input
+        echo "${input:-$default}"
+    else
+        while true; do
+            read -p "$prompt: " input
+            if [ -n "$input" ]; then
+                echo "$input"
+                break
+            fi
+            echo "This field cannot be empty. Please try again."
+        done
+    fi
+}
+
+# Get git user information
+GIT_EMAIL=$(get_user_input "Enter your Git email" "$CURRENT_EMAIL")
+GIT_NAME=$(get_user_input "Enter your Git name" "$CURRENT_NAME")
+
 # Setup SSH for GitHub if not exists
 setup_github_ssh() {
     local email="$1"
@@ -55,17 +89,19 @@ EOF
     fi
 }
 
+# Create temporary config with user input
+TMP_CONFIG=$(mktemp)
+sed -e "s|\$GIT_EMAIL|$GIT_EMAIL|g" \
+    -e "s|\$GIT_NAME|$GIT_NAME|g" \
+    "${SCRIPT_DIR}/.gitconfig" > "$TMP_CONFIG"
+
 # Setup git related files
-cp "${SCRIPT_DIR}/.gitconfig" ~/.gitconfig
+cp "$TMP_CONFIG" ~/.gitconfig
 mkdir -p ~/.config/git
 cp "${SCRIPT_DIR}/.config/git/ignore" ~/.config/git/ignore
 
-# Get Git email from .gitconfig for SSH setup
-GIT_EMAIL=$(git config --global user.email)
-if [ -n "$GIT_EMAIL" ]; then
-    setup_github_ssh "$GIT_EMAIL"
-else
-    echo "No Git email found in .gitconfig. Please enter your GitHub email:"
-    read -r GIT_EMAIL
-    setup_github_ssh "$GIT_EMAIL"
-fi
+# Clean up
+rm -f "$TMP_CONFIG"
+
+# Setup GitHub SSH
+setup_github_ssh "$GIT_EMAIL"

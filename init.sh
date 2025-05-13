@@ -37,7 +37,7 @@ check_macos
 # Print welcome message
 clear
 echo "===================================="
-echo "     MacOS Dotfiles Setup Tool      "
+echo "     macOS Dotfiles Setup Tool      "
 echo "===================================="
 echo ""
 
