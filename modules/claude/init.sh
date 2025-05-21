@@ -33,8 +33,6 @@ select_from_json() {
     SELECTED_JSON_KEYS="$SELECTED_ITEMS"
 }
 
-
-
 # Function to filter JSON based on selected keys (for Claude)
 # Usage: filter_json "input_file" "output_file" "parent_key" "selected_keys"
 filter_json() {
@@ -77,8 +75,6 @@ else
     exit 1
 fi
 
-check_macos
-
 # Print header
 print_info "Claude Desktop Setup"
 echo "======================"
@@ -109,24 +105,6 @@ fi
 if ! command_exists "node"; then
     print_error "Node.js is not installed. Please install Node.js first."
     exit 1
-fi
-
-# Install MCP server-filesystem if needed
-if ! npm list -g | grep -q "@modelcontextprotocol/server-filesystem"; then
-    if confirm "Would you like to install @modelcontextprotocol/server-filesystem?"; then
-        npm install @modelcontextprotocol/server-filesystem -g
-    else
-        print_warning "Skipping @modelcontextprotocol/server-filesystem installation"
-    fi
-fi
-
-# Install markitdown-mcp if needed
-if command_exists "uv" && ! uv tool list | grep -q "markitdown-mcp"; then
-    if confirm "Would you like to install markitdown-mcp?"; then
-        uv tool install markitdown-mcp
-    else
-        print_warning "Skipping markitdown-mcp installation"
-    fi
 fi
 
 # Check if Claude Desktop is installed
@@ -235,5 +213,23 @@ sed -e "s|\$HOME|$HOME|g" \
 
 # Clean up
 rm -f "$TMP_CONFIG"
+
+# Install MCP server-filesystem if needed
+if ! npm list -g | grep -q "@modelcontextprotocol/server-filesystem"; then
+    if confirm "Would you like to install @modelcontextprotocol/server-filesystem?"; then
+        npm install @modelcontextprotocol/server-filesystem -g
+    else
+        print_warning "Skipping @modelcontextprotocol/server-filesystem installation"
+    fi
+fi
+
+# Install markitdown-mcp if needed
+if command_exists "uv" && ! uv tool list | grep -q "markitdown-mcp"; then
+    if confirm "Would you like to install markitdown-mcp?"; then
+        uv tool install markitdown-mcp
+    else
+        print_warning "Skipping markitdown-mcp installation"
+    fi
+fi
 
 print_success "Claude Desktop configuration updated successfully"
