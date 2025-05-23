@@ -1,5 +1,13 @@
 {
   "mcpServers": {
+    "brave-search": {
+      "command": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin/npx",
+      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
+      "env": {
+        "BRAVE_API_KEY": "$BRAVE_API_KEY",
+        "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
+      }
+    },
     "github": {
       "command": "docker",
       "args": [
@@ -17,6 +25,13 @@
     "context7": {
       "command": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin/npx",
       "args": ["-y", "@upstash/context7-mcp@latest"],
+      "env": {
+        "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
+      }
+    },
+    "playwright": {
+      "command": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin/npx",
+      "args": ["@playwright/mcp@latest"],
       "env": {
         "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
       }

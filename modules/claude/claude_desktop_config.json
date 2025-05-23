@@ -2,10 +2,7 @@
   "mcpServers": {
     "brave-search": {
       "command": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin/npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-brave-search"
-      ],
+      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
       "env": {
         "BRAVE_API_KEY": "$BRAVE_API_KEY",
         "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
@@ -13,30 +10,21 @@
     },
     "context7": {
       "command": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin/npx",
-      "args": [
-        "-y",
-        "@upstash/context7-mcp@latest"
-      ],
+      "args": ["-y", "@upstash/context7-mcp@latest"],
       "env": {
         "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
       }
     },
     "fetch": {
       "command": "$HOME/.local/share/mise/installs/python/$PYTHON_VERSION/bin/uvx",
-      "args": [
-        "mcp-server-fetch"
-      ],
+      "args": ["mcp-server-fetch"],
       "env": {
         "PATH": "$HOME/.local/share/mise/installs/python/$PYTHON_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
       }
     },
     "filesystem": {
       "command": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin/npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "$HOME/Codes"
-      ],
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "$HOME/Codes"],
       "env": {
         "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
       }
@@ -57,31 +45,28 @@
     },
     "markitdown": {
       "command": "$HOME/.local/share/mise/installs/python/$PYTHON_VERSION/bin/uv",
-      "args": [
-        "tool",
-        "run",
-        "markitdown-mcp"
-      ],
+      "args": ["tool", "run", "markitdown-mcp"],
       "env": {
         "PATH": "$HOME/.local/share/mise/installs/python/$PYTHON_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
       }
     },
     "puppeteer": {
       "command": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin/npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-puppeteer"
-      ],
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer"],
       "env": {
         "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
       }
     },
     "youtube-transcript": {
       "command": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin/npx",
-      "args": [
-        "-y",
-        "@kimtaeyoon83/mcp-server-youtube-transcript"
-      ],
+      "args": ["-y", "@kimtaeyoon83/mcp-server-youtube-transcript"],
+      "env": {
+        "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
+      }
+    },
+    "playwright": {
+      "command": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin/npx",
+      "args": ["@playwright/mcp@latest"],
       "env": {
         "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
       }
