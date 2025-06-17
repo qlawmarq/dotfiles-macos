@@ -42,6 +42,11 @@ if confirm "Would you like to install Node.js? (necessary for Claude Desktop)"; 
         mise use -g pnpm@latest
         print_success "pnpm installed"
     fi
+    if confirm "Would you like to install `@anthropic-ai/claude-code`?"; then
+        print_info "Installing @anthropic-ai/claude-code..."
+        mise use -g @anthropic-ai/claude-code@latest
+        print_success "@anthropic-ai/claude-code installed"
+    fi
 fi
 
 # Source the new environment
