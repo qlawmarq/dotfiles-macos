@@ -70,6 +70,13 @@
       "env": {
         "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
       }
+    },
+    "claude_code": {
+      "command": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin/claude",
+      "args": ["mcp", "serve"],
+      "env": {
+        "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
+      }
     }
   }
 }
