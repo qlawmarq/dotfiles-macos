@@ -44,7 +44,7 @@ if confirm "Would you like to install Node.js? (necessary for Claude Desktop)"; 
     fi
     if confirm "Would you like to install `@anthropic-ai/claude-code`?"; then
         print_info "Installing @anthropic-ai/claude-code..."
-        mise use -g @anthropic-ai/claude-code@latest
+        npm install -g @anthropic-ai/claude-code@latest
         print_success "@anthropic-ai/claude-code installed"
     fi
 fi
