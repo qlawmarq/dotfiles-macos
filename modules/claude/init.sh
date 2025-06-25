@@ -232,4 +232,13 @@ if command_exists "uv" && ! uv tool list | grep -q "markitdown-mcp"; then
     fi
 fi
 
+# Install @anthropic-ai/claude-code if needed
+if confirm "Would you like to install @anthropic-ai/claude-code?"; then
+    print_info "Installing @anthropic-ai/claude-code..."
+    npm install -g @anthropic-ai/claude-code@latest
+    print_success "@anthropic-ai/claude-code installed"
+    # Add MCP server from Claude Desktop
+    claude mcp add-from-claude-desktop
+fi
+
 print_success "Claude Desktop configuration updated successfully"
