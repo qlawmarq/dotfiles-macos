@@ -237,8 +237,8 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
     print_info "Installing @anthropic-ai/claude-code..."
     npm install -g @anthropic-ai/claude-code@latest
     print_success "@anthropic-ai/claude-code installed"
-    # Add MCP server from Claude Desktop
-    claude mcp add-from-claude-desktop
+    # Add MCP server globally from Claude Desktop
+    claude mcp add-from-claude-desktop -s user
 fi
 
 print_success "Claude Desktop configuration updated successfully"
