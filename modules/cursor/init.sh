@@ -56,22 +56,12 @@ if [ -d "/Applications/Cursor.app" ]; then
         if [ -n "$EXTRACTED_GITHUB_TOKEN" ]; then
             GITHUB_TOKEN="$EXTRACTED_GITHUB_TOKEN"
         fi
-        EXTRACTED_BRAVE_API_KEY=$(grep -o '"BRAVE_API_KEY": "[^"]*"' "$CONFIG_FILE" | cut -d'"' -f4)
-        if [ -n "$EXTRACTED_BRAVE_API_KEY" ]; then
-            BRAVE_API_KEY="$EXTRACTED_BRAVE_API_KEY"
-        fi
     fi
 
     # Ask for GitHub token if not already set in environment or config
     if [ -z "$GITHUB_TOKEN" ]; then
         echo "Please enter your GitHub Personal Access Token: (https://github.com/settings/personal-access-tokens)"
         read -r GITHUB_TOKEN
-    fi
-
-    # Ask for Brave API key if not already set in environment or config
-    if [ -z "$BRAVE_API_KEY" ]; then
-        echo "Please enter your Brave API Key: (https://api-dashboard.search.brave.com/app/keys)"
-        read -r BRAVE_API_KEY
     fi
     
     # Create temporary config with current versions
@@ -83,7 +73,6 @@ if [ -d "/Applications/Cursor.app" ]; then
     
     sed -e "s|\$HOME|$HOME|g" \
         -e "s|\$GITHUB_TOKEN|$GITHUB_TOKEN|g" \
-        -e "s|\$BRAVE_API_KEY|$BRAVE_API_KEY|g" \
         "$TMP_CONFIG" > "$CURSOR_CONFIG_DIR/mcp.json"
     
     rm "$TMP_CONFIG"

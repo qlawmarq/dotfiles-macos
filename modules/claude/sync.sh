@@ -37,7 +37,6 @@ if [ -f "$CLAUDE_CONFIG_DIR/claude_desktop_config.json" ]; then
             s|python/[0-9]+\.[0-9]+\.[0-9]+|python/\$PYTHON_VERSION|g; \
             s|${HOME}|\$HOME|g; \
             s|\"GITHUB_PERSONAL_ACCESS_TOKEN\": \"[^\"]*\"|\"GITHUB_PERSONAL_ACCESS_TOKEN\": \"\$GITHUB_TOKEN\"|g; \
-            s|\"BRAVE_API_KEY\": \"[^\"]*\"|\"BRAVE_API_KEY\": \"\$BRAVE_API_KEY\"|g" \
     > "$TMP_CONFIG"
     
     echo "Configuration processed. Checking file size..."

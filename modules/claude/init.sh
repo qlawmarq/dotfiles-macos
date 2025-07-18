@@ -140,7 +140,6 @@ fi
 # Try to get tokens from existing config file
 CONFIG_FILE="$CLAUDE_CONFIG_DIR/claude_desktop_config.json"
 GITHUB_TOKEN=""
-BRAVE_API_KEY=""
 
 if [ -f "$CONFIG_FILE" ]; then
     # Extract GitHub token if present
@@ -148,24 +147,12 @@ if [ -f "$CONFIG_FILE" ]; then
     if [ -n "$EXTRACTED_GITHUB_TOKEN" ]; then
         GITHUB_TOKEN="$EXTRACTED_GITHUB_TOKEN"
     fi
-    
-    # Extract Brave API key if present
-    EXTRACTED_BRAVE_API_KEY=$(grep -o '"BRAVE_API_KEY": "[^"]*"' "$CONFIG_FILE" | cut -d'"' -f4)
-    if [ -n "$EXTRACTED_BRAVE_API_KEY" ]; then
-        BRAVE_API_KEY="$EXTRACTED_BRAVE_API_KEY"
-    fi
 fi
 
 # Ask for GitHub token if not already set
 if [ -z "$GITHUB_TOKEN" ]; then
     echo "Please enter your GitHub Personal Access Token: (https://github.com/settings/personal-access-tokens)"
     read -r GITHUB_TOKEN
-fi
-
-# Ask for Brave API key if not already set
-if [ -z "$BRAVE_API_KEY" ]; then
-    echo "Please enter your Brave API Key: (https://api-dashboard.search.brave.com/app/keys)"
-    read -r BRAVE_API_KEY
 fi
 
 # Parse configuration template and allow selection
@@ -208,7 +195,6 @@ echo "$TEMPLATE_JSON" | \
 # Then replace environment variables
 sed -e "s|\$HOME|$HOME|g" \
     -e "s|\$GITHUB_TOKEN|$GITHUB_TOKEN|g" \
-    -e "s|\$BRAVE_API_KEY|$BRAVE_API_KEY|g" \
     "$TMP_CONFIG" > "$CLAUDE_CONFIG_DIR/claude_desktop_config.json"
 
 # Clean up
