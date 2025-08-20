@@ -7,4 +7,3 @@ brew:
 mise: brew
 git: 
 dotfiles: git
-cursor: brew mise
