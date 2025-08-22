@@ -34,7 +34,6 @@ The following modules are currently available:
 - **brew**: Installs and configures Homebrew and selected packages
 - **mise**: Sets up runtime environment manager for Node.js, Python, and other tools
 - **claude**: Configures Claude Desktop with MCP servers for AI assistant integration
-- **cursor**: Sets up Cursor IDE, the AI-powered code editor
 - **dotfiles**: Configures shell profiles, aliases, and environment variables
 - **git**: Sets up Git configuration, aliases, and global settings
 - **vscode**: Installs and configures Visual Studio Code and extensions
