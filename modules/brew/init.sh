@@ -118,6 +118,30 @@ if confirm "Do you want to install the selected packages?"; then
     
     if [ $? -eq 0 ]; then
         print_success "Homebrew packages installed successfully"
+        
+        # Configure autostart for specific applications
+        print_info "Configuring autostart for applications..."
+        
+        # Check if scroll-reverser was installed
+        if echo "$SELECTED_CASKS" | grep -q "scroll-reverser"; then
+            # Check if Scroll Reverser.app exists
+            if [ -d "/Applications/Scroll Reverser.app" ]; then
+                # Check if already in login items
+                if ! osascript -e 'tell application "System Events" to get the name of every login item' | grep -q "Scroll Reverser"; then
+                    print_info "Adding Scroll Reverser to login items..."
+                    osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/Scroll Reverser.app", hidden:false}'
+                    if [ $? -eq 0 ]; then
+                        print_success "Scroll Reverser added to login items (will start at login)"
+                    else
+                        print_warning "Failed to add Scroll Reverser to login items"
+                    fi
+                else
+                    print_info "Scroll Reverser is already in login items"
+                fi
+            else
+                print_warning "Scroll Reverser.app not found in /Applications"
+            fi
+        fi
     else
         print_error "Failed to install some Homebrew packages"
         exit 1
