@@ -14,29 +14,49 @@ check_macos
 
 echo "Setting up Finder..."
 
-# Check if plist files exist
-if [ ! -f "$SCRIPT_DIR/com.apple.finder.plist" ]; then
-    echo "Warning: No com.apple.finder.plist found."
+# Check if settings file exists
+SETTINGS_FILE="$SCRIPT_DIR/finder-settings.txt"
+if [ ! -f "$SETTINGS_FILE" ]; then
+    echo "Warning: No finder-settings.txt found."
     echo "Run sync.sh first to capture current settings."
     exit 1
 fi
 
 echo "Applying Finder settings..."
 
-# Import settings from plist files
-if [ -f "$SCRIPT_DIR/com.apple.finder.plist" ] && [ -s "$SCRIPT_DIR/com.apple.finder.plist" ]; then
-    if ! grep -q "^#" "$SCRIPT_DIR/com.apple.finder.plist"; then
-        defaults import com.apple.finder "$SCRIPT_DIR/com.apple.finder.plist"
-        echo "✓ Applied com.apple.finder settings"
+# Apply settings from file
+while IFS= read -r line; do
+    # Skip comments and empty lines
+    if [[ "$line" =~ ^#.*$ ]] || [ -z "$line" ]; then
+        continue
     fi
-fi
-
-if [ -f "$SCRIPT_DIR/com.apple.desktopservices.plist" ] && [ -s "$SCRIPT_DIR/com.apple.desktopservices.plist" ]; then
-    if ! grep -q "^#" "$SCRIPT_DIR/com.apple.desktopservices.plist"; then
-        defaults import com.apple.desktopservices "$SCRIPT_DIR/com.apple.desktopservices.plist"
-        echo "✓ Applied com.apple.desktopservices settings"
+    
+    # Parse DOMAIN|KEY=VALUE format
+    if [[ "$line" =~ ^([^|]+)\|([^=]+)=(.*)$ ]]; then
+        domain="${BASH_REMATCH[1]}"
+        key="${BASH_REMATCH[2]}"
+        value="${BASH_REMATCH[3]}"
+        
+        echo "Setting $domain $key = $value"
+        
+        # Apply setting using defaults
+        if [ "$value" = "1" ]; then
+            defaults write "$domain" "$key" -bool true
+        elif [ "$value" = "0" ]; then
+            defaults write "$domain" "$key" -bool false
+        elif [[ "$value" =~ ^[0-9]+\.?[0-9]*$ ]]; then
+            # Numeric value
+            if [[ "$value" =~ \. ]]; then
+                defaults write "$domain" "$key" -float "$value"
+            else
+                defaults write "$domain" "$key" -int "$value"
+            fi
+        else
+            # String value
+            defaults write "$domain" "$key" -string "$value"
+        fi
     fi
-fi
+done < "$SETTINGS_FILE"
 
 # Restart Finder
 echo "Restarting Finder..."
