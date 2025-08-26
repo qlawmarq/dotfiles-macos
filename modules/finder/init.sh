@@ -1,15 +1,8 @@
 #!/bin/bash
 
-# ====================
-# Finder initialization script
-# Apply saved Finder settings from configuration file
-# ====================
-
-# Directory where this script is located
+# Load utils
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DOTFILES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
-
-# Load utilities
 if [ -f "$DOTFILES_DIR/lib/utils.sh" ]; then
     source "$DOTFILES_DIR/lib/utils.sh"
 else
@@ -21,51 +14,32 @@ check_macos
 
 echo "Setting up Finder..."
 
-# Check if settings file exists
-SETTINGS_FILE="$SCRIPT_DIR/finder-settings.sh"
-if [ ! -f "$SETTINGS_FILE" ]; then
-    echo "Warning: No finder-settings.sh found."
+# Check if plist files exist
+if [ ! -f "$SCRIPT_DIR/com.apple.finder.plist" ]; then
+    echo "Warning: No com.apple.finder.plist found."
     echo "Run sync.sh first to capture current settings."
     exit 1
 fi
 
-# Load settings
-source "$SETTINGS_FILE"
-
-# Apply each setting
 echo "Applying Finder settings..."
-for key in "${!FINDER_SETTINGS[@]}"; do
-    # Split domain|key
-    IFS='|' read -r domain setting_key <<< "$key"
-    value="${FINDER_SETTINGS[$key]}"
-    
-    # Skip empty values
-    if [ -z "$value" ]; then
-        continue
-    fi
-    
-    echo "Setting $domain $setting_key = $value"
-    
-    # Convert true/false to boolean for defaults command
-    if [ "$value" = "true" ]; then
-        defaults write "$domain" "$setting_key" -bool true
-    elif [ "$value" = "false" ]; then
-        defaults write "$domain" "$setting_key" -bool false
-    elif [[ "$value" =~ ^[0-9]+\.?[0-9]*$ ]]; then
-        # Check if it's a number (integer or float)
-        if [[ "$value" =~ \. ]]; then
-            defaults write "$domain" "$setting_key" -float "$value"
-        else
-            defaults write "$domain" "$setting_key" -int "$value"
-        fi
-    else
-        # String value
-        defaults write "$domain" "$setting_key" -string "$value"
-    fi
-done
 
-# Restart Finder to apply changes
-echo "Restarting Finder to apply changes..."
+# Import settings from plist files
+if [ -f "$SCRIPT_DIR/com.apple.finder.plist" ] && [ -s "$SCRIPT_DIR/com.apple.finder.plist" ]; then
+    if ! grep -q "^#" "$SCRIPT_DIR/com.apple.finder.plist"; then
+        defaults import com.apple.finder "$SCRIPT_DIR/com.apple.finder.plist"
+        echo "✓ Applied com.apple.finder settings"
+    fi
+fi
+
+if [ -f "$SCRIPT_DIR/com.apple.desktopservices.plist" ] && [ -s "$SCRIPT_DIR/com.apple.desktopservices.plist" ]; then
+    if ! grep -q "^#" "$SCRIPT_DIR/com.apple.desktopservices.plist"; then
+        defaults import com.apple.desktopservices "$SCRIPT_DIR/com.apple.desktopservices.plist"
+        echo "✓ Applied com.apple.desktopservices settings"
+    fi
+fi
+
+# Restart Finder
+echo "Restarting Finder..."
 killall Finder
 
 echo "✓ Finder settings applied"
