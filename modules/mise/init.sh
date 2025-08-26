@@ -30,6 +30,11 @@ if confirm "Would you like to install Python? (necessary for Claude Desktop)"; t
     print_info "Installing Python..."
     mise use -g python@latest
     print_success "Python installed"
+    if confirm "Would you like to install `uv`?"; then
+        print_info "Installing uv..."
+        mise use -g uv@latest
+        print_success "uv installed"
+    fi
 fi
 
 # Install Node.js

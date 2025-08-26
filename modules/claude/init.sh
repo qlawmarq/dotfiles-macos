@@ -89,16 +89,9 @@ if ! command_exists "mise"; then
 fi
 
 # Check if uv is installed
-if ! command_exists "uvx"; then
-    print_info "uvx could not be found"
-    if command_exists "pip" && confirm "Would you like to install uv using pip?"; then
-        pip install uv
-    elif command_exists "pip3" && confirm "Would you like to install uv using pip3?"; then
-        pip3 install uv
-    else
-        print_error "pip or pip3 is not installed or installation cancelled."
-        exit 1
-    fi
+if ! command_exists "uv"; then
+    print_error "uv is not installed. Please install Node.js first. 'mise use uv@latest'"
+    exit 1
 fi
 
 # Check if node is installed
