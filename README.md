@@ -37,6 +37,7 @@ The following modules are currently available:
 - **dotfiles**: Configures shell profiles, aliases, and environment variables
 - **git**: Sets up Git configuration, aliases, and global settings
 - **vscode**: Installs and configures Visual Studio Code and extensions
+- **finder**: Manages macOS Finder preferences and settings
 
 Each module is independent but may depend on other modules for proper functionality.
 
@@ -108,6 +109,10 @@ modules/
   │   └── sync.sh         # Synchronization script
   ├── claude/
   │   ├── claude_desktop_config.json  # Configuration template
+  │   ├── init.sh                     # Installation script
+  │   └── sync.sh                     # Synchronization script
+  ├── finder/
+  │   ├── finder-settings.txt         # Finder preferences configuration
   │   ├── init.sh                     # Installation script
   │   └── sync.sh                     # Synchronization script
   ├── ...
