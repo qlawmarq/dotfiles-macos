@@ -7,3 +7,4 @@ brew:
 mise: brew
 git: 
 dotfiles: git
+finder:

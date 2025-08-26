@@ -8,13 +8,14 @@ This is a modular macOS dotfiles management system that automates development en
 
 ## Architecture
 
-The repository uses a modular architecture with 6 independent modules:
+The repository uses a modular architecture with 7 independent modules:
 - **brew**: Homebrew package management (`.Brewfile`)
 - **mise**: Runtime version management
 - **claude**: Claude Desktop configuration with MCP servers
 - **dotfiles**: Shell configurations (`.zprofile`, `.zshrc`)
 - **git**: Git configuration with SSH key setup
 - **vscode**: VS Code settings and extensions
+- **finder**: macOS Finder preferences and settings
 
 Module dependencies are defined in `modules/dependencies.txt` (e.g., `claude: brew mise` means claude depends on brew and mise).
 
@@ -52,6 +53,7 @@ tail -n 20 -f ~/Library/Logs/Claude/mcp*.log
 - `claude_desktop_config.json`: MCP server configurations
 - `.gitconfig`: Git aliases and configurations
 - `vscode/settings.json`: VS Code preferences
+- `finder-settings.txt`: macOS Finder preferences in human-readable format
 - Shell configs are symlinked from `dotfiles/` to home directory
 
 ## Testing Changes
