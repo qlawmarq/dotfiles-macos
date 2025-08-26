@@ -27,6 +27,10 @@ FXEnableExtensionChangeWarning
 # Current Settings:
 NSGlobalDomain|AppleShowAllExtensions=1
 com.apple.finder|AppleShowAllFiles=1
+com.apple.finder|ShowPathbar=1
+com.apple.finder|ShowStatusBar=1
 com.apple.finder|ShowHardDrivesOnDesktop=0
 com.apple.finder|ShowExternalHardDrivesOnDesktop=1
 com.apple.finder|ShowRemovableMediaOnDesktop=1
+com.apple.desktopservices|DSDontWriteNetworkStores=1
+com.apple.desktopservices|DSDontWriteUSBStores=1
