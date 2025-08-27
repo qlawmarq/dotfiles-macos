@@ -10,6 +10,14 @@ else
     exit 1
 fi
 
+# Load defaults utilities
+if [ -f "$DOTFILES_DIR/lib/defaults.sh" ]; then
+    source "$DOTFILES_DIR/lib/defaults.sh"
+else
+    echo "Error: defaults.sh not found at $DOTFILES_DIR/lib/defaults.sh"
+    exit 1
+fi
+
 check_macos
 
 echo "Syncing Finder settings..."
@@ -43,40 +51,29 @@ WarnOnEmptyTrash
 FXEnableExtensionChangeWarning
 EOF
 
-# Function to save specific settings
-save_specific_setting() {
-    local domain="$1"
-    local key="$2"
-    
-    value=$(defaults read "$domain" "$key" 2>/dev/null)
-    if [ -n "$value" ]; then
-        echo "$domain|$key=$value" >> "$SCRIPT_DIR/finder-settings.txt"
-    fi
-}
-
 echo "" >> "$SCRIPT_DIR/finder-settings.txt"
 echo "# Current Settings:" >> "$SCRIPT_DIR/finder-settings.txt"
 
-# Save only essential Finder settings
-save_specific_setting "NSGlobalDomain" "AppleShowAllExtensions"
-save_specific_setting "com.apple.finder" "AppleShowAllFiles"
-save_specific_setting "com.apple.finder" "ShowPathbar"
-save_specific_setting "com.apple.finder" "ShowStatusBar"
-save_specific_setting "com.apple.finder" "ShowHardDrivesOnDesktop"
-save_specific_setting "com.apple.finder" "ShowExternalHardDrivesOnDesktop"
-save_specific_setting "com.apple.finder" "ShowMountedServersOnDesktop"
-save_specific_setting "com.apple.finder" "ShowRemovableMediaOnDesktop"
-save_specific_setting "com.apple.finder" "FXPreferredViewStyle"
-save_specific_setting "com.apple.finder" "_FXSortFoldersFirst"
-save_specific_setting "com.apple.finder" "_FXShowPosixPathInTitle"
-save_specific_setting "com.apple.finder" "FXDefaultSearchScope"
-save_specific_setting "com.apple.finder" "NewWindowTarget"
-save_specific_setting "com.apple.finder" "QuitMenuItem"
-save_specific_setting "com.apple.finder" "WarnOnEmptyTrash"
-save_specific_setting "com.apple.finder" "FXEnableExtensionChangeWarning"
+# Save only essential Finder settings using shared function
+save_defaults_setting "NSGlobalDomain" "AppleShowAllExtensions" "$SCRIPT_DIR/finder-settings.txt"
+save_defaults_setting "com.apple.finder" "AppleShowAllFiles" "$SCRIPT_DIR/finder-settings.txt"
+save_defaults_setting "com.apple.finder" "ShowPathbar" "$SCRIPT_DIR/finder-settings.txt"
+save_defaults_setting "com.apple.finder" "ShowStatusBar" "$SCRIPT_DIR/finder-settings.txt"
+save_defaults_setting "com.apple.finder" "ShowHardDrivesOnDesktop" "$SCRIPT_DIR/finder-settings.txt"
+save_defaults_setting "com.apple.finder" "ShowExternalHardDrivesOnDesktop" "$SCRIPT_DIR/finder-settings.txt"
+save_defaults_setting "com.apple.finder" "ShowMountedServersOnDesktop" "$SCRIPT_DIR/finder-settings.txt"
+save_defaults_setting "com.apple.finder" "ShowRemovableMediaOnDesktop" "$SCRIPT_DIR/finder-settings.txt"
+save_defaults_setting "com.apple.finder" "FXPreferredViewStyle" "$SCRIPT_DIR/finder-settings.txt"
+save_defaults_setting "com.apple.finder" "_FXSortFoldersFirst" "$SCRIPT_DIR/finder-settings.txt"
+save_defaults_setting "com.apple.finder" "_FXShowPosixPathInTitle" "$SCRIPT_DIR/finder-settings.txt"
+save_defaults_setting "com.apple.finder" "FXDefaultSearchScope" "$SCRIPT_DIR/finder-settings.txt"
+save_defaults_setting "com.apple.finder" "NewWindowTarget" "$SCRIPT_DIR/finder-settings.txt"
+save_defaults_setting "com.apple.finder" "QuitMenuItem" "$SCRIPT_DIR/finder-settings.txt"
+save_defaults_setting "com.apple.finder" "WarnOnEmptyTrash" "$SCRIPT_DIR/finder-settings.txt"
+save_defaults_setting "com.apple.finder" "FXEnableExtensionChangeWarning" "$SCRIPT_DIR/finder-settings.txt"
 
 # Desktop services settings
-save_specific_setting "com.apple.desktopservices" "DSDontWriteNetworkStores"
-save_specific_setting "com.apple.desktopservices" "DSDontWriteUSBStores"
+save_defaults_setting "com.apple.desktopservices" "DSDontWriteNetworkStores" "$SCRIPT_DIR/finder-settings.txt"
+save_defaults_setting "com.apple.desktopservices" "DSDontWriteUSBStores" "$SCRIPT_DIR/finder-settings.txt"
 
 echo "✓ Essential Finder settings synced to finder-settings.txt"

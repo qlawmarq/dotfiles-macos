@@ -8,7 +8,7 @@ This is a modular macOS dotfiles management system that automates development en
 
 ## Architecture
 
-The repository uses a modular architecture with 7 independent modules:
+The repository uses a modular architecture with 8 independent modules:
 - **brew**: Homebrew package management (`.Brewfile`)
 - **mise**: Runtime version management
 - **claude**: Claude Desktop configuration with MCP servers
@@ -16,6 +16,7 @@ The repository uses a modular architecture with 7 independent modules:
 - **git**: Git configuration with SSH key setup
 - **vscode**: VS Code settings and extensions
 - **finder**: macOS Finder preferences and settings
+- **keyboard**: Keyboard shortcuts and Karabiner-Elements configuration
 
 Module dependencies are defined in `modules/dependencies.txt` (e.g., `claude: brew mise` means claude depends on brew and mise).
 
@@ -38,7 +39,8 @@ tail -n 20 -f ~/Library/Logs/Claude/mcp*.log
 1. Each module has `init.sh` (setup) and optionally `sync.sh` (update)
 2. Dependencies must be declared in `modules/dependencies.txt`
 3. Use the shared utilities in `lib/` for consistency:
-   - `lib/common.sh`: Color output and error handling
+   - `lib/utils.sh`: General utilities and macOS checks  
+   - `lib/defaults.sh`: macOS defaults command utilities for settings management
    - `lib/menu.sh`: Interactive selection menus
    - `lib/dependencies.sh`: Dependency resolution logic
 
@@ -54,6 +56,8 @@ tail -n 20 -f ~/Library/Logs/Claude/mcp*.log
 - `.gitconfig`: Git aliases and configurations
 - `vscode/settings.json`: VS Code preferences
 - `finder-settings.txt`: macOS Finder preferences in human-readable format
+- `karabiner.json`: Karabiner-Elements configuration for key mappings
+- `keyboard-settings.txt`: macOS keyboard shortcuts in human-readable format
 - Shell configs are symlinked from `dotfiles/` to home directory
 
 ## Testing Changes
