@@ -8,3 +8,4 @@ mise: brew
 git: 
 dotfiles: git
 finder:
+keyboard: brew

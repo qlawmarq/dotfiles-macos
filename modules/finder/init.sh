@@ -10,6 +10,14 @@ else
     exit 1
 fi
 
+# Load defaults utilities
+if [ -f "$DOTFILES_DIR/lib/defaults.sh" ]; then
+    source "$DOTFILES_DIR/lib/defaults.sh"
+else
+    echo "Error: defaults.sh not found at $DOTFILES_DIR/lib/defaults.sh"
+    exit 1
+fi
+
 check_macos
 
 echo "Setting up Finder..."
@@ -24,39 +32,8 @@ fi
 
 echo "Applying Finder settings..."
 
-# Apply settings from file
-while IFS= read -r line; do
-    # Skip comments and empty lines
-    if [[ "$line" =~ ^#.*$ ]] || [ -z "$line" ]; then
-        continue
-    fi
-    
-    # Parse DOMAIN|KEY=VALUE format
-    if [[ "$line" =~ ^([^|]+)\|([^=]+)=(.*)$ ]]; then
-        domain="${BASH_REMATCH[1]}"
-        key="${BASH_REMATCH[2]}"
-        value="${BASH_REMATCH[3]}"
-        
-        echo "Setting $domain $key = $value"
-        
-        # Apply setting using defaults
-        if [ "$value" = "1" ]; then
-            defaults write "$domain" "$key" -bool true
-        elif [ "$value" = "0" ]; then
-            defaults write "$domain" "$key" -bool false
-        elif [[ "$value" =~ ^[0-9]+\.?[0-9]*$ ]]; then
-            # Numeric value
-            if [[ "$value" =~ \. ]]; then
-                defaults write "$domain" "$key" -float "$value"
-            else
-                defaults write "$domain" "$key" -int "$value"
-            fi
-        else
-            # String value
-            defaults write "$domain" "$key" -string "$value"
-        fi
-    fi
-done < "$SETTINGS_FILE"
+# Use shared defaults function to apply settings from file
+apply_defaults_from_file "$SETTINGS_FILE"
 
 # Restart Finder
 echo "Restarting Finder..."

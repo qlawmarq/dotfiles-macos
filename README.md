@@ -38,6 +38,7 @@ The following modules are currently available:
 - **git**: Sets up Git configuration, aliases, and global settings
 - **vscode**: Installs and configures Visual Studio Code and extensions
 - **finder**: Manages macOS Finder preferences and settings
+- **keyboard**: Manages keyboard shortcuts and Karabiner-Elements configuration using a hybrid approach for reliable system shortcut preservation
 
 Each module is independent but may depend on other modules for proper functionality.
 
@@ -115,6 +116,13 @@ modules/
   │   ├── finder-settings.txt         # Finder preferences configuration
   │   ├── init.sh                     # Installation script
   │   └── sync.sh                     # Synchronization script
+  ├── keyboard/
+  │   ├── karabiner.json              # Karabiner-Elements configuration
+  │   ├── complex_modifications/      # Karabiner complex modifications
+  │   ├── keyboard-shortcuts.xml      # System keyboard shortcuts (XML export)
+  │   ├── keyboard-settings.txt       # Application keyboard shortcuts
+  │   ├── init.sh                     # Installation script
+  │   └── sync.sh                     # Synchronization script
   ├── ...
 ```
 
@@ -141,7 +149,9 @@ You can easily add, remove, or modify modules to suit your needs:
    The menu logic is handled in `lib/menu.sh`. You can modify this script to change how modules are presented or selected.
 
 5. **Shared utilities:**  
-   Common functions and helpers are in `lib/utils.sh`. You can add your own utility functions here for use across modules.
+   Common functions and helpers are in `lib/utils.sh` and `lib/defaults.sh`. You can add your own utility functions here for use across modules.
+   - `lib/utils.sh`: General utilities and macOS checks
+   - `lib/defaults.sh`: macOS defaults command utilities for settings management
 
 ---
 
