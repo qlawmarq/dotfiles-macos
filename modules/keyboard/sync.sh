@@ -22,19 +22,11 @@ check_macos
 
 echo "Syncing Keyboard configurations..."
 
-# Create backup with timestamp
-TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-BACKUP_DIR="$SCRIPT_DIR/backups/$TIMESTAMP"
-mkdir -p "$BACKUP_DIR"
-
 # 1. Sync Karabiner-Elements settings
 echo "Syncing Karabiner-Elements settings..."
 
 KARABINER_CONFIG_DIR="$HOME/.config/karabiner"
 if [ -f "$KARABINER_CONFIG_DIR/karabiner.json" ]; then
-    # Backup current karabiner.json
-    cp "$KARABINER_CONFIG_DIR/karabiner.json" "$BACKUP_DIR/karabiner.json.backup" 2>/dev/null || true
-    
     # Copy current settings to module
     cp "$KARABINER_CONFIG_DIR/karabiner.json" "$SCRIPT_DIR/karabiner.json"
     echo "✓ Karabiner configuration synced"
@@ -98,26 +90,6 @@ save_app_shortcuts "com.apple.TextEdit" "$SCRIPT_DIR/keyboard-settings.txt" "Tex
 save_app_shortcuts "com.googlecode.iterm2" "$SCRIPT_DIR/keyboard-settings.txt" "iTerm2"
 save_app_shortcuts "com.microsoft.VSCode" "$SCRIPT_DIR/keyboard-settings.txt" "VS Code"
 
-# Create backup copy
-cp "$SCRIPT_DIR/keyboard-settings.txt" "$BACKUP_DIR/keyboard-settings.txt.backup" 2>/dev/null || true
-
 echo "✓ Keyboard shortcuts synced"
 
-# 3. Create backup manifest
-echo "Creating backup manifest..."
-cat > "$BACKUP_DIR/manifest.txt" << EOF
-Keyboard Module Backup - $TIMESTAMP
-=====================================
-
-Files backed up:
-- karabiner.json.backup: Karabiner-Elements configuration
-- keyboard-settings.txt.backup: macOS keyboard shortcuts and settings
-
-Sync completed on: $(date)
-EOF
-
-echo "✓ Backup created at $BACKUP_DIR"
 echo "✓ Keyboard configuration sync completed"
-echo ""
-echo "All keyboard settings have been synced to the module directory."
-echo "Run init.sh to apply these settings on a new machine."
