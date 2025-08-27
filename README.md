@@ -38,7 +38,7 @@ The following modules are currently available:
 - **git**: Sets up Git configuration, aliases, and global settings
 - **vscode**: Installs and configures Visual Studio Code and extensions
 - **finder**: Manages macOS Finder preferences and settings
-- **keyboard**: Manages keyboard shortcuts and Karabiner-Elements configuration
+- **keyboard**: Manages keyboard shortcuts and Karabiner-Elements configuration using a hybrid approach for reliable system shortcut preservation
 
 Each module is independent but may depend on other modules for proper functionality.
 
@@ -119,7 +119,8 @@ modules/
   ├── keyboard/
   │   ├── karabiner.json              # Karabiner-Elements configuration
   │   ├── complex_modifications/      # Karabiner complex modifications
-  │   ├── keyboard-settings.txt       # Keyboard shortcuts configuration
+  │   ├── keyboard-shortcuts.xml      # System keyboard shortcuts (XML export)
+  │   ├── keyboard-settings.txt       # Application keyboard shortcuts
   │   ├── init.sh                     # Installation script
   │   └── sync.sh                     # Synchronization script
   ├── ...
