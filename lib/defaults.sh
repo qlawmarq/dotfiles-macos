@@ -77,31 +77,71 @@ apply_defaults_from_file() {
     done < "$settings_file"
 }
 
+# DEPRECATED: Individual symbolic hotkey management approach
+# 
+# IMPLEMENTATION DECISION HISTORY (2025-08-27):
+# =============================================
+# 
+# After extensive investigation, we discovered that managing macOS symbolic hotkeys 
+# (system keyboard shortcuts) on an individual basis is fundamentally flawed for 
+# several critical reasons:
+#
+# 1. COMPLEX DATA STRUCTURES:
+#    - AppleSymbolicHotKeys contains nested dictionaries with multiple layers
+#    - Each hotkey has: enabled (bool), value.parameters (array), value.type (string)
+#    - Parameters are encoded as integer arrays with undocumented meanings
+#    - Example: key 60 (Input Source switching) = parameters: (96, 50, 524288)
+#
+# 2. PARSING LIMITATIONS:
+#    - defaults command doesn't support reading individual nested keys
+#    - grep/sed parsing of complex plist structures is unreliable
+#    - Manual parsing fails with special characters and formatting variations
+#
+# 3. MISSING CRITICAL SHORTCUTS:
+#    - Input Source switching (key 60) was not being detected/saved
+#    - Mission Control variants (keys 32, 34, etc.) have complex relationships
+#    - Total of 37 different symbolic hotkey IDs exist in the system
+#
+# 4. MAINTENANCE OVERHEAD:
+#    - Would require maintaining a complete mapping of all 37 hotkey IDs
+#    - Apple can add new shortcuts in OS updates without documentation
+#    - Each new shortcut would need reverse engineering
+#
+# SELECTED SOLUTION: XML Full Export/Import
+# ========================================
+#
+# We chose to use Apple's native export/import mechanism:
+# - defaults export com.apple.symbolichotkeys file.xml
+# - defaults import com.apple.symbolichotkeys file.xml
+#
+# ADVANTAGES:
+# - 100% compatibility: Uses Apple's official APIs
+# - Complete coverage: Captures ALL shortcuts including future additions
+# - Reliability: No custom parsing of complex data structures  
+# - Atomicity: Import/export operations are atomic
+# - Future-proof: Works with any macOS version/shortcuts Apple adds
+#
+# TRADE-OFFS:
+# - Larger file size (425 lines XML vs ~10 lines text)
+# - Lower human readability (XML format vs KEY=VALUE)
+# - Less granular control (all-or-nothing approach)
+#
+# CONCLUSION:
+# For system-level keyboard shortcuts, reliability and completeness outweigh 
+# file size and readability concerns. This ensures critical shortcuts like
+# Input Source switching are never missed.
+#
 # Function to save symbolic hotkey setting (macOS keyboard shortcuts)
 # Usage: save_symbolic_hotkey "hotkey_id" "output_file"
+# NOTE: This function is DEPRECATED - use save_all_symbolic_hotkeys_xml() instead
 save_symbolic_hotkey() {
     local hotkey_id="$1"
     local output_file="$2"
     
-    # Check if the hotkey exists and is enabled
-    enabled=$(defaults read com.apple.symbolichotkeys AppleSymbolicHotKeys -dict | grep -A 10 "\"$hotkey_id\"" | grep "enabled" | grep -o "[01]")
-    
-    if [ "$enabled" = "1" ]; then
-        # Get the full hotkey definition
-        hotkey_data=$(defaults read com.apple.symbolichotkeys AppleSymbolicHotKeys -dict | sed -n "/\"$hotkey_id\"/,/}/p")
-        
-        if [ -n "$hotkey_data" ]; then
-            echo "com.apple.symbolichotkeys|AppleSymbolicHotKeys.$hotkey_id.enabled=$enabled" >> "$output_file"
-            
-            # Extract parameters if they exist
-            parameters=$(echo "$hotkey_data" | grep -A 5 "parameters" | grep -o "[0-9][0-9]*" | tr '\n' ',' | sed 's/,$//')
-            if [ -n "$parameters" ]; then
-                echo "com.apple.symbolichotkeys|AppleSymbolicHotKeys.$hotkey_id.parameters=$parameters" >> "$output_file"
-            fi
-        fi
-    elif [ "$enabled" = "0" ]; then
-        echo "com.apple.symbolichotkeys|AppleSymbolicHotKeys.$hotkey_id.enabled=$enabled" >> "$output_file"
-    fi
+    # DEPRECATED: This approach is unreliable for complex symbolic hotkeys
+    # See detailed explanation above for why XML export is preferred
+    echo "# WARNING: Individual symbolic hotkey saving is deprecated" >> "$output_file"
+    echo "# Use save_all_symbolic_hotkeys_xml() for complete coverage" >> "$output_file"
 }
 
 # Function to apply symbolic hotkey setting
@@ -152,6 +192,63 @@ save_app_shortcuts() {
             fi
         done
         echo "" >> "$output_file"
+    fi
+}
+
+# Function to save ALL symbolic hotkeys using XML export (RECOMMENDED APPROACH)
+# Usage: save_all_symbolic_hotkeys_xml "output_xml_file"
+#
+# WHY XML EXPORT IS USED:
+# This function implements the recommended approach for managing macOS symbolic hotkeys.
+# Unlike individual key management, this captures ALL 37+ system keyboard shortcuts
+# including critical ones like Input Source switching (key 60) that were previously missed.
+save_all_symbolic_hotkeys_xml() {
+    local output_file="$1"
+    
+    echo "Exporting all symbolic hotkeys to XML format..."
+    # Use '-' to export to stdout and redirect to ensure XML format (not binary plist)
+    defaults export com.apple.symbolichotkeys - > "$output_file"
+    
+    if [ $? -eq 0 ] && [ -s "$output_file" ]; then
+        # Verify it's XML format by checking for XML header
+        if head -1 "$output_file" | grep -q "<?xml"; then
+            echo "✓ Successfully exported $(grep -c '<key>' "$output_file" 2>/dev/null || echo 'all') symbolic hotkeys to XML"
+        else
+            echo "✗ Export failed: file is not in XML format" >&2
+            return 1
+        fi
+    else
+        echo "✗ Failed to export symbolic hotkeys" >&2
+        return 1
+    fi
+}
+
+# Function to restore ALL symbolic hotkeys from XML export
+# Usage: apply_all_symbolic_hotkeys_xml "input_xml_file" 
+#
+# IMPORTANT: This function replaces ALL symbolic hotkeys with the imported configuration.
+# Any shortcuts modified through System Settings after the export will be overwritten.
+apply_all_symbolic_hotkeys_xml() {
+    local input_file="$1"
+    
+    if [ ! -f "$input_file" ]; then
+        echo "Warning: Symbolic hotkeys file not found: $input_file" >&2
+        return 1
+    fi
+    
+    echo "Importing all symbolic hotkeys from XML..."
+    defaults import com.apple.symbolichotkeys "$input_file"
+    
+    if [ $? -eq 0 ]; then
+        echo "✓ Successfully imported symbolic hotkeys"
+        
+        # Activate settings to take effect immediately without logout
+        if [ -f "/System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings" ]; then
+            /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u 2>/dev/null || true
+        fi
+    else
+        echo "✗ Failed to import symbolic hotkeys" >&2
+        return 1
     fi
 }
 

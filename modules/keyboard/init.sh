@@ -58,54 +58,29 @@ fi
 # 2. Setup macOS keyboard shortcuts
 echo "Configuring macOS keyboard shortcuts..."
 
-# Apply keyboard settings from file
+# IMPLEMENTATION NOTE:
+# We use a hybrid approach for keyboard shortcuts management:
+# 1. System shortcuts (symbolic hotkeys) -> Full XML import for reliability  
+# 2. Application shortcuts (NSUserKeyEquivalents) -> Selective text-based import
+
+# Import ALL system keyboard shortcuts from XML export
+SHORTCUTS_XML="$SCRIPT_DIR/keyboard-shortcuts.xml"
+if [ -f "$SHORTCUTS_XML" ]; then
+    echo "Importing system keyboard shortcuts from XML..."
+    apply_all_symbolic_hotkeys_xml "$SHORTCUTS_XML"
+else
+    echo "Warning: keyboard-shortcuts.xml not found. System shortcuts not restored."
+    echo "Run sync.sh first to capture current shortcuts."
+fi
+
+# Apply application-specific keyboard shortcuts from text file
 SETTINGS_FILE="$SCRIPT_DIR/keyboard-settings.txt"
 if [ -f "$SETTINGS_FILE" ]; then
-    echo "Applying keyboard settings..."
-    
-    # Apply settings from file
-    while IFS= read -r line; do
-        # Skip comments and empty lines
-        if [[ "$line" =~ ^#.*$ ]] || [ -z "$line" ]; then
-            continue
-        fi
-        
-        # Handle different types of settings
-        if [[ "$line" =~ ^com\.apple\.symbolichotkeys\|AppleSymbolicHotKeys\.([0-9]+)\.(enabled|parameters)=(.*)$ ]]; then
-            # Symbolic hotkey setting
-            hotkey_id="${BASH_REMATCH[1]}"
-            property="${BASH_REMATCH[2]}"
-            value="${BASH_REMATCH[3]}"
-            
-            if [ "$property" = "enabled" ]; then
-                # For now, we'll handle basic enabled/disabled state
-                echo "Setting symbolic hotkey $hotkey_id: enabled=$value"
-                if [ "$value" = "1" ]; then
-                    defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add "$hotkey_id" '{enabled = 1;}'
-                else
-                    defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add "$hotkey_id" '{enabled = 0;}'
-                fi
-            fi
-        elif [[ "$line" =~ ^([^|]+)\|([^=]+)=(.*)$ ]]; then
-            # Regular defaults setting or app shortcut
-            domain="${BASH_REMATCH[1]}"
-            key="${BASH_REMATCH[2]}"
-            value="${BASH_REMATCH[3]}"
-            
-            # Check if this is an app shortcut (contains menu item-like text)
-            if [[ "$key" =~ [[:space:]] ]] || [[ "$value" =~ ^[@~^$] ]]; then
-                # This looks like an app shortcut
-                apply_app_shortcut "$domain" "$key" "$value"
-            else
-                # Regular defaults setting
-                apply_defaults_setting "$line"
-            fi
-        fi
-    done < "$SETTINGS_FILE"
-    
-    echo "✓ Keyboard settings applied"
+    echo "Applying application keyboard shortcuts..."
+    apply_defaults_from_file "$SETTINGS_FILE"
+    echo "✓ Application shortcuts applied"
 else
-    echo "Warning: keyboard-settings.txt not found. Run sync.sh first."
+    echo "Warning: keyboard-settings.txt not found. Application shortcuts not restored."
 fi
 
 # 3. Activate settings without requiring logout
