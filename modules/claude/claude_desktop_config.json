@@ -8,11 +8,8 @@
       }
     },
     "fetch": {
-      "command": "$HOME/.local/share/mise/installs/python/$PYTHON_VERSION/bin/uvx",
-      "args": ["mcp-server-fetch"],
-      "env": {
-        "PATH": "$HOME/.local/share/mise/installs/python/$PYTHON_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
-      }
+      "command": "docker",
+      "args": ["run", "-i", "--rm", "mcp/fetch"]
     },
     "filesystem": {
       "command": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin/npx",
