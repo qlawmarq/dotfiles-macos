@@ -1,6 +1,7 @@
 tap "homebrew/bundle"
 brew "ffmpeg"
 brew "mise"
+brew "cloudflared"
 cask "claude"
 cask "docker-desktop"
 cask "google-chrome"
