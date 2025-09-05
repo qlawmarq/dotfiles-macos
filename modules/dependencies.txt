@@ -2,6 +2,7 @@
 # Format: module: dependency1 dependency2 ...
 
 claude: brew mise
+codex: brew mise
 vscode: brew
 brew: 
 mise: brew
