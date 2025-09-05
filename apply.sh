@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # ====================
-# Main dotfiles initialization script with dependency management
+# Main dotfiles application script with dependency management
 # ====================
 
 # Directory where this script is located
@@ -41,7 +41,7 @@ echo "     macOS Dotfiles Setup Tool      "
 echo "===================================="
 echo ""
 
-# List all available setup modules
+# List all available application modules
 MODULES=()
 MODULES_DIR="$SCRIPT_DIR/modules"
 
@@ -57,7 +57,7 @@ if [ ${#MODULES[@]} -eq 0 ]; then
     exit 1
 fi
 
-# Select which modules to install
+# Select which modules to apply
 select_modules "${MODULES[@]}"
 
 # No modules selected
@@ -193,7 +193,7 @@ for module in $RESOLVED_MODULES; do
     # Check if module init script exists
     if is_module_executable "$module" "$MODULES_DIR"; then
         # Execute module init script
-        if sh "$MODULES_DIR/$module/init.sh"; then
+        if sh "$MODULES_DIR/$module/apply.sh"; then
             print_success "$module setup completed"
             MODULE_STATUS="$MODULE_STATUS $module:success"
         else
@@ -222,7 +222,7 @@ for module in $RESOLVED_MODULES; do
             fi
         fi
     else
-        print_error "Setup script for $module not found at $MODULES_DIR/$module/init.sh"
+        print_error "Apply script for $module not found at $MODULES_DIR/$module/apply.sh"
         MODULE_STATUS="$MODULE_STATUS $module:missing"
     fi
     echo ""

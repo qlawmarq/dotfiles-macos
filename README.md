@@ -66,27 +66,27 @@ The scripts will check for and attempt to install other necessary dependencies a
 
 ## Usage
 
-### Initial Setup
+### Apply Settings
 
-When setting up a new Mac:
-
-```sh
-sh init.sh
-```
-
-- You will be prompted to select which modules to install.
-- The script will resolve dependencies and determine the correct installation order.
-- Each selected module will run its own setup script in the proper sequence.
-
-### Sync Configurations
-
-To synchronize configuration files (e.g., after updating dotfiles):
+When setting up a new Mac or applying configurations:
 
 ```sh
-sh sync.sh
+sh apply.sh
 ```
 
-- Select which modules to sync.
+- You will be prompted to select which modules to apply.
+- The script will resolve dependencies and determine the correct application order.
+- Each selected module will run its own apply script in the proper sequence.
+
+### Backup Configurations
+
+To backup current system settings to configuration files:
+
+```sh
+sh backup.sh
+```
+
+- Select which modules to backup.
 - Each selected module will run its sync script.
 
 ---
@@ -95,8 +95,8 @@ sh sync.sh
 
 Modules are located in the `modules/` directory. Each module is a subdirectory that can contain:
 
-- `init.sh` — Initialization script for setting up the module.
-- `sync.sh` — Script for syncing configuration files for the module.
+- `apply.sh` — Script for applying settings to the system.
+- `backup.sh` — Script for backing up current settings to configuration files.
 - Additional files or resources as needed.
 
 Example structure:
@@ -106,23 +106,23 @@ modules/
   ├── dependencies.txt     # Defines module dependencies
   ├── brew/
   │   ├── .Brewfile       # List of packages to install
-  │   ├── init.sh         # Installation script
-  │   └── sync.sh         # Synchronization script
+  │   ├── apply.sh         # Apply settings script
+  │   └── backup.sh         # Backup settings script
   ├── claude/
   │   ├── claude_desktop_config.json  # Configuration template
-  │   ├── init.sh                     # Installation script
-  │   └── sync.sh                     # Synchronization script
+  │   ├── apply.sh                     # Apply settings script
+  │   └── backup.sh                     # Backup settings script
   ├── finder/
   │   ├── finder-settings.txt         # Finder preferences configuration
-  │   ├── init.sh                     # Installation script
-  │   └── sync.sh                     # Synchronization script
+  │   ├── apply.sh                     # Apply settings script
+  │   └── backup.sh                     # Backup settings script
   ├── keyboard/
   │   ├── karabiner.json              # Karabiner-Elements configuration
   │   ├── complex_modifications/      # Karabiner complex modifications
   │   ├── keyboard-shortcuts.xml      # System keyboard shortcuts (XML export)
   │   ├── keyboard-settings.txt       # Application keyboard shortcuts
-  │   ├── init.sh                     # Installation script
-  │   └── sync.sh                     # Synchronization script
+  │   ├── apply.sh                     # Apply settings script
+  │   └── backup.sh                     # Backup settings script
   ├── ...
 ```
 
@@ -133,7 +133,7 @@ modules/
 You can easily add, remove, or modify modules to suit your needs:
 
 1. **Add a new module:**  
-   Create a new directory under `modules/` (e.g., `modules/mytool/`). Add `init.sh` and/or `sync.sh` as needed.
+   Create a new directory under `modules/` (e.g., `modules/mytool/`). Add `apply.sh` and/or `backup.sh` as needed.
 
 2. **Add module dependencies:**  
    Edit `modules/dependencies.txt` to define dependencies for your new module using the format:
@@ -143,7 +143,7 @@ You can easily add, remove, or modify modules to suit your needs:
    ```
 
 3. **Customize existing modules:**  
-   Edit the `init.sh` or `sync.sh` scripts within any module to change its setup or sync behavior.
+   Edit the `apply.sh` or `backup.sh` scripts within any module to change its setup or backup behavior.
 
 4. **Change the selection menu:**  
    The menu logic is handled in `lib/menu.sh`. You can modify this script to change how modules are presented or selected.
@@ -196,13 +196,13 @@ mynewmodule:
 
 ### Common Issues
 
-- **Module fails to install**: Check if all its dependencies were successfully installed. Try running the module's init script directly to see detailed error messages.
+- **Module fails to apply**: Check if all its dependencies were successfully applied. Try running the module's apply script directly to see detailed error messages.
 
 - **Dependency resolution error**: Ensure there are no circular dependencies in your `dependencies.txt` file.
 
 - **Permission issues**: Make sure all script files have execution permissions:
   ```sh
-  chmod +x init.sh sync.sh lib/*.sh modules/*/init.sh modules/*/sync.sh
+  chmod +x apply.sh backup.sh lib/*.sh modules/*/apply.sh modules/*/backup.sh
   ```
 
 ### Debug MCP server for Claude Desktop

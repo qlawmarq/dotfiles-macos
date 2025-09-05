@@ -44,7 +44,7 @@ else
         cp "$SCRIPT_DIR/karabiner.json" "$KARABINER_CONFIG_DIR/karabiner.json"
         echo "✓ Karabiner configuration applied"
     else
-        echo "Warning: karabiner.json not found. Run sync.sh first."
+        echo "Warning: karabiner.json not found. Run backup.sh first."
     fi
     
     # Copy complex modifications if they exist
@@ -70,7 +70,7 @@ if [ -f "$SHORTCUTS_XML" ]; then
     apply_all_symbolic_hotkeys_xml "$SHORTCUTS_XML"
 else
     echo "Warning: keyboard-shortcuts.xml not found. System shortcuts not restored."
-    echo "Run sync.sh first to capture current shortcuts."
+    echo "Run backup.sh first to capture current shortcuts."
 fi
 
 # Apply application-specific keyboard shortcuts from text file
