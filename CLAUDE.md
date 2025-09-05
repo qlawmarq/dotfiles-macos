@@ -24,10 +24,10 @@ Module dependencies are defined in `modules/dependencies.txt` (e.g., `claude: br
 
 ```bash
 # Initial setup - interactive module selection with dependency resolution
-sh init.sh
+sh apply.sh
 
-# Sync existing configurations
-sh sync.sh
+# Backup existing configurations
+sh backup.sh
 
 # Debug Claude MCP servers
 tail -n 20 -f ~/Library/Logs/Claude/mcp*.log
@@ -36,7 +36,7 @@ tail -n 20 -f ~/Library/Logs/Claude/mcp*.log
 ## Development Guidelines
 
 ### When modifying modules:
-1. Each module has `init.sh` (setup) and optionally `sync.sh` (update)
+1. Each module has `apply.sh` (apply settings) and optionally `backup.sh` (backup settings)
 2. Dependencies must be declared in `modules/dependencies.txt`
 3. Use the shared utilities in `lib/` for consistency:
    - `lib/utils.sh`: General utilities and macOS checks  
@@ -64,8 +64,8 @@ tail -n 20 -f ~/Library/Logs/Claude/mcp*.log
 ## Testing Changes
 
 When modifying setup scripts:
-1. Test module initialization: `sh modules/<module_name>/init.sh`
-2. Test full setup flow: `sh init.sh` (select specific modules)
+1. Test module application: `sh modules/<module_name>/apply.sh`
+2. Test full application flow: `sh apply.sh` (select specific modules)
 3. Verify dependencies are correctly resolved
 4. Check symlinks are created properly
 5. For keyboard module: Test that system shortcuts (including Input Source switching) are preserved
