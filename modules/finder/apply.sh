@@ -26,7 +26,7 @@ echo "Setting up Finder..."
 SETTINGS_FILE="$SCRIPT_DIR/finder-settings.txt"
 if [ ! -f "$SETTINGS_FILE" ]; then
     echo "Warning: No finder-settings.txt found."
-    echo "Run sync.sh first to capture current settings."
+    echo "Run backup.sh first to capture current settings."
     exit 1
 fi
 

@@ -185,13 +185,13 @@ get_all_dependencies() {
     echo "$all_deps"
 }
 
-# Checks if a module is executable (has init.sh)
+# Checks if a module is executable (has apply.sh)
 # Usage: is_module_executable "module_name" "modules_dir"
 is_module_executable() {
     local module="$1"
     local modules_dir="$2"
     
-    if [ -f "$modules_dir/$module/init.sh" ]; then
+    if [ -f "$modules_dir/$module/apply.sh" ]; then
         return 0
     else
         return 1
