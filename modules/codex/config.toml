@@ -1,8 +1,10 @@
+# Run `codex --profile azure-openai`
 [profiles.azure-openai]
 model_provider = "azure"
 model = "gpt-5"
 model_reasoning_effort = "high"
 hide_agent_reasoning = true
+sandbox_mode = "danger-full-access"
 
 [model_providers.azure]
 name = "Azure"
@@ -20,5 +22,10 @@ wire_api = "responses"
 command = "npx"
 args = ["-y", "@upstash/context7-mcp@latest"]
 
+[mcp_servers.fetch]
+command = "uvx"
+args = ["--native-tls", "mcp-server-fetch"]
+
 [tools]
+# Hosted tool `web_search` is not supported with current Azure OpenAI
 # web_search = true
