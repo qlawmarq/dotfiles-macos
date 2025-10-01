@@ -1,3 +1,10 @@
+model = "gpt-5-codex"
+model_reasoning_effort = "medium"
+hide_agent_reasoning = true
+sandbox_mode = "danger-full-access"
+file_opener = "vscode"
+notify = ["bash","-lc","afplay /System/Library/Sounds/Ping.aiff"]
+
 # Run `codex --profile azure-openai`
 [profiles.azure-openai]
 model_provider = "azure"
@@ -25,6 +32,10 @@ args = ["-y", "@upstash/context7-mcp@latest"]
 [mcp_servers.fetch]
 command = "uvx"
 args = ["--native-tls", "mcp-server-fetch"]
+
+[mcp_servers.playwright]
+command = "npx"
+args = ["-y", "@playwright/mcp"]
 
 [tools]
 # Hosted tool `web_search` is not supported with current Azure OpenAI
