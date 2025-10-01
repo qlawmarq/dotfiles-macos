@@ -32,12 +32,10 @@ if [ -f "$CLAUDE_CONFIG_DIR/claude_desktop_config.json" ]; then
     echo "Created temporary file: $TMP_CONFIG"
     
     # Process the configuration file in a single sed command
-    cat "$CLAUDE_CONFIG_DIR/claude_desktop_config.json" | \
-    sed -E "s|node/[0-9]+\.[0-9]+\.[0-9]+|node/\$NODE_VERSION|g; \
-            s|python/[0-9]+\.[0-9]+\.[0-9]+|python/\$PYTHON_VERSION|g; \
-            s|${HOME}|\$HOME|g; \
-            s|\"GITHUB_PERSONAL_ACCESS_TOKEN\": \"[^\"]*\"|\"GITHUB_PERSONAL_ACCESS_TOKEN\": \"\$GITHUB_TOKEN\"|g; \
-    > "$TMP_CONFIG"
+    cat "$CLAUDE_CONFIG_DIR/claude_desktop_config.json" | sed -E "s|node/[0-9]+\.[0-9]+\.[0-9]+|node/\$NODE_VERSION|g; \
+        s|python/[0-9]+\.[0-9]+\.[0-9]+|python/\$PYTHON_VERSION|g; \
+        s|${HOME}|\$HOME|g; \
+        s|\"GITHUB_PERSONAL_ACCESS_TOKEN\": \"[^\"]*\"|\"GITHUB_PERSONAL_ACCESS_TOKEN\": \"\$GITHUB_TOKEN\"|g;" > "$TMP_CONFIG"
     
     echo "Configuration processed. Checking file size..."
     
@@ -53,4 +51,18 @@ if [ -f "$CLAUDE_CONFIG_DIR/claude_desktop_config.json" ]; then
     fi
 else
     echo "Claude Desktop configuration file not found at $CLAUDE_CONFIG_DIR/claude_desktop_config.json"
+fi
+
+CLAUDE_CODE_SETTINGS_SOURCE="$HOME/.claude/settings.json"
+CLAUDE_CODE_SETTINGS_TARGET="$SCRIPT_DIR/settings.json"
+
+if [ -f "$CLAUDE_CODE_SETTINGS_SOURCE" ]; then
+    if confirm "Would you like to back up Claude Code settings?"; then
+        cp "$CLAUDE_CODE_SETTINGS_SOURCE" "$CLAUDE_CODE_SETTINGS_TARGET"
+        print_success "Claude Code settings synced to $CLAUDE_CODE_SETTINGS_TARGET"
+    else
+        print_warning "Skipping Claude Code settings backup"
+    fi
+else
+    print_warning "Claude Code settings file not found at $CLAUDE_CODE_SETTINGS_SOURCE"
 fi
