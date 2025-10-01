@@ -209,6 +209,25 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
     print_success "@anthropic-ai/claude-code installed"
     # Add MCP server globally from Claude Desktop
     claude mcp add-from-claude-desktop -s user
+
+    CLAUDE_CODE_SETTINGS_SOURCE="$SCRIPT_DIR/settings.json"
+    CLAUDE_CODE_SETTINGS_DIR="$HOME/.claude"
+    CLAUDE_CODE_SETTINGS_TARGET="$CLAUDE_CODE_SETTINGS_DIR/settings.json"
+
+    if [ -f "$CLAUDE_CODE_SETTINGS_SOURCE" ]; then
+        mkdir -p "$CLAUDE_CODE_SETTINGS_DIR"
+
+        if [ -f "$CLAUDE_CODE_SETTINGS_TARGET" ]; then
+            local_backup="$CLAUDE_CODE_SETTINGS_TARGET.$(date +%Y%m%d%H%M%S).bak"
+            cp "$CLAUDE_CODE_SETTINGS_TARGET" "$local_backup"
+            print_info "Existing Claude Code settings backed up to $local_backup"
+        fi
+
+        cp "$CLAUDE_CODE_SETTINGS_SOURCE" "$CLAUDE_CODE_SETTINGS_TARGET"
+        print_success "Claude Code settings applied to $CLAUDE_CODE_SETTINGS_TARGET"
+    else
+        print_warning "Claude Code settings template not found at $CLAUDE_CODE_SETTINGS_SOURCE"
+    fi
 fi
 
 print_success "Claude Desktop configuration updated successfully"
