@@ -45,6 +45,10 @@
       "env": {
         "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
       }
+    },
+    "chrome-tabs": {
+      "command": "npx",
+      "args": ["-y", "@pokutuna/mcp-chrome-tabs@latest"]
     }
   }
 }
