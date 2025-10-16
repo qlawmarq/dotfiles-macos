@@ -39,23 +39,9 @@
         "PATH": "$HOME/.local/share/mise/installs/python/$PYTHON_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
       }
     },
-    "youtube-transcript": {
-      "command": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin/npx",
-      "args": ["-y", "@kimtaeyoon83/mcp-server-youtube-transcript"],
-      "env": {
-        "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
-      }
-    },
     "playwright": {
       "command": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin/npx",
       "args": ["@playwright/mcp@latest"],
-      "env": {
-        "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
-      }
-    },
-    "claude_code": {
-      "command": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin/claude",
-      "args": ["mcp", "serve"],
       "env": {
         "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
       }
