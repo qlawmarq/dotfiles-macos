@@ -69,32 +69,7 @@ The scripts will check for and attempt to install other necessary dependencies a
 
 This repository provides a comprehensive Claude Code setup with:
 
-- **User-level configurations** (`~/.claude/`): Shared agents, commands, tools, and hooks available across all projects
-
-### Available Resources
-
-After running `sh apply.sh` (claude module), the following resources are available globally:
-
-**Agents** (`~/.claude/agents/`) - 日本語版:
-
-- `bug-hunter_JA`: 体系的なデバッグとバグ調査
-- `test-coverage_JA`: テストカバレッジ分析とテストケース提案
-- `security-guardian_JA`: セキュリティレビューと脆弱性評価
-
-**Commands** (`~/.claude/commands/`) - 日本語版:
-
-- `/transcripts_JA`: コンパクト後の会話履歴を復元
-- `/commit_JA`: Gitコミット作成支援
-
-**Tools** (`~/.claude/tools/`):
-
-- `hook_precompact.py`: トランスクリプトエクスポート（PreCompactフック）
-- `hook_logger.py`: フック用ログユーティリティ
-- `statusline-example.sh`: ステータスラインカスタマイズサンプル
-
-**Hooks** (`~/.claude/hooks/`):
-
-- `notify.sh`: 通知フック（タスク完了時の macOS 通知）
+- **Configurations** (`~/.claude/`): Shared agents, commands, tools, and hooks available across all projects
 
 ---
 

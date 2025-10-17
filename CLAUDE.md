@@ -69,25 +69,6 @@ tail -n 20 -f ~/Library/Logs/Claude/mcp*.log
 
 This repository provides user-level Claude Code configurations that are shared across all projects.
 
-### Available Resources
-
-**Agents** (`~/.claude/agents/`) - 日本語版:
-- **bug-hunter_JA**: 体系的なデバッグとバグ調査
-- **test-coverage_JA**: テストカバレッジ分析とテストケース提案
-- **security-guardian_JA**: セキュリティレビューと脆弱性評価
-
-**Commands** (`~/.claude/commands/`) - 日本語版:
-- **/transcripts_JA**: コンパクト後の会話履歴を復元
-- **/commit_JA**: Gitコミット作成支援
-
-**Tools** (`~/.claude/tools/`):
-- **hook_precompact.py**: トランスクリプトエクスポート（PreCompactフック）
-- **hook_logger.py**: フック用ログユーティリティ
-- **statusline-example.sh**: ステータスラインカスタマイズサンプル
-
-**Hooks** (`~/.claude/hooks/`):
-- **notify.sh**: 通知フック（タスク完了時の macOS 通知）
-
 These resources are automatically deployed to `~/.claude/` when running `sh apply.sh` (claude module).
 
 ## Testing Changes
