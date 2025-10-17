@@ -210,11 +210,10 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
     # Add MCP server globally from Claude Desktop
     claude mcp add-from-claude-desktop -s user
 
-    CLAUDE_CODE_SETTINGS_SOURCE="$SCRIPT_DIR/settings.json"
+    # Deploy Claude Code settings
     CLAUDE_CODE_SETTINGS_DIR="$HOME/.claude"
+    CLAUDE_CODE_SETTINGS_SOURCE="$SCRIPT_DIR/settings.json"
     CLAUDE_CODE_SETTINGS_TARGET="$CLAUDE_CODE_SETTINGS_DIR/settings.json"
-    CLAUDE_CODE_HOOKS_SOURCE="$SCRIPT_DIR/hooks"
-    CLAUDE_CODE_HOOKS_TARGET="$CLAUDE_CODE_SETTINGS_DIR/hooks"
 
     if [ -f "$CLAUDE_CODE_SETTINGS_SOURCE" ]; then
         mkdir -p "$CLAUDE_CODE_SETTINGS_DIR"
@@ -231,18 +230,29 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
         print_warning "Claude Code settings template not found at $CLAUDE_CODE_SETTINGS_SOURCE"
     fi
 
-    # Deploy hooks directory
-    if [ -d "$CLAUDE_CODE_HOOKS_SOURCE" ]; then
-        print_info "Deploying Claude Code hooks..."
-        mkdir -p "$CLAUDE_CODE_HOOKS_TARGET"
+    # Deploy Claude Code resources (agents, commands, tools, hooks)
+    print_info "Deploying Claude Code configurations..."
 
-        # Copy all hook scripts
-        cp -r "$CLAUDE_CODE_HOOKS_SOURCE"/* "$CLAUDE_CODE_HOOKS_TARGET/"
+    for resource_type in agents commands tools hooks; do
+        resource_dir="$SCRIPT_DIR/$resource_type"
 
-        # Ensure scripts are executable
-        chmod +x "$CLAUDE_CODE_HOOKS_TARGET"/*.sh 2>/dev/null || true
+        if [ -d "$resource_dir" ]; then
+            print_info "Deploying $resource_type..."
+            mkdir -p "$CLAUDE_CODE_SETTINGS_DIR/$resource_type"
+            cp -r "$resource_dir"/* "$CLAUDE_CODE_SETTINGS_DIR/$resource_type/" 2>/dev/null || true
 
-        print_success "Claude Code hooks deployed to $CLAUDE_CODE_HOOKS_TARGET"
+            # Set executable permissions for scripts
+            if [ "$resource_type" = "tools" ] || [ "$resource_type" = "hooks" ]; then
+                chmod +x "$CLAUDE_CODE_SETTINGS_DIR/$resource_type"/*.sh 2>/dev/null || true
+                chmod +x "$CLAUDE_CODE_SETTINGS_DIR/$resource_type"/*.py 2>/dev/null || true
+            fi
+
+            print_success "$resource_type deployed"
+        fi
+    done
+
+    # Setup notification permissions for hooks
+    if [ -d "$SCRIPT_DIR/hooks" ]; then
 
         # Setup notification permissions via Script Editor
         echo ""
@@ -278,8 +288,6 @@ EOF
             rm -f "$TEMP_SCRIPT"
             print_info "You can grant notification permissions later by running the script manually"
         fi
-    else
-        print_warning "Claude Code hooks directory not found at $CLAUDE_CODE_HOOKS_SOURCE"
     fi
 fi
 
