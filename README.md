@@ -39,6 +39,7 @@ The following modules are currently available:
 - **vscode**: Installs and configures Visual Studio Code and extensions
 - **finder**: Manages macOS Finder preferences and settings
 - **keyboard**: Manages keyboard shortcuts and Karabiner-Elements configuration using a hybrid approach for reliable system shortcut preservation
+- **claude**: Configures Claude Desktop with MCP servers and Claude Code with shared agents, commands, and tools
 
 Each module is independent but may depend on other modules for proper functionality.
 
@@ -61,6 +62,14 @@ Before running these scripts, ensure you have the following:
 - **git** (for cloning this repository, if not already downloaded)
 
 The scripts will check for and attempt to install other necessary dependencies as needed.
+
+---
+
+## Claude Code Configuration
+
+This repository provides a comprehensive Claude Code setup with:
+
+- **Configurations** (`~/.claude/`): Shared agents, commands, tools, and hooks available across all projects
 
 ---
 
