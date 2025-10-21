@@ -1,4 +1,4 @@
-name: "Base PRP Template v3 - Implementation-Focused with Precision Standards"
+name: "Base PRP Template - Implementation-Focused with Precision Standards"
 description: |
 
 ---

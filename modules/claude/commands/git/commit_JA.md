@@ -1,6 +1,6 @@
 ---
 description: Git コミット作成をサポート - 変更内容の分析とコミットメッセージの提案
-category: git
+category: version-control-git
 allowed-tools: Bash, Read, Grep, Glob
 argument-hint: (引数なし = 現在の変更を分析してコミット) または コミット戦略を記述 (例: "修正のみコミット", "段階的にコミット")
 ---
