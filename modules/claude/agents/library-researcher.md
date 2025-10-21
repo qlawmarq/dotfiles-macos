@@ -21,7 +21,7 @@ Research external libraries and APIs to provide:
 
 - Start with Archon MCP tools and check if we have relevant docs in the database
 - Use the RAG tools to search for relevant documentation, use specific keywords and context in your queries
-- Use websearch and webfetch to search official docs (check package registry for links)
+- Use websearch and fetch to search official docs (check package registry for links)
 - Find quickstart guides and API references
 - Identify code examples specific to the use case
 - Note version-specific features or breaking changes

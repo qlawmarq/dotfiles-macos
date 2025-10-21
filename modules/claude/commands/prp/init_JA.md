@@ -1,18 +1,21 @@
 ---
 description: 現在のプロジェクトにPRPディレクトリ構造を初期化
+category: prp
 allowed-tools: Bash, Write, Read, Glob
 ---
 
-# PRPフレームワークの初期化
+# PRP フレームワークの初期化
 
-現在のプロジェクトにProduct Requirement Prompt（PRP）フレームワークを初期化します。
+現在のプロジェクトに Product Requirement Prompt（PRP）フレームワークを初期化します。
+
+`~/.claude/project-template/PRPs/README_JA.md`に PRP フレームワークの概要が記載されています。
 
 ## このコマンドが行うこと
 
 1. 現在の作業ディレクトリに`PRPs/`ディレクトリ構造を作成
-2. ユーザーレベル設定（`~/.claude/project-template/PRPs/`）からPRPテンプレートをコピー
-3. 必要なサブディレクトリを作成（`templates/`, `scripts/`, `ai_docs/`, `completed/`）
-4. PRPフレームワークのドキュメントを含むREADME.mdをコピー
+2. ユーザーレベル設定（`~/.claude/project-template/PRPs/`）から PRP テンプレートをコピー
+3. 必要なサブディレクトリを作成（`templates/`, `ai_docs/`, `completed/`, `todo/`）
+4. PRP フレームワークのドキュメントを含む README.md をコピー
 5. 空のディレクトリに`.gitkeep`ファイルを作成
 
 ## 作成されるディレクトリ構造
@@ -24,11 +27,11 @@ PRPs/
 │   ├── prp_base_JA.md # 日本語版
 │   ├── prp_task.md    # タスク特化テンプレート
 │   └── prp_task_JA.md # 日本語版
-├── scripts/
-│   └── prp_runner.py  # PRP実行スクリプト
 ├── ai_docs/           # プロジェクト固有ドキュメント
 │   └── .gitkeep
 ├── completed/         # 完了したPRP
+│   └── .gitkeep
+├── todo/              # 未完了のPRP
 │   └── .gitkeep
 └── README.md          # PRPフレームワークガイド
 ```
@@ -45,10 +48,10 @@ PRPs/
 
 初期化後:
 
-1. **PRPを作成**: `/prp-create [機能]`を使用してPRPを生成
-2. **PRPを実行**: `/prp-execute PRPs/my-feature.md`で実装
-3. **AIドキュメントを追加**: `PRPs/ai_docs/`にライブラリ固有のドキュメントを配置
-4. **完了したPRPを移動**: 完了したPRPは`PRPs/completed/`に移動
+1. **PRP を作成**: `/prp-create [機能]`を使用して PRP を生成
+2. **PRP を実行**: `/prp-execute PRPs/my-feature.md`で実装
+3. **AI ドキュメントを追加**: `PRPs/ai_docs/`にライブラリ固有のドキュメントを配置
+4. **完了した PRP を移動**: 完了した PRP は`PRPs/completed/`に移動
 
 ## 実装プロセス
 
@@ -60,10 +63,11 @@ PRPs/
 
 ## 重要な注意事項
 
-- このコマンドは**現在のプロジェクト**のためにPRPフレームワークを初期化します
-- テンプレートはユーザーレベルのClaude Code設定からコピーされます
+- このコマンドは**現在のプロジェクト**のために PRP フレームワークを初期化します
+- テンプレートはユーザーレベルの Claude Code 設定からコピーされます
 - `PRPs/`が既に存在する場合、上書き前にプロンプトが表示されます
 - 初期化後、このプロジェクト固有のテンプレートをカスタマイズできます
+- 初期化後に`/prp-lang-setup`コマンドを実行することで既存のプロジェクト構成に最適な PRP テンプレートへと更新が行えます
 
 ## ワークフロー例
 

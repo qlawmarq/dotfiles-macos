@@ -1,5 +1,6 @@
 ---
 description: Initialize PRP directory structure in current project
+category: prp
 allowed-tools: Bash, Write, Read, Glob
 ---
 
@@ -7,11 +8,13 @@ allowed-tools: Bash, Write, Read, Glob
 
 Initialize the Product Requirement Prompt (PRP) framework in the current project.
 
+What is PRP: `~/.claude/project-template/PRPs/README.md`.
+
 ## What This Command Does
 
 1. Creates `PRPs/` directory structure in the current working directory
 2. Copies PRP templates from user-level configuration (`~/.claude/project-template/PRPs/`)
-3. Creates necessary subdirectories (`templates/`, `scripts/`, `ai_docs/`, `completed/`)
+3. Creates necessary subdirectories (`templates/`, `ai_docs/`, `completed/`)
 4. Copies README.md with PRP framework documentation
 5. Creates `.gitkeep` files for empty directories
 
@@ -24,11 +27,11 @@ PRPs/
 │   ├── prp_base_JA.md # Japanese version
 │   ├── prp_task.md    # Task-specific template
 │   └── prp_task_JA.md # Japanese version
-├── scripts/
-│   └── prp_runner.py  # PRP execution script
 ├── ai_docs/           # Project-specific documentation
 │   └── .gitkeep
 ├── completed/         # Completed PRPs
+│   └── .gitkeep
+├── todo/              # TODO PRPs
 │   └── .gitkeep
 └── README.md          # PRP framework guide
 ```
@@ -60,10 +63,11 @@ After initialization:
 
 ## Important Notes
 
-- This command initializes the PRP framework **for the current project**
-- Templates are copied from your user-level Claude Code configuration
-- If `PRPs/` already exists, you'll be prompted before overwriting
-- After initialization, you can customize templates for this specific project
+- This command initializes the PRP framework for **the current project**.
+- Templates are copied from your user-level Claude Code settings.
+- If `PRPs/` already exists, you will be prompted before it is overwritten.
+- After initialization, project owner can customize these project-specific templates.
+- After initialization, project owner can run the `/prp-lang-setup` command to update the PRP templates to best suit existing project configuration.
 
 ## Example Workflow
 
