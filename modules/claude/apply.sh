@@ -230,14 +230,28 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
         print_warning "Claude Code settings template not found at $CLAUDE_CODE_SETTINGS_SOURCE"
     fi
 
-    # Deploy Claude Code resources (agents, commands, tools, hooks)
+    # Deploy Claude Code resources (agents, commands, tools, hooks, project-template)
     print_info "Deploying Claude Code configurations..."
 
-    for resource_type in agents commands tools hooks; do
+    # Ask if user wants to clean up old files
+    CLEANUP_MODE=false
+    if confirm "Would you like to clean up old files before deploying? (removes all existing files in each resource directory)"; then
+        CLEANUP_MODE=true
+        print_warning "Cleanup mode enabled - old files will be removed"
+    fi
+
+    for resource_type in agents commands tools hooks project-template; do
         resource_dir="$SCRIPT_DIR/$resource_type"
 
         if [ -d "$resource_dir" ]; then
             print_info "Deploying $resource_type..."
+
+            # Clean up if requested
+            if [ "$CLEANUP_MODE" = true ] && [ -d "$CLAUDE_CODE_SETTINGS_DIR/$resource_type" ]; then
+                print_warning "Removing old $resource_type..."
+                rm -rf "$CLAUDE_CODE_SETTINGS_DIR/$resource_type"
+            fi
+
             mkdir -p "$CLAUDE_CODE_SETTINGS_DIR/$resource_type"
             cp -r "$resource_dir"/* "$CLAUDE_CODE_SETTINGS_DIR/$resource_type/" 2>/dev/null || true
 
