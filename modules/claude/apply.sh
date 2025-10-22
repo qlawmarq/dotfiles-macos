@@ -240,7 +240,7 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
         print_warning "Cleanup mode enabled - old files will be removed"
     fi
 
-    for resource_type in agents commands tools hooks project-template; do
+    for resource_type in agents commands tools hooks project-template skills; do
         resource_dir="$SCRIPT_DIR/$resource_type"
 
         if [ -d "$resource_dir" ]; then
