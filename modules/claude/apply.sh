@@ -246,6 +246,15 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
         if [ -d "$resource_dir" ]; then
             print_info "Deploying $resource_type..."
 
+            # Skills-specific cleanup warning (protect user-created skills)
+            if [ "$CLEANUP_MODE" = true ] && [ "$resource_type" = "skills" ] && [ -d "$CLAUDE_CODE_SETTINGS_DIR/skills" ]; then
+                print_warning "WARNING: Cleanup will remove ALL skills including any you created manually"
+                if ! confirm "Are you sure you want to remove existing skills?"; then
+                    print_info "Skipping skills cleanup"
+                    continue  # Skip to next resource type
+                fi
+            fi
+
             # Clean up if requested
             if [ "$CLEANUP_MODE" = true ] && [ -d "$CLAUDE_CODE_SETTINGS_DIR/$resource_type" ]; then
                 print_warning "Removing old $resource_type..."
