@@ -256,9 +256,9 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
             cp -r "$resource_dir"/* "$CLAUDE_CODE_SETTINGS_DIR/$resource_type/" 2>/dev/null || true
 
             # Set executable permissions for scripts
-            if [ "$resource_type" = "tools" ] || [ "$resource_type" = "hooks" ]; then
-                chmod +x "$CLAUDE_CODE_SETTINGS_DIR/$resource_type"/*.sh 2>/dev/null || true
-                chmod +x "$CLAUDE_CODE_SETTINGS_DIR/$resource_type"/*.py 2>/dev/null || true
+            if [ "$resource_type" = "tools" ] || [ "$resource_type" = "hooks" ] || [ "$resource_type" = "skills" ]; then
+                # Use find to handle nested directory structures (skills may have subdirectories with scripts)
+                find "$CLAUDE_CODE_SETTINGS_DIR/$resource_type" -type f \( -name "*.sh" -o -name "*.py" \) -exec chmod +x {} \; 2>/dev/null || true
             fi
 
             print_success "$resource_type deployed"
