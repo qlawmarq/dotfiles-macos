@@ -262,7 +262,9 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
             fi
 
             mkdir -p "$CLAUDE_CODE_SETTINGS_DIR/$resource_type"
-            cp -r "$resource_dir"/* "$CLAUDE_CODE_SETTINGS_DIR/$resource_type/" 2>/dev/null || true
+            if ! cp -r "$resource_dir"/* "$CLAUDE_CODE_SETTINGS_DIR/$resource_type/" 2>/dev/null; then
+                print_warning "Failed to copy some $resource_type files - please check permissions"
+            fi
 
             # Set executable permissions for scripts
             if [ "$resource_type" = "tools" ] || [ "$resource_type" = "hooks" ] || [ "$resource_type" = "skills" ]; then
