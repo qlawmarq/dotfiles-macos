@@ -240,7 +240,7 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
         print_warning "Cleanup mode enabled - old files will be removed"
     fi
 
-    for resource_type in agents commands tools hooks project-template; do
+    for resource_type in agents commands tools hooks project-template skills; do
         resource_dir="$SCRIPT_DIR/$resource_type"
 
         if [ -d "$resource_dir" ]; then
@@ -253,12 +253,14 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
             fi
 
             mkdir -p "$CLAUDE_CODE_SETTINGS_DIR/$resource_type"
-            cp -r "$resource_dir"/* "$CLAUDE_CODE_SETTINGS_DIR/$resource_type/" 2>/dev/null || true
+            if ! cp -r "$resource_dir"/* "$CLAUDE_CODE_SETTINGS_DIR/$resource_type/" 2>/dev/null; then
+                print_warning "Failed to copy some $resource_type files - please check permissions"
+            fi
 
             # Set executable permissions for scripts
-            if [ "$resource_type" = "tools" ] || [ "$resource_type" = "hooks" ]; then
-                chmod +x "$CLAUDE_CODE_SETTINGS_DIR/$resource_type"/*.sh 2>/dev/null || true
-                chmod +x "$CLAUDE_CODE_SETTINGS_DIR/$resource_type"/*.py 2>/dev/null || true
+            if [ "$resource_type" = "tools" ] || [ "$resource_type" = "hooks" ] || [ "$resource_type" = "skills" ]; then
+                # Use find to handle nested directory structures (skills may have subdirectories with scripts)
+                find "$CLAUDE_CODE_SETTINGS_DIR/$resource_type" -type f \( -name "*.sh" -o -name "*.py" \) -exec chmod +x {} \; 2>/dev/null || true
             fi
 
             print_success "$resource_type deployed"
