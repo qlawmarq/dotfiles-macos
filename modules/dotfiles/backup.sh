@@ -25,3 +25,9 @@ if [ -f ~/.zshrc ]; then
     cp ~/.zshrc "${SCRIPT_DIR}/.zshrc"
     echo "✓ .zshrc synced"
 fi
+
+# .tmux.conf
+if [ -f ~/.tmux.conf ]; then
+    cp ~/.tmux.conf "${SCRIPT_DIR}/.tmux.conf"
+    echo "✓ .tmux.conf synced"
+fi
