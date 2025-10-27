@@ -38,14 +38,14 @@ fi
 
 SAFE_COMMANDS=(
   # Read-only file operations
-  "cat " "head " "tail " "less " "more "
-  "ls " "ls$" "pwd" "file " "stat " "du " "df " "tree "
+  "cat" "head" "tail" "less" "more"
+  "ls" "pwd" "file" "stat" "du" "df" "tree"
 
   # Search and text processing (read-only)
-  "find " "grep " "awk " "sed -n" "jq " "diff " "wc "
+  "find" "grep" "awk" "sed -n" "jq" "diff" "wc"
 
   # Environment inspection
-  "echo " "which " "type " "env" "printenv" "whoami" "hostname"
+  "echo" "which" "type" "env" "printenv" "whoami" "hostname"
   "uname" "date" "uptime"
 
   # Version checks
@@ -84,13 +84,13 @@ SAFE_COMMANDS=(
   "asdf current" "asdf list" "asdf where"
 
   # Utility wrappers
-  "time " "timeout "
+  "time" "timeout"
 
   # Path utilities
   "basename" "dirname" "realpath" "readlink"
 
   # Directory navigation (safe)
-  "cd "
+  "cd"
 )
 
 # ============================================================
@@ -106,8 +106,11 @@ is_safe_command() {
   [ -z "$cmd" ] && return 1
 
   # Check against whitelist
-  for prefix in "${SAFE_COMMANDS[@]}"; do
-    if [[ "$cmd" == $prefix* ]]; then
+  for pattern in "${SAFE_COMMANDS[@]}"; do
+    # Match if:
+    # 1. Exact match (e.g., "ls" matches pattern "ls")
+    # 2. Starts with pattern + space (e.g., "ls -la" matches pattern "ls")
+    if [[ "$cmd" == "$pattern" ]] || [[ "$cmd" == "$pattern "* ]]; then
       return 0  # Safe
     fi
   done
