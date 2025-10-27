@@ -70,6 +70,34 @@ The scripts will check for and attempt to install other necessary dependencies a
 This repository provides a comprehensive Claude Code setup with:
 
 - **Configurations** (`~/.claude/`): Shared agents, commands, tools, and hooks available across all projects
+- **Permission Automation**: Hybrid approach using Permission Modes + PreToolUse Hooks to reduce permission prompts
+  - File edits auto-approved during session (`defaultMode: "acceptEdits"`)
+  - Safe read-only commands auto-approved (cat, ls, grep, git status, etc.)
+  - Build/test/lint commands auto-approved (pnpm test, npm run build, etc.)
+  - Dangerous commands blocked or require confirmation (sudo, rm -rf, git push, etc.)
+
+### Permission Automation Details
+
+The claude module configures automatic permission handling through two mechanisms:
+
+1. **Permission Mode** (`defaultMode: "acceptEdits"`):
+
+   - File Edit/Write operations are automatically approved for the session
+   - Reduces interruptions when Claude modifies code
+
+2. **PreToolUse Hook** (`hooks/auto-approve-safe-commands.sh`):
+   - Automatically approves safe bash commands without prompting
+   - Uses whitelist approach - only known-safe commands are auto-approved
+   - Handles complex commands with shell operators (&&, ||, ;, |)
+   - Categories of auto-approved commands:
+     - Read-only: `cat`, `ls`, `grep`, `find`, `head`, `tail`, etc.
+     - Git read: `git status`, `git diff`, `git log`, `git show`, etc.
+     - Testing: `pnpm test`, `npm test`, `pytest`, `jest`, etc.
+     - Linting: `eslint`, `prettier`, `ruff check`, `black`, etc.
+     - Building: `pnpm build`, `npm run dev`, `cargo build`, etc.
+   - Unknown commands prompt for user approval (fail-safe approach)
+
+You can customize the auto-approved patterns by editing `~/.claude/hooks/auto-approve-safe-commands.sh`.
 
 ---
 

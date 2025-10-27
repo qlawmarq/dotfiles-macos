@@ -71,6 +71,39 @@ This repository provides user-level Claude Code configurations that are shared a
 
 These resources are automatically deployed to `~/.claude/` when running `sh apply.sh` (claude module).
 
+### Permission Automation System
+
+The claude module implements a hybrid permission automation system to reduce manual approval prompts:
+
+**Components:**
+
+1. `modules/claude/settings.json` - Base configuration with:
+
+   - `permissions.defaultMode: "acceptEdits"` - Auto-approve file edits during session
+   - `permissions.allow` - Whitelist for safe MCP tools and specific Bash patterns
+   - `permissions.ask` - Confirmation required for risky operations (git push, npm install)
+   - `permissions.deny` - Block dangerous operations (sudo, sensitive file reads)
+
+2. `modules/claude/hooks/auto-approve-safe-commands.sh` - PreToolUse hook that:
+   - Auto-approves read-only commands (cat, ls, grep, git status, etc.)
+   - Auto-approves build/test/lint commands (pnpm test, npm run build, etc.)
+   - Handles shell operators (&&, ||, ;, |) - ALL parts must be safe
+   - Uses fail-safe whitelist approach - unknown commands require user approval
+   - Does NOT block commands (blocking is handled by permissions.deny)
+
+**Important Notes:**
+
+- Bash permission patterns use `:*` suffix for prefix matching (not `*`)
+- Example: `Bash(git status:*)` matches "git status", "git status --short", etc.
+- Patterns like `Bash(pnpm *)` are INVALID and will not work
+- The PreToolUse hook provides more flexible pattern matching using regex
+
+**Customization:**
+
+- User-level: Edit `~/.claude/settings.json` for global overrides
+- Project-level: Use `.claude/settings.local.json` for project-specific rules
+- Hook script: Modify `~/.claude/hooks/auto-approve-safe-commands.sh` for custom patterns
+
 ## Testing Changes
 
 When modifying setup scripts:
