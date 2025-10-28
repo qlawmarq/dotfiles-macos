@@ -61,18 +61,26 @@ SAFE_COMMANDS=(
   "git check-ignore" "git ls-files" "git ls-tree" "git rev-list"
   "git count-objects" "git fsck" "git show-ref"
 
+  # Git operations that modify local state but are generally safe
+  "git fetch" "git add" "git commit"
+
   # Package manager safe operations
-  "pnpm test" "pnpm run test" "pnpm lint" "pnpm run lint"
-  "pnpm build" "pnpm run build" "pnpm dev" "pnpm run dev"
-  "pnpm check" "pnpm run check" "pnpm prettier" "pnpm eslint"
-  "npm test" "npm run test" "npm run lint" "npm run build" "npm run dev"
+  "pnpm test" "pnpm run test" "pnpm lint" "pnpm dev"
+  "pnpm build" "pnpm run build" "pnpm dev" "pnpm type-check"
+  "pnpm check" "pnpm run check" "pnpm format" "pnpm list"
+  "pnpm --filter" "pnpm vitest"
+  "npm test" "npm run"
   "yarn test" "yarn lint" "yarn build" "yarn dev"
-  "bun test" "bun run test" "bun run build"
+  "bun test" "bun run"
+
+  # JavaScript/TypeScript tooling
+  "eslint" "prettier" "tsc --noEmit" "vite"
+  "npx playwright" "npx tsc --noEmit"
 
   # Python tooling
-  "pytest" "python -m pytest" "python3 -m pytest"
+  "pytest" "python -m" "python3 -m pytest"
   "ruff check" "ruff format" "black --check" "mypy"
-  "uv run pytest" "uv run ruff" "uv run black" "uv run mypy"
+  "uv run"
 
   # Build tools
   "make build" "make test" "make clean"
