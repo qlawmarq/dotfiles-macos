@@ -155,7 +155,15 @@ IFS="$IFS_BACKUP"
 # ============================================================
 
 if [ "$all_safe" = true ]; then
+  # Return JSON to bypass permission system
+  jq -n '{
+    hookSpecificOutput: {
+      hookEventName: "PreToolUse",
+      permissionDecision: "allow"
+    }
+  }'
   exit 0  # Auto-approve - all parts are safe
 else
-  exit 1  # Ask user - at least one part is unknown/unsafe
+  # Don't make a decision - let normal permission check handle it
+  exit 0  # Defer to normal permission check
 fi
