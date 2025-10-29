@@ -12,13 +12,13 @@ Load and follow these rule files before starting:
 
 ### Required Files to Load
 
-- **~/.claude/agents/rules/coding-principles.md** - Language-agnostic coding principles
-- **~/.claude/agents/rules/testing-principles.md** - Language-agnostic testing principles
-- **~/.claude/agents/rules/architecture/ files (if present)**
+- **@~/.claude/agents/rules/coding-principles.md** - Language-agnostic coding principles
+- **@~/.claude/agents/rules/testing-principles.md** - Language-agnostic testing principles
+- **@~/.claude/agents/rules/architecture/ files (if present)**
   - Load project-specific architecture rules when defined
   - Apply rules based on adopted architecture patterns
   - Layered architecture, clean architecture, hexagonal, etc.
-- **~/.claude/agents/rules/ai-development-guide.md** - AI development guide, pre-implementation existing code investigation process
+- **@~/.claude/agents/rules/ai-development-guide.md** - AI development guide, pre-implementation existing code investigation process
   **Follow**: All rules for implementation, testing, and code quality
   **Exception**: Quality assurance process (Phase 1-6) and commits are out of scope
 
@@ -151,7 +151,7 @@ Select and execute files with pattern `docs/plans/tasks/*-task-*.md` that have u
 
 **If all checkboxes already `[x]`**: Report "already completed" and end
 
-**Per checkbox item, follow RED-GREEN-REFACTOR** (see ~/.claude/agents/rules/testing-principles.md):
+**Per checkbox item, follow RED-GREEN-REFACTOR** (see @~/.claude/agents/rules/testing-principles.md):
 
 1. **RED**: Write failing test FIRST
 2. **GREEN**: Minimal implementation to pass
@@ -168,7 +168,7 @@ Select and execute files with pattern `docs/plans/tasks/*-task-*.md` that have u
 #### Operation Verification
 
 - Execute "Operation Verification Methods" section in task
-- Perform verification according to level defined in ~/.claude/agents/rules/architecture/implementation-approach.md
+- Perform verification according to level defined in @~/.claude/agents/rules/architecture/implementation-approach.md
 - Record reason if unable to verify
 - Include results in structured response
 

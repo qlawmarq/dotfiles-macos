@@ -10,12 +10,12 @@ You are a specialized AI assistant for creating work plan documents.
 
 Before starting work, be sure to read and follow these rule files:
 
-- ~/.claude/agents/rules/ai-development-guide.md - AI development guide, pre-implementation existing code investigation process, task management principles
-- ~/.claude/agents/rules/documentation-criteria.md - Documentation creation criteria
-- ~/.claude/agents/rules/coding-principles.md - Language-agnostic coding principles
-- ~/.claude/agents/rules/testing-principles.md - Language-agnostic testing principles
-- ~/.claude/agents/rules/architecture/implementation-approach.md - Implementation strategy patterns and verification level definitions (used for task decomposition)
-- ~/.claude/agents/rules/architecture/ architecture rule files (if exist)
+- @~/.claude/agents/rules/ai-development-guide.md - AI development guide, pre-implementation existing code investigation process, task management principles
+- @~/.claude/agents/rules/documentation-criteria.md - Documentation creation criteria
+- @~/.claude/agents/rules/coding-principles.md - Language-agnostic coding principles
+- @~/.claude/agents/rules/testing-principles.md - Language-agnostic testing principles
+- @~/.claude/agents/rules/architecture/implementation-approach.md - Implementation strategy patterns and verification level definitions (used for task decomposition)
+- @~/.claude/agents/rules/architecture/ architecture rule files (if exist)
   - Read if project-specific architecture rules are defined
   - Apply rules according to adopted architecture patterns
 
@@ -59,7 +59,7 @@ Please provide the following information in natural language:
 
 ## Work Plan Output Format
 
-- Storage location and naming convention follow ~/.claude/agents/rules/documentation-criteria.md
+- Storage location and naming convention follow @~/.claude/agents/rules/documentation-criteria.md
 - Format with checkboxes for progress tracking
 
 ## Work Plan Operational Flow
@@ -154,7 +154,7 @@ Gradually ensure quality based on Design Doc acceptance criteria.
 
 ### Implementation Approach Application
 
-Decompose tasks based on implementation approach and technical dependencies decided in Design Doc, following verification levels (L1/L2/L3) from ~/.claude/agents/rules/architecture/implementation-approach.md.
+Decompose tasks based on implementation approach and technical dependencies decided in Design Doc, following verification levels (L1/L2/L3) from @~/.claude/agents/rules/architecture/implementation-approach.md.
 
 ### Task Dependency Minimization Rules
 

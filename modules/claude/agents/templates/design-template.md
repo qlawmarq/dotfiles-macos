@@ -14,14 +14,17 @@
 ### Agreement Checklist
 
 #### Scope
+
 - [ ] [Features/components to change]
 - [ ] [Features to add]
 
 #### Non-Scope (Explicitly not changing)
+
 - [ ] [Features/components not to change]
 - [ ] [Existing logic to preserve]
 
 #### Constraints
+
 - [ ] Parallel operation: [Yes/No]
 - [ ] Backward compatibility: [Required/Not required]
 - [ ] Performance measurement: [Required/Not required]
@@ -63,12 +66,14 @@ These conditions serve as the basis for test cases and are used to objectively d
 ## Existing Codebase Analysis
 
 ### Implementation Path Mapping
-| Type | Path | Description |
-|------|------|-------------|
-| Existing | src/[actual-path] | [Current implementation] |
-| New | src/[planned-path] | [Planned new creation] |
+
+| Type     | Path               | Description              |
+| -------- | ------------------ | ------------------------ |
+| Existing | src/[actual-path]  | [Current implementation] |
+| New      | src/[planned-path] | [Planned new creation]   |
 
 ### Integration Points (Include even for new implementations)
+
 - **Integration Target**: [What to connect with]
 - **Invocation Method**: [How it will be invoked]
 
@@ -100,10 +105,10 @@ No Ripple Effect:
 
 ### Integration Points List
 
-| Integration Point | Location | Old Implementation | New Implementation | Switching Method |
-|-------------------|----------|-------------------|-------------------|------------------|
-| Integration Point 1 | [Class/Function] | [Existing Process] | [New Process] | [DI/Factory etc.] |
-| Integration Point 2 | [Another Location] | [Existing] | [New] | [Method] |
+| Integration Point   | Location           | Old Implementation | New Implementation | Switching Method  |
+| ------------------- | ------------------ | ------------------ | ------------------ | ----------------- |
+| Integration Point 1 | [Class/Function]   | [Existing Process] | [New Process]      | [DI/Factory etc.] |
+| Integration Point 2 | [Another Location] | [Existing]         | [New]              | [Method]          |
 
 ### Main Components
 
@@ -151,8 +156,7 @@ State Definition:
   - Initial State: [Initial values and conditions]
   - Possible States: [List of states]
 
-State Transitions:
-  Current State → Event → Next State
+State Transitions: Current State → Event → Next State
 
 System Invariants:
   - [Conditions that hold in any state]
@@ -176,7 +180,9 @@ System Invariants:
 ### Technical Dependencies and Implementation Order
 
 #### Required Implementation Order
+
 1. **[Component/Feature A]**
+
    - Technical Reason: [Why this needs to be implemented first]
    - Dependent Elements: [Other components that depend on this]
 
@@ -185,13 +191,16 @@ System Invariants:
    - Prerequisites: [Required pre-implementations]
 
 ### Integration Points
+
 Each integration point requires E2E verification:
 
 **Integration Point 1: [Name]**
+
 - Components: [Component A] → [Component B]
 - Verification: [How to verify integration works]
 
 **Integration Point 2: [Name]**
+
 - Components: [Component B] → [Component C]
 - Verification: [How to verify integration works]
 
@@ -204,28 +213,33 @@ Each integration point requires E2E verification:
 ### Basic Test Design Policy
 
 Automatically derive test cases from acceptance criteria:
+
 - Create at least one test case for each acceptance criterion
 - Implement measurable standards from acceptance criteria as assertions
 
 ### Unit Tests
 
 [Unit testing policy and coverage goals]
+
 - Verify individual elements of functional acceptance criteria
 
 ### Integration Tests
 
 [Integration testing policy and important test cases]
+
 - Verify combined operations of functional acceptance criteria
 
 ### E2E Tests
 
 [E2E testing policy]
+
 - Verify entire scenarios of acceptance criteria
 - Confirm functional operation from user perspective
 
 ### Performance Tests
 
 [Performance testing methods and standards]
+
 - Verify performance standards of non-functional acceptance criteria
 
 ## Security Considerations
@@ -247,8 +261,8 @@ Automatically derive test cases from acceptance criteria:
 
 ## Risks and Mitigation
 
-| Risk | Impact | Probability | Mitigation |
-|------|--------|-------------|------------|
+| Risk     | Impact          | Probability     | Mitigation       |
+| -------- | --------------- | --------------- | ---------------- |
 | [Risk 1] | High/Medium/Low | High/Medium/Low | [Countermeasure] |
 
 ## References
@@ -257,6 +271,6 @@ Automatically derive test cases from acceptance criteria:
 
 ## Update History
 
-| Date | Version | Changes | Author |
-|------|---------|---------|--------|
-| YYYY-MM-DD | 1.0 | Initial version | [Name] |
+| Date       | Version | Changes         | Author |
+| ---------- | ------- | --------------- | ------ |
+| YYYY-MM-DD | 1.0     | Initial version | [Name] |

@@ -165,12 +165,12 @@ Interface Change Matrix:
 
 ## Storage Locations
 
-| Document   | Path           | Naming Convention                  | Template                                        |
-| ---------- | -------------- | ---------------------------------- | ----------------------------------------------- |
-| PRD        | `docs/prd/`    | `[feature-name]-prd.md`            | `~/.claude/agents/templates/prd-template.md`    |
-| ADR        | `docs/adr/`    | `ADR-[4-digits]-[title].md`        | `~/.claude/agents/templates/adr-template.md`    |
-| Design Doc | `docs/design/` | `[feature-name]-design.md`         | `~/.claude/agents/templates/design-template.md` |
-| Work Plan  | `docs/plans/`  | `YYYYMMDD-{type}-{description}.md` | `~/.claude/agents/templates/plan-template.md`   |
+| Document   | Path           | Naming Convention                  | Template                                         |
+| ---------- | -------------- | ---------------------------------- | ------------------------------------------------ |
+| PRD        | `docs/prd/`    | `[feature-name]-prd.md`            | `@~/.claude/agents/templates/prd-template.md`    |
+| ADR        | `docs/adr/`    | `ADR-[4-digits]-[title].md`        | `@~/.claude/agents/templates/adr-template.md`    |
+| Design Doc | `docs/design/` | `[feature-name]-design.md`         | `@~/.claude/agents/templates/design-template.md` |
+| Work Plan  | `docs/plans/`  | `YYYYMMDD-{type}-{description}.md` | `@~/.claude/agents/templates/plan-template.md`   |
 
 \*Note: Work plans are excluded by `.gitignore`
 

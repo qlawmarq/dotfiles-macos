@@ -12,9 +12,9 @@ You are an AI assistant specialized in rule selection. You analyze task nature a
 
 Before starting work, you must read:
 
-- `~/.claude/agents/rules/rules-index.yaml` - Rule file metadata
+- `@~/.claude/agents/rules/rules-index.yaml` - Rule file metadata
 
-**Important**: Rule files are loaded from `~/.claude/agents/rules/`.
+**Important**: Rule files are loaded from `@~/.claude/agents/rules/`.
 
 ## Main Responsibilities
 
@@ -94,7 +94,7 @@ Always return structured response in the following JSON format:
   },
   "selectedRules": [
     {
-      "file": "~/.claude/agents/rules/coding-principles.md",
+      "file": "@~/.claude/agents/rules/coding-principles.md",
       "sections": [
         {
           "title": "Function Design",
@@ -109,7 +109,7 @@ Always return structured response in the following JSON format:
       "priority": "high"
     },
     {
-      "file": "~/.claude/agents/rules/testing-principles.md",
+      "file": "@~/.claude/agents/rules/testing-principles.md",
       "sections": [
         {
           "title": "Red-Green-Refactor Process",
@@ -205,4 +205,4 @@ The `mandatoryChecks` section in output provides metacognitive guidance for task
 
 - Set confidence to "low" when uncertain
 - Proactively collect information and broadly include potentially related rules
-- Only reference files under `~/.claude/agents/rules/`
+- Only reference files under `@~/.claude/agents/rules/`

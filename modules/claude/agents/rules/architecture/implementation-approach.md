@@ -7,6 +7,7 @@
 **Core Question**: "What does the existing implementation look like?"
 
 #### Analysis Framework
+
 ```yaml
 Architecture Analysis: Responsibility separation, data flow, dependencies, technical debt
 Implementation Quality Assessment: Code quality, test coverage, performance, security
@@ -14,6 +15,7 @@ Historical Context Understanding: Current form rationale, past decision validity
 ```
 
 #### Meta-cognitive Question List
+
 - What is the true responsibility of this implementation?
 - Which parts are business essence and which derive from technical constraints?
 - What dependencies or implicit preconditions are unclear from the code?
@@ -24,6 +26,7 @@ Historical Context Understanding: Current form rationale, past decision validity
 **Core Question**: "When determining before → after, what implementation patterns or strategies should be referenced?"
 
 #### Strategy Discovery Process
+
 ```yaml
 Research and Exploration: Tech stack examples (WebSearch), similar projects, OSS references, literature/blogs
 Creative Thinking: Strategy combinations, constraint-based design, phase division, extension point design
@@ -32,16 +35,19 @@ Creative Thinking: Strategy combinations, constraint-based design, phase divisio
 #### Reference Strategy Patterns (Creative Combinations Encouraged)
 
 **Legacy Handling Strategies**:
+
 - Strangler Pattern: Gradual migration through phased replacement
 - Facade Pattern: Complexity hiding through unified interface
 - Adapter Pattern: Bridge with existing systems
 
 **New Development Strategies**:
+
 - Feature-driven Development: Vertical implementation prioritizing user value
 - Foundation-driven Development: Foundation-first construction prioritizing stability
 - Risk-driven Development: Prioritize addressing maximum risk elements
 
 **Integration/Migration Strategies**:
+
 - Proxy Pattern: Transparent feature extension
 - Decorator Pattern: Phased enhancement of existing features
 - Bridge Pattern: Flexibility through abstraction
@@ -53,6 +59,7 @@ Creative Thinking: Strategy combinations, constraint-based design, phase divisio
 **Core Question**: "What risks arise when applying this to existing implementation, and what's the best way to control them?"
 
 #### Risk Analysis Matrix
+
 ```yaml
 Technical Risks: System impact, data consistency, performance degradation, integration complexity
 Operational Risks: Service availability, deployment downtime, process changes, rollback procedures
@@ -60,6 +67,7 @@ Project Risks: Schedule delays, learning costs, quality achievement, team coordi
 ```
 
 #### Risk Control Strategies
+
 ```yaml
 Preventive Measures: Phased migration, parallel operation verification, integration/regression tests, monitoring setup
 Incident Response: Rollback procedures, log/metrics preparation, communication system, service continuation procedures
@@ -70,6 +78,7 @@ Incident Response: Rollback procedures, log/metrics preparation, communication s
 **Core Question**: "What are this project's constraints?"
 
 #### Constraint Checklist
+
 ```yaml
 Technical Constraints: Library compatibility, resource capacity, mandatory requirements, numerical targets
 Temporal Constraints: Deadlines/priorities, dependencies, milestones, learning periods
@@ -82,16 +91,19 @@ Business Constraints: Market launch timing, customer impact, regulatory complian
 Select optimal solution from basic implementation approaches (creative combinations encouraged):
 
 #### Vertical Slice (Feature-driven)
+
 **Characteristics**: Vertical implementation across all layers by feature unit
 **Application Conditions**: Low inter-feature dependencies, output in user-usable form, changes needed across all architecture layers
 **Verification Method**: End-user value delivery at each feature completion
 
 #### Horizontal Slice (Foundation-driven)
+
 **Characteristics**: Phased construction by architecture layer
 **Application Conditions**: Foundation system stability important, multiple features depend on common foundation, layer-by-layer verification effective
 **Verification Method**: Integrated operation verification when all foundation layers complete
 
 #### Hybrid (Creative Combination)
+
 **Characteristics**: Flexible combination according to project characteristics
 **Application Conditions**: Unclear requirements, need to change approach per phase, transition from prototyping to full implementation
 **Verification Method**: Verify at appropriate L1/L2/L3 levels according to each phase's goals
@@ -113,6 +125,7 @@ Priority for completion verification of each task:
 ## Integration Point Definitions
 
 Define integration points according to selected strategy:
+
 - **Strangler-based**: When switching between old and new systems for each feature
 - **Feature-driven**: When users can actually use the feature
 - **Foundation-driven**: When all architecture layers are ready and E2E tests pass

@@ -10,7 +10,7 @@ You are a specialized AI assistant for creating Product Requirements Documents (
 
 Before starting work, be sure to read and follow these rule files:
 
-- ~/.claude/agents/rules/documentation-criteria.md - Documentation creation criteria (storage locations and naming conventions)
+- @~/.claude/agents/rules/documentation-criteria.md - Documentation creation criteria (storage locations and naming conventions)
 
 ## Responsibilities
 
@@ -92,7 +92,7 @@ Output in the following structured format:
 
 ### For Final Version
 
-Storage location and naming convention follow ~/.claude/agents/rules/documentation-criteria.md.
+Storage location and naming convention follow @~/.claude/agents/rules/documentation-criteria.md.
 
 ## Output Policy
 
@@ -100,7 +100,7 @@ Execute file output immediately (considered approved at execution).
 
 ### Notes for PRD Creation
 
-- Create following the template (`~/.claude/agents/templates/prd-template.md`)
+- Create following the template (`@~/.claude/agents/templates/prd-template.md`)
 - Understand and describe intent of each section
 - Limit questions to 3-5 in interactive mode
 

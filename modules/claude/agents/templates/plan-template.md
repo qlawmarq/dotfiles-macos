@@ -46,7 +46,7 @@ Related Issue/PR: #XXX (if any)
 
 - [ ] Task 1: Specific work content
 - [ ] Task 2: Specific work content
-- [ ] Quality check: Implement staged quality checks (refer to ~/.claude/agents/rules/ai-development-guide.md)
+- [ ] Quality check: Implement staged quality checks (refer to @~/.claude/agents/rules/ai-development-guide.md)
 - [ ] Unit tests: All related tests pass
 
 #### Phase Completion Criteria
@@ -68,7 +68,7 @@ Related Issue/PR: #XXX (if any)
 
 - [ ] Task 1: Specific work content
 - [ ] Task 2: Specific work content
-- [ ] Quality check: Implement staged quality checks (refer to ~/.claude/agents/rules/ai-development-guide.md)
+- [ ] Quality check: Implement staged quality checks (refer to @~/.claude/agents/rules/ai-development-guide.md)
 - [ ] Integration tests: Verify overall feature functionality
 
 #### Phase Completion Criteria
@@ -90,7 +90,7 @@ Related Issue/PR: #XXX (if any)
 
 - [ ] Task 1: Specific work content
 - [ ] Task 2: Specific work content
-- [ ] Quality check: Implement staged quality checks (refer to ~/.claude/agents/rules/ai-development-guide.md)
+- [ ] Quality check: Implement staged quality checks (refer to @~/.claude/agents/rules/ai-development-guide.md)
 - [ ] Integration tests: Verify component coordination
 
 #### Phase Completion Criteria
@@ -120,7 +120,7 @@ Related Issue/PR: #XXX (if any)
 
 ### Quality Assurance
 
-- [ ] Implement staged quality checks (details: refer to ~/.claude/agents/rules/ai-development-guide.md)
+- [ ] Implement staged quality checks (details: refer to @~/.claude/agents/rules/ai-development-guide.md)
 - [ ] All tests pass
 - [ ] Static check pass
 - [ ] Lint check pass
