@@ -14,16 +14,19 @@
 **Always follow this cycle:**
 
 1. **RED**: Write a failing test first
+
    - Write the test before implementation
    - Ensure the test fails for the right reason
    - Verify test can actually fail
 
 2. **GREEN**: Write minimal code to pass
+
    - Implement just enough to make the test pass
    - Don't optimize prematurely
    - Focus on making it work
 
 3. **REFACTOR**: Improve code structure
+
    - Clean up implementation
    - Eliminate duplication
    - Improve naming and clarity
@@ -67,6 +70,7 @@ All tests must be:
 **Purpose**: Test individual components in isolation
 
 **Characteristics**:
+
 - Test single function, method, or class
 - Fast execution (milliseconds)
 - No external dependencies
@@ -74,6 +78,7 @@ All tests must be:
 - Majority of your test suite
 
 **Example Scope**:
+
 ```
 ✓ Test calculateTotal() function
 ✓ Test UserValidator class
@@ -85,6 +90,7 @@ All tests must be:
 **Purpose**: Test interactions between components
 
 **Characteristics**:
+
 - Test multiple components together
 - May include database, file system, or APIs
 - Slower than unit tests
@@ -92,6 +98,7 @@ All tests must be:
 - Smaller portion of test suite
 
 **Example Scope**:
+
 ```
 ✓ Test UserService with Database
 ✓ Test API endpoint with authentication
@@ -103,6 +110,7 @@ All tests must be:
 **Purpose**: Test complete workflows from user perspective
 
 **Characteristics**:
+
 - Test entire application stack
 - Simulate real user interactions
 - Slowest test type
@@ -110,6 +118,7 @@ All tests must be:
 - Highest confidence level
 
 **Example Scope**:
+
 ```
 ✓ Test user registration flow
 ✓ Test checkout process
@@ -119,6 +128,7 @@ All tests must be:
 ### Test Pyramid
 
 Follow the test pyramid structure:
+
 ```
     /\    ← Few E2E Tests (High confidence, slow)
    /  \
@@ -154,6 +164,7 @@ assert(result.isValid == true)
 - Split unrelated assertions into separate tests
 
 **Good**:
+
 ```
 test("validates user email format")
 test("validates user age is positive")
@@ -161,6 +172,7 @@ test("validates required fields are present")
 ```
 
 **Bad**:
+
 ```
 test("validates user") // Tests everything at once
 ```
@@ -168,6 +180,7 @@ test("validates user") // Tests everything at once
 ### Descriptive Test Names
 
 Test names should clearly describe:
+
 - What is being tested
 - Under what conditions
 - What the expected outcome is
@@ -175,6 +188,7 @@ Test names should clearly describe:
 **Recommended format**: `"should [expected behavior] when [condition]"`
 
 **Examples**:
+
 ```
 test("should return error when email is invalid")
 test("should calculate discount when user is premium")
@@ -268,6 +282,7 @@ test("should throw exception when file not found")
 ### Test Edge Cases
 
 Always test:
+
 - **Boundary conditions**: Min/max values, empty collections
 - **Error cases**: Invalid input, null values, missing data
 - **Edge cases**: Special characters, extreme values
@@ -358,6 +373,7 @@ tests/
 ### Flaky Tests
 
 Eliminate tests that fail intermittently:
+
 - Remove timing dependencies
 - Avoid random data in tests
 - Ensure proper cleanup
@@ -385,11 +401,13 @@ Eliminate tests that fail intermittently:
 ### Type System Utilization
 
 **For languages with static type systems:**
+
 - Leverage compile-time verification for correctness
 - Focus tests on business logic and runtime behavior
 - Use language's type system to prevent invalid states
 
 **For languages with dynamic typing:**
+
 - Add comprehensive runtime validation tests
 - Explicitly test data contract validation
 - Consider property-based testing for broader coverage
@@ -397,11 +415,13 @@ Eliminate tests that fail intermittently:
 ### Programming Paradigm Considerations
 
 **Functional approach:**
+
 - Test pure functions thoroughly (deterministic, no side effects)
 - Test side effects at system boundaries
 - Leverage property-based testing for invariants
 
 **Object-oriented approach:**
+
 - Test behavior through public interfaces
 - Mock dependencies via abstraction layers
 - Test polymorphic behavior carefully

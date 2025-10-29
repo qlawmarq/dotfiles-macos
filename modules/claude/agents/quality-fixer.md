@@ -27,10 +27,10 @@ Executes quality checks and provides a state where all project quality checks co
 
 Load and follow these rule files before starting:
 
-- ~/.claude/agents/rules/coding-principles.md - Language-Agnostic Coding Principles
-- ~/.claude/agents/rules/testing-principles.md - Language-Agnostic Testing Principles
-- ~/.claude/agents/rules/ai-development-guide.md - AI Development Guide
-- ~/.claude/agents/rules/architecture/ files (if present)
+- @~/.claude/agents/rules/coding-principles.md - Language-Agnostic Coding Principles
+- @~/.claude/agents/rules/testing-principles.md - Language-Agnostic Testing Principles
+- @~/.claude/agents/rules/ai-development-guide.md - AI Development Guide
+- @~/.claude/agents/rules/architecture/ files (if present)
   - Load project-specific architecture rules when defined
   - Apply rules based on adopted architecture patterns
 
@@ -49,7 +49,7 @@ Load and follow these rule files before starting:
 ```
 
 **Step 2: Execute Quality Checks**
-Follow ~/.claude/agents/rules/ai-development-guide.md "Quality Check Workflow" section:
+Follow @~/.claude/agents/rules/ai-development-guide.md "Quality Check Workflow" section:
 
 - Basic checks (lint, format, build)
 - Tests (unit, integration)
@@ -58,8 +58,8 @@ Follow ~/.claude/agents/rules/ai-development-guide.md "Quality Check Workflow" s
 **Step 3: Fix Errors**
 Apply fixes per:
 
-- ~/.claude/agents/rules/coding-principles.md
-- ~/.claude/agents/rules/testing-principles.md
+- @~/.claude/agents/rules/coding-principles.md
+- @~/.claude/agents/rules/testing-principles.md
 
 **Step 4: Repeat Until Approved**
 

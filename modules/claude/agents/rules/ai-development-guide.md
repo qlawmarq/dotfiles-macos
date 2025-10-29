@@ -5,6 +5,7 @@
 Immediately stop and reconsider design when detecting the following patterns:
 
 ### Code Quality Anti-patterns
+
 1. **Writing similar code 3 or more times** - Violates Rule of Three
 2. **Multiple responsibilities mixed in a single file** - Violates Single Responsibility Principle (SRP)
 3. **Defining same content in multiple files** - Violates DRY principle
@@ -14,6 +15,7 @@ Immediately stop and reconsider design when detecting the following patterns:
 7. **Bypassing safety mechanisms (type systems, validation, contracts)** - Circumventing language's correctness guarantees
 
 ### Design Anti-patterns
+
 - **"Make it work for now" thinking** - Accumulation of technical debt
 - **Patchwork implementation** - Unplanned additions to existing code
 - **Optimistic implementation of uncertain technology** - Designing unknown elements assuming "it'll probably work"
@@ -23,22 +25,27 @@ Immediately stop and reconsider design when detecting the following patterns:
 ## Fail-Fast Fallback Design Principles
 
 ### Core Principle
+
 Prioritize primary code reliability over fallback implementations. In distributed systems, excessive fallback mechanisms can mask errors and make debugging difficult.
 
 ### Implementation Guidelines
 
 #### Default Approach
+
 - **Prohibit unconditional fallbacks**: Do not automatically return default values on errors
 - **Make failures explicit**: Errors should be visible and traceable
 - **Preserve error context**: Include original error information when re-throwing
 
 #### When Fallbacks Are Acceptable
+
 - **Only with explicit Design Doc approval**: Document why fallback is necessary
 - **Business-critical continuity**: When partial functionality is better than none
 - **Graceful degradation paths**: Clearly defined degraded service levels
 
 #### Layer Responsibilities
+
 - **Infrastructure Layer**:
+
   - Always throw errors upward
   - No business logic decisions
   - Provide detailed error context
@@ -51,12 +58,14 @@ Prioritize primary code reliability over fallback implementations. In distribute
 ### Error Masking Detection
 
 **Review Triggers** (require design review):
+
 - Writing 3rd error handler in the same feature
 - Multiple error handling blocks in single function/method
 - Nested error handling structures
 - Error handlers that return default values without logging
 
 **Before Implementing Any Fallback**:
+
 1. Verify Design Doc explicitly defines this fallback
 2. Document the business justification
 3. Ensure error is logged with full context
@@ -83,21 +92,23 @@ Prioritize primary code reliability over fallback implementations. In distribute
 
 How to handle duplicate code based on Martin Fowler's "Refactoring":
 
-| Duplication Count | Action | Reason |
-|-------------------|--------|--------|
-| 1st time | Inline implementation | Cannot predict future changes |
-| 2nd time | Consider future consolidation | Pattern beginning to emerge |
-| 3rd time | Implement commonalization | Pattern established |
+| Duplication Count | Action                        | Reason                        |
+| ----------------- | ----------------------------- | ----------------------------- |
+| 1st time          | Inline implementation         | Cannot predict future changes |
+| 2nd time          | Consider future consolidation | Pattern beginning to emerge   |
+| 3rd time          | Implement commonalization     | Pattern established           |
 
 ### Criteria for Commonalization
 
 **Cases for Commonalization**
+
 - Business logic duplication
 - Complex processing algorithms
 - Areas likely requiring bulk changes
 - Validation rules
 
 **Cases to Avoid Commonalization**
+
 - Accidental matches (coincidentally same code)
 - Possibility of evolving in different directions
 - Significant readability decrease from commonalization
@@ -120,24 +131,29 @@ validateEmail(email, context) { /* ... */ }
 ## Common Failure Patterns and Avoidance Methods
 
 ### Pattern 1: Error Fix Chain
+
 **Symptom**: Fixing one error causes new errors
 **Cause**: Surface-level fixes without understanding root cause
 **Avoidance**: Identify root cause with 5 Whys before fixing
 
 ### Pattern 2: Circumventing Correctness Guarantees
+
 **Symptom**: Bypassing safety mechanisms (type systems, validation, contracts)
 **Cause**: Impulse to avoid correctness errors
 **Avoidance**: Use language-appropriate safety mechanisms (static checking, runtime validation, contracts, assertions)
 
 ### Pattern 3: Implementation Without Sufficient Testing
+
 **Symptom**: Many bugs after implementation
 **Cause**: Ignoring Red-Green-Refactor process
 **Avoidance**: Always start with failing tests
 
 ### Pattern 4: Ignoring Technical Uncertainty
+
 **Symptom**: Frequent unexpected errors when introducing new technology
 **Cause**: Assuming "it should work according to official documentation" without prior investigation
 **Avoidance**:
+
 - Record certainty evaluation at the beginning of task files
   ```
   Certainty: low (Reason: no examples of MCP connection found)
@@ -147,9 +163,11 @@ validateEmail(email, context) { /* ... */ }
 - For low certainty cases, create minimal verification code first
 
 ### Pattern 5: Insufficient Existing Code Investigation
+
 **Symptom**: Duplicate implementations, architecture inconsistency, integration failures
 **Cause**: Insufficient understanding of existing code before implementation
 **Avoidance Methods**:
+
 - Before implementation, always search for similar functionality (using domain, responsibility, configuration patterns as keywords)
 - Similar functionality found → Use that implementation (do not create new implementation)
 - Similar functionality is technical debt → Create ADR improvement proposal before implementation
@@ -159,11 +177,13 @@ validateEmail(email, context) { /* ... */ }
 ## Debugging Techniques
 
 ### 1. Error Analysis Procedure
+
 1. Read error message (first line) accurately
 2. Focus on first and last of stack trace
 3. Identify first line where your code appears
 
 ### 2. 5 Whys - Root Cause Analysis
+
 ```
 Example:
 Symptom: Build error
@@ -174,12 +194,15 @@ Root cause: Inappropriate version specification in dependency manifest
 ```
 
 ### 3. Minimal Reproduction Code
+
 To isolate problems, attempt reproduction with minimal code:
+
 - Remove unrelated parts
 - Replace external dependencies with mocks
 - Create minimal configuration that reproduces problem
 
 ### 4. Debug Log Output
+
 ```
 Pattern: Structured logging with context
 {
@@ -201,6 +224,7 @@ Key elements:
 Universal quality assurance phases applicable to all languages:
 
 ### Phase 1: Static Analysis
+
 1. **Code Style Checking**: Verify adherence to style guidelines
 2. **Code Formatting**: Ensure consistent formatting
 3. **Unused Code Detection**: Identify dead code and unused imports/variables
@@ -208,24 +232,29 @@ Universal quality assurance phases applicable to all languages:
 5. **Static Analysis**: Detect potential bugs, security issues, code smells
 
 ### Phase 2: Build Verification
+
 1. **Compilation/Build**: Verify code builds successfully (for compiled languages)
 2. **Dependency Resolution**: Ensure all dependencies are available and compatible
 3. **Resource Validation**: Check configuration files, assets are valid
 
 ### Phase 3: Testing
+
 1. **Unit Tests**: Run all unit tests
 2. **Integration Tests**: Run integration tests
 3. **Test Coverage**: Measure and verify coverage meets standards
 4. **E2E Tests**: Run end-to-end tests
 
 ### Phase 4: Final Quality Gate
+
 All checks must pass before proceeding:
+
 - Zero static analysis errors
 - Build succeeds
 - All tests pass
 - Coverage meets threshold
 
 ### Quality Check Pattern (Language-Agnostic)
+
 ```
 Workflow:
 1. Format check → 2. Lint/Style → 3. Static analysis →
@@ -242,16 +271,19 @@ Auto-fix capabilities (when available):
 ## Situations Requiring Technical Decisions
 
 ### Timing of Abstraction
+
 - Extract patterns after writing concrete implementation 3 times
 - Be conscious of YAGNI, implement only currently needed features
 - Prioritize current simplicity over future extensibility
 
 ### Performance vs Readability
+
 - Prioritize readability unless clear bottleneck exists
 - Measure before optimizing (don't guess, measure)
 - Document reason with comments when optimizing
 
 ### Granularity of Contracts and Interfaces
+
 - Overly detailed contracts reduce maintainability
 - Design interfaces that appropriately express domain
 - Use abstraction mechanisms to reduce duplication
@@ -269,6 +301,7 @@ Auto-fix capabilities (when available):
 Complete these stages sequentially before any implementation:
 
 **1. Discovery** - Identify all affected code:
+
 - Implementation references (imports, calls, instantiations)
 - Interface dependencies (contracts, types, data structures)
 - Test coverage
@@ -276,12 +309,14 @@ Complete these stages sequentially before any implementation:
 - Documentation (comments, docs, diagrams)
 
 **2. Understanding** - Analyze each discovered location:
+
 - Role and purpose in the system
 - Dependency direction (consumer or provider)
 - Data flow (origin → transformations → destination)
 - Coupling strength
 
 **3. Identification** - Produce structured report:
+
 ```
 ## Impact Analysis
 ### Direct Impact
@@ -308,6 +343,7 @@ Complete these stages sequentially before any implementation:
 ### Unused Code Deletion
 
 When unused code is detected:
+
 - Will it be used in this work? Yes → Implement now | No → Delete now (Git preserves)
 - Applies to: Code, tests, docs, configs, assets
 

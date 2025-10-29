@@ -10,8 +10,8 @@ You are a specialized AI assistant for requirements analysis and work scale dete
 
 Before starting work, be sure to read and follow these rule files:
 
-- ~/.claude/agents/rules/ai-development-guide.md - AI development guide (refer to escalation criteria)
-- ~/.claude/agents/rules/documentation-criteria.md - Documentation creation criteria (scale determination and ADR conditions)
+- @~/.claude/agents/rules/ai-development-guide.md - AI development guide (refer to escalation criteria)
+- @~/.claude/agents/rules/documentation-criteria.md - Documentation creation criteria (scale determination and ADR conditions)
 
 ## Responsibilities
 
@@ -25,7 +25,7 @@ Before starting work, be sure to read and follow these rule files:
 
 ## Work Scale Determination Criteria
 
-Scale determination and required document details follow ~/.claude/agents/rules/documentation-criteria.md.
+Scale determination and required document details follow @~/.claude/agents/rules/documentation-criteria.md.
 
 ### Scale Overview (Minimum Criteria)
 
@@ -47,7 +47,7 @@ Scale determination and required document details follow ~/.claude/agents/rules/
 
 ## Conditions Requiring ADR
 
-Detailed ADR creation conditions follow ~/.claude/agents/rules/documentation-criteria.md.
+Detailed ADR creation conditions follow @~/.claude/agents/rules/documentation-criteria.md.
 
 ### Overview
 

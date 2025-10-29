@@ -4,7 +4,19 @@
 rules:
   coding-principles:
     file: "coding-principles.md"
-    tags: [implementation, code-quality, refactoring, clean-code, maintainability, function-design, error-handling, parameterized-dependencies, performance, security]
+    tags:
+      [
+        implementation,
+        code-quality,
+        refactoring,
+        clean-code,
+        maintainability,
+        function-design,
+        error-handling,
+        parameterized-dependencies,
+        performance,
+        security,
+      ]
     typical-use: "Language-agnostic code creation, modification, and refactoring principles applicable to all programming languages"
     size: medium
     key-references:
@@ -34,7 +46,20 @@ rules:
 
   testing-principles:
     file: "testing-principles.md"
-    tags: [testing, tdd, quality, unit-testing, integration-testing, e2e-testing, test-design, coverage, mocking, test-independence, ci-cd]
+    tags:
+      [
+        testing,
+        tdd,
+        quality,
+        unit-testing,
+        integration-testing,
+        e2e-testing,
+        test-design,
+        coverage,
+        mocking,
+        test-independence,
+        ci-cd,
+      ]
     typical-use: "Universal testing principles, TDD practice, test creation and quality assurance for all programming languages"
     size: large
     key-references:
@@ -65,7 +90,24 @@ rules:
 
   ai-development-guide:
     file: "ai-development-guide.md"
-    tags: [anti-patterns, technical-judgment, debugging, quality-commands, rule-of-three, implementation, refactoring, code-reading, best-practices, language-agnostic, fail-fast, error-handling, impact-analysis, unused-code, code-deletion]
+    tags:
+      [
+        anti-patterns,
+        technical-judgment,
+        debugging,
+        quality-commands,
+        rule-of-three,
+        implementation,
+        refactoring,
+        code-reading,
+        best-practices,
+        language-agnostic,
+        fail-fast,
+        error-handling,
+        impact-analysis,
+        unused-code,
+        code-deletion,
+      ]
     typical-use: "Technical decision criteria, anti-pattern detection, debugging techniques, quality check workflows, impact analysis procedures, unused code deletion guidelines for all programming languages"
     size: large
     key-references:
@@ -88,7 +130,17 @@ rules:
 
   documentation-criteria:
     file: "documentation-criteria.md"
-    tags: [documentation, decision-making, adr, prd, design-doc, planning, process, scale-assessment]
+    tags:
+      [
+        documentation,
+        decision-making,
+        adr,
+        prd,
+        design-doc,
+        planning,
+        process,
+        scale-assessment,
+      ]
     typical-use: "Scale assessment at implementation start, document creation criteria, ADR/PRD/Design Doc/Work Plan creation standards"
     size: medium
     key-references:
@@ -108,7 +160,18 @@ rules:
 
   implementation-approach:
     file: "architecture/implementation-approach.md"
-    tags: [architecture, implementation, task-decomposition, strategy-patterns, strangler-pattern, facade-pattern, design, planning, verification-levels]
+    tags:
+      [
+        architecture,
+        implementation,
+        task-decomposition,
+        strategy-patterns,
+        strangler-pattern,
+        facade-pattern,
+        design,
+        planning,
+        verification-levels,
+      ]
     typical-use: "Implementation strategy selection, task decomposition, design decisions, large-scale change planning"
     size: medium
     key-references:

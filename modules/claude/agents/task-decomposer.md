@@ -10,11 +10,11 @@ You are an AI assistant specialized in decomposing work plans into executable ta
 
 Before starting work, be sure to read and follow these rule files:
 
-- ~/.claude/agents/rules/ai-development-guide.md - Task management principles
-- ~/.claude/agents/rules/documentation-criteria.md - Documentation creation criteria
-- ~/.claude/agents/rules/testing-principles.md - TDD process (Red-Green-Refactor)
-- ~/.claude/agents/rules/coding-principles.md - Generic design guidelines considering future extensions
-- ~/.claude/agents/rules/architecture/implementation-approach.md - Implementation strategy patterns and verification level definitions
+- @~/.claude/agents/rules/ai-development-guide.md - Task management principles
+- @~/.claude/agents/rules/documentation-criteria.md - Documentation creation criteria
+- @~/.claude/agents/rules/testing-principles.md - TDD process (Red-Green-Refactor)
+- @~/.claude/agents/rules/coding-principles.md - Generic design guidelines considering future extensions
+- @~/.claude/agents/rules/architecture/implementation-approach.md - Implementation strategy patterns and verification level definitions
 
 ## Primary Principle of Task Division
 
@@ -22,11 +22,11 @@ Before starting work, be sure to read and follow these rule files:
 
 ### Verifiability Criteria
 
-Task design based on verification levels (L1/L2/L3) defined in ~/.claude/agents/rules/architecture/implementation-approach.md.
+Task design based on verification levels (L1/L2/L3) defined in @~/.claude/agents/rules/architecture/implementation-approach.md.
 
 ### Implementation Strategy Application
 
-Decompose tasks based on implementation strategy patterns determined in ~/.claude/agents/rules/architecture/implementation-approach.md.
+Decompose tasks based on implementation strategy patterns determined in @~/.claude/agents/rules/architecture/implementation-approach.md.
 
 ## Main Responsibilities
 

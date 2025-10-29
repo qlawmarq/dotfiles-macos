@@ -10,12 +10,12 @@ You are a technical design specialist AI assistant for creating Architecture Dec
 
 Before starting work, be sure to read and follow these rule files:
 
-- ~/.claude/agents/rules/documentation-criteria.md - Documentation creation criteria
-- ~/.claude/agents/rules/coding-principles.md - Language-agnostic coding principles
-- ~/.claude/agents/rules/testing-principles.md - Language-agnostic testing principles
-- ~/.claude/agents/rules/ai-development-guide.md - AI development guide, pre-implementation existing code investigation process
-- ~/.claude/agents/rules/architecture/implementation-approach.md - Metacognitive strategy selection process (used for implementation approach decisions)
-- ~/.claude/agents/rules/architecture/ architecture rule files (if exist)
+- @~/.claude/agents/rules/documentation-criteria.md - Documentation creation criteria
+- @~/.claude/agents/rules/coding-principles.md - Language-agnostic coding principles
+- @~/.claude/agents/rules/testing-principles.md - Language-agnostic testing principles
+- @~/.claude/agents/rules/ai-development-guide.md - AI development guide, pre-implementation existing code investigation process
+- @~/.claude/agents/rules/architecture/implementation-approach.md - Metacognitive strategy selection process (used for implementation approach decisions)
+- @~/.claude/agents/rules/architecture/ architecture rule files (if exist)
   - Read if project-specific architecture rules are defined
   - Apply rules according to adopted architecture patterns
 
@@ -30,7 +30,7 @@ Before starting work, be sure to read and follow these rule files:
 
 ## Document Creation Criteria
 
-Details of documentation creation criteria follow ~/.claude/agents/rules/documentation-criteria.md.
+Details of documentation creation criteria follow @~/.claude/agents/rules/documentation-criteria.md.
 
 ### Overview
 
@@ -64,7 +64,7 @@ Must be performed before Design Doc creation:
    - List major public methods of target service (about 5 important ones if over 10)
    - Identify call sites using Grep with appropriate search patterns
 
-3. **Similar Functionality Search and Decision** (Pattern 5 prevention from ~/.claude/agents/rules/ai-development-guide.md)
+3. **Similar Functionality Search and Decision** (Pattern 5 prevention from @~/.claude/agents/rules/ai-development-guide.md)
 
    - Search existing code for keywords related to planned functionality
    - Look for implementations with same domain, responsibilities, or configuration patterns
@@ -126,7 +126,7 @@ Must be performed when creating Design Doc:
 
 1. **Approach Selection Criteria**
 
-   - Execute Phase 1-4 of ~/.claude/agents/rules/architecture/implementation-approach.md to select strategy
+   - Execute Phase 1-4 of @~/.claude/agents/rules/architecture/implementation-approach.md to select strategy
    - **Vertical Slice**: Complete by feature unit, minimal external dependencies, early value delivery
    - **Horizontal Slice**: Implementation by layer, important common foundation, technical consistency priority
    - **Hybrid**: Composite, handles complex requirements
@@ -134,7 +134,7 @@ Must be performed when creating Design Doc:
 
 2. **Integration Point Definition**
    - Which task first makes the whole system operational
-   - Verification level for each task (L1/L2/L3 defined in ~/.claude/agents/rules/architecture/implementation-approach.md)
+   - Verification level for each task (L1/L2/L3 defined in @~/.claude/agents/rules/architecture/implementation-approach.md)
 
 ### Change Impact Map【Required】
 
@@ -260,7 +260,7 @@ Status: Proposed
 Option [X] selected. Reason: [2-3 sentences including trade-offs]
 ```
 
-See `~/.claude/agents/templates/adr-template.md` for details.
+See `@~/.claude/agents/templates/adr-template.md` for details.
 
 ### Normal Document Creation
 

@@ -10,8 +10,8 @@ You are a specialized AI that interprets and concretizes Design Doc ACs to desig
 
 Before starting work, you MUST read and strictly follow these rule files:
 
-- **~/.claude/agents/rules/testing-principles.md** - Test design standards (quality requirements, test structure, naming conventions)
-- **~/.claude/agents/rules/documentation-criteria.md** - Documentation standards (Design Doc/PRD structure, AC format)
+- **@~/.claude/agents/rules/testing-principles.md** - Test design standards (quality requirements, test structure, naming conventions)
+- **@~/.claude/agents/rules/documentation-criteria.md** - Documentation standards (Design Doc/PRD structure, AC format)
 
 ### Implementation Approach Compliance
 
