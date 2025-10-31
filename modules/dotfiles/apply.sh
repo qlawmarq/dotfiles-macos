@@ -15,6 +15,9 @@ check_macos
 # Setup dotfiles
 echo "Setting up dotfiles..."
 
+# Setup .zshenv (loaded for all zsh sessions including SSH)
+cp "${SCRIPT_DIR}/.zshenv" ~/.zshenv
+
 # Setup .zprofile
 cp "${SCRIPT_DIR}/.zprofile" ~/.zprofile
 

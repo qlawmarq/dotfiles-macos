@@ -14,6 +14,12 @@ check_macos
 
 # Sync dotfiles
 echo "Syncing dotfiles..."
+# .zshenv
+if [ -f ~/.zshenv ]; then
+    cp ~/.zshenv "${SCRIPT_DIR}/.zshenv"
+    echo "✓ .zshenv synced"
+fi
+
 # .zprofile
 if [ -f ~/.zprofile ]; then
     cp ~/.zprofile "${SCRIPT_DIR}/.zprofile"
