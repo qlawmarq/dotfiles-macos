@@ -269,40 +269,43 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
 
     # Setup notification permissions for hooks
     if [ -d "$SCRIPT_DIR/hooks" ]; then
+        if confirm "Would you like to set up notification permissions for hooks?"; then
+            # Setup notification permissions via Script Editor
+            echo ""
+            print_info "Setting up notification permissions..."
+            echo ""
+            print_info "To enable notifications, you need to grant permission to Script Editor."
+            echo "A test notification script will be opened in Script Editor."
+            echo ""
 
-        # Setup notification permissions via Script Editor
-        echo ""
-        print_info "Setting up notification permissions..."
-        echo ""
-        print_info "To enable notifications, you need to grant permission to Script Editor."
-        echo "A test notification script will be opened in Script Editor."
-        echo ""
-
-        # Create a temporary AppleScript file for notification permission request
-        TEMP_SCRIPT=$(mktemp).scpt
-        cat > "$TEMP_SCRIPT" << 'EOF'
+            # Create a temporary AppleScript file for notification permission request
+            TEMP_SCRIPT=$(mktemp).scpt
+            cat > "$TEMP_SCRIPT" << 'EOF'
 display notification "Test notification from Claude Code" with title "Notification Permission Request"
 EOF
 
-        # Open the script in Script Editor
-        open -a "Script Editor" "$TEMP_SCRIPT"
-        sleep 1
+            # Open the script in Script Editor
+            open -a "Script Editor" "$TEMP_SCRIPT"
+            sleep 1
 
-        echo "Please follow these steps in Script Editor:"
-        echo "  1. Click the 'Run' button (▶) at the top of the window"
-        echo "  2. Grant notification permission when prompted"
-        echo "  3. You should see a notification appear"
-        echo ""
+            echo "Please follow these steps in Script Editor:"
+            echo "  1. Click the 'Run' button (▶) at the top of the window"
+            echo "  2. Grant notification permission when prompted"
+            echo "  3. You should see a notification appear"
+            echo ""
 
-        if confirm "Have you run the script and granted permission?"; then
-            # Clean up temporary script
-            rm -f "$TEMP_SCRIPT"
-            print_success "Notification permissions setup complete"
-            print_info "Note: You can close Script Editor now"
+            if confirm "Have you run the script and granted permission?"; then
+                # Clean up temporary script
+                rm -f "$TEMP_SCRIPT"
+                print_success "Notification permissions setup complete"
+                print_info "Note: You can close Script Editor now"
+            else
+                # Clean up even if user skips
+                rm -f "$TEMP_SCRIPT"
+                print_info "You can grant notification permissions later by running the script manually"
+            fi
         else
-            # Clean up even if user skips
-            rm -f "$TEMP_SCRIPT"
-            print_info "You can grant notification permissions later by running the script manually"
+            print_warning "Skipping notification permissions setup"
         fi
     fi
 fi
