@@ -56,6 +56,7 @@ filter_json() {
 # Directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DOTFILES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
+COMMON_DIR="$DOTFILES_DIR/modules/common"
 
 # Load utils
 if [ -f "$DOTFILES_DIR/lib/utils.sh" ]; then
@@ -210,9 +211,9 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
     # Add MCP server globally from Claude Desktop
     claude mcp add-from-claude-desktop -s user
 
-    # Deploy Claude Code settings
+    # Deploy Claude Code settings from common
     CLAUDE_CODE_SETTINGS_DIR="$HOME/.claude"
-    CLAUDE_CODE_SETTINGS_SOURCE="$SCRIPT_DIR/settings.json"
+    CLAUDE_CODE_SETTINGS_SOURCE="$COMMON_DIR/claude/settings.json"
     CLAUDE_CODE_SETTINGS_TARGET="$CLAUDE_CODE_SETTINGS_DIR/settings.json"
 
     if [ -f "$CLAUDE_CODE_SETTINGS_SOURCE" ]; then
@@ -225,13 +226,13 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
         fi
 
         cp "$CLAUDE_CODE_SETTINGS_SOURCE" "$CLAUDE_CODE_SETTINGS_TARGET"
-        print_success "Claude Code settings applied to $CLAUDE_CODE_SETTINGS_TARGET"
+        print_success "Claude Code settings applied from common"
     else
-        print_warning "Claude Code settings template not found at $CLAUDE_CODE_SETTINGS_SOURCE"
+        print_warning "Claude Code settings not found in common submodule"
     fi
 
-    # Deploy Claude Code resources (agents, commands, tools, hooks, project-template)
-    print_info "Deploying Claude Code configurations..."
+    # Deploy Claude Code resources from common
+    print_info "Deploying Claude Code configurations from common..."
 
     # Ask if user wants to clean up old files
     CLEANUP_MODE=false
@@ -240,8 +241,8 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
         print_warning "Cleanup mode enabled - old files will be removed"
     fi
 
-    for resource_type in agents commands tools hooks project-template skills; do
-        resource_dir="$SCRIPT_DIR/$resource_type"
+    for resource_type in agents commands tools skills; do
+        resource_dir="$COMMON_DIR/claude/$resource_type"
 
         if [ -d "$resource_dir" ]; then
             print_info "Deploying $resource_type..."
@@ -258,7 +259,7 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
             fi
 
             # Set executable permissions for scripts
-            if [ "$resource_type" = "tools" ] || [ "$resource_type" = "hooks" ] || [ "$resource_type" = "skills" ]; then
+            if [ "$resource_type" = "tools" ] || [ "$resource_type" = "skills" ]; then
                 # Use find to handle nested directory structures (skills may have subdirectories with scripts)
                 find "$CLAUDE_CODE_SETTINGS_DIR/$resource_type" -type f \( -name "*.sh" -o -name "*.py" \) -exec chmod +x {} \; 2>/dev/null || true
             fi
@@ -267,8 +268,26 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
         fi
     done
 
+    # Deploy hooks from common
+    print_info "Deploying hooks from common..."
+    mkdir -p "$CLAUDE_CODE_SETTINGS_DIR/hooks"
+
+    # Copy common hook
+    if [ -f "$COMMON_DIR/claude/hooks/auto-approve-safe-commands.sh" ]; then
+        cp "$COMMON_DIR/claude/hooks/auto-approve-safe-commands.sh" "$CLAUDE_CODE_SETTINGS_DIR/hooks/"
+        chmod +x "$CLAUDE_CODE_SETTINGS_DIR/hooks/auto-approve-safe-commands.sh"
+    fi
+
+    # Copy macOS-specific hooks
+    if [ -d "$COMMON_DIR/claude/hooks/platform/macos" ]; then
+        cp "$COMMON_DIR/claude/hooks/platform/macos"/* "$CLAUDE_CODE_SETTINGS_DIR/hooks/" 2>/dev/null || true
+        chmod +x "$CLAUDE_CODE_SETTINGS_DIR/hooks"/*.sh 2>/dev/null || true
+    fi
+
+    print_success "Hooks deployed"
+
     # Setup notification permissions for hooks
-    if [ -d "$SCRIPT_DIR/hooks" ]; then
+    if [ -d "$COMMON_DIR/claude/hooks/platform/macos" ]; then
         if confirm "Would you like to set up notification permissions for hooks?"; then
             # Setup notification permissions via Script Editor
             echo ""
