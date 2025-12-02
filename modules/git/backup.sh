@@ -1,42 +1,40 @@
-#!/bin/bash
+#!/bin/sh
 
-# Load utils
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 DOTFILES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
-if [ -f "$DOTFILES_DIR/lib/utils.sh" ]; then
-    source "$DOTFILES_DIR/lib/utils.sh"
-else
-    echo "Error: utils.sh not found at $DOTFILES_DIR/lib/utils.sh"
-    exit 1
-fi
+COMMON_DIR="$DOTFILES_DIR/modules/common"
+
+. "$DOTFILES_DIR/lib/utils.sh"
 
 check_macos
 
-# Directory where this script is located
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+print_info "Backing up Git configuration to common"
+echo "========================================"
 
-# .gitconfig
+# Backup .gitconfig
 if [ -f ~/.gitconfig ]; then
-    # Create temporary file
     TMP_CONFIG=$(mktemp)
-    
-    # Copy current config
     cp ~/.gitconfig "$TMP_CONFIG"
-    
-    # Replace personal information with placeholders
+
+    # Replace personal info with placeholders (BSD sed)
     sed -i '' -e "s/^[[:space:]]*email[[:space:]]*=.*$/	email 	= \$GIT_EMAIL/" \
               -e "s/^[[:space:]]*name[[:space:]]*=.*$/	name 	= \$GIT_NAME/" \
               "$TMP_CONFIG"
-    
-    # Copy to dotfiles
-    cp "$TMP_CONFIG" "${SCRIPT_DIR}/.gitconfig"
+
+    cp "$TMP_CONFIG" "$COMMON_DIR/git/.gitconfig"
     rm -f "$TMP_CONFIG"
-    echo "✓ .gitconfig synced (personal information replaced with placeholders)"
+    success ".gitconfig backed up to common/git/"
 fi
 
-# Global gitignore
+# Backup gitignore
 if [ -f ~/.config/git/ignore ]; then
-    mkdir -p "${SCRIPT_DIR}/.config/git"
-    cp ~/.config/git/ignore "${SCRIPT_DIR}/.config/git/ignore"
-    echo "✓ git ignore synced"
+    mkdir -p "$COMMON_DIR/git/.config/git"
+    cp ~/.config/git/ignore "$COMMON_DIR/git/.config/git/ignore"
+    success "git ignore backed up to common/git/"
 fi
+
+warning "Remember to commit and push changes in common submodule:"
+info "  cd $COMMON_DIR"
+info "  git add git/"
+info "  git commit -m 'Update git configuration'"
+info "  git push"
