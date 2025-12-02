@@ -29,17 +29,26 @@ The system intelligently manages dependencies between modules, ensuring they are
 
 ## Available Modules
 
-The following modules are currently available:
+### Shared Configurations (via common submodule)
+
+Common configurations are managed in [dotfiles-common](https://github.com/qlawmarq/dotfiles-common) and shared with [dotfiles-linux](https://github.com/qlawmarq/dotfiles-linux):
+
+- **common/tmux**: Cross-platform tmux configuration with automatic clipboard detection
+- **common/claude**: Claude Code settings (agents, commands, skills, tools, hooks) for consistent development experience across platforms
+
+### Platform-Specific Modules
+
+The following macOS-specific modules are available:
 
 - **brew**: Installs and configures Homebrew and selected packages
 - **mise**: Sets up runtime environment manager for Node.js, Python, and other tools
-- **claude**: Configures Claude Desktop with MCP servers for AI assistant integration
-- **dotfiles**: Configures shell profiles, aliases, and environment variables
+- **tmux**: tmux setup (uses common/tmux configuration)
+- **dotfiles**: Configures shell profiles (.zshrc, .zprofile, .zshenv)
 - **git**: Sets up Git configuration, aliases, and global settings
 - **vscode**: Installs and configures Visual Studio Code and extensions
 - **finder**: Manages macOS Finder preferences and settings
-- **keyboard**: Manages keyboard shortcuts and Karabiner-Elements configuration using a hybrid approach for reliable system shortcut preservation
-- **claude**: Configures Claude Desktop with MCP servers and Claude Code with shared agents, commands, and tools
+- **keyboard**: Manages keyboard shortcuts and Karabiner-Elements configuration
+- **claude**: Configures Claude Desktop (MCP servers) and Claude Code CLI (uses common/claude)
 
 Each module is independent but may depend on other modules for proper functionality.
 
@@ -103,9 +112,26 @@ You can customize the auto-approved patterns by editing `~/.claude/hooks/auto-ap
 
 ## Usage
 
+### Initial Setup
+
+When setting up a new Mac for the first time:
+
+```sh
+# Clone with submodules (includes shared configurations)
+git clone --recurse-submodules https://github.com/qlawmarq/dotfiles-macos.git
+cd dotfiles-macos
+sh apply.sh
+```
+
+If you cloned without `--recurse-submodules`, initialize the submodule:
+
+```sh
+git submodule update --init --recursive
+```
+
 ### Apply Settings
 
-When setting up a new Mac or applying configurations:
+When applying configurations to an existing setup:
 
 ```sh
 sh apply.sh
@@ -140,15 +166,21 @@ Example structure:
 
 ```
 modules/
+  ├── common/              # Submodule (dotfiles-common)
+  │   ├── claude/         # Shared Claude Code configurations
+  │   └── tmux/           # Shared tmux configuration
   ├── dependencies.txt     # Defines module dependencies
   ├── brew/
   │   ├── .Brewfile       # List of packages to install
   │   ├── apply.sh         # Apply settings script
   │   └── backup.sh         # Backup settings script
+  ├── tmux/
+  │   ├── apply.sh         # Wrapper script (uses common/tmux)
+  │   └── backup.sh         # Backup script
   ├── claude/
-  │   ├── claude_desktop_config.json  # Configuration template
-  │   ├── apply.sh                     # Apply settings script
-  │   └── backup.sh                     # Backup settings script
+  │   ├── claude_desktop_config.json  # Desktop-specific configuration
+  │   ├── apply.sh                     # Apply script (uses common/claude)
+  │   └── backup.sh                     # Backup script
   ├── finder/
   │   ├── finder-settings.txt         # Finder preferences configuration
   │   ├── apply.sh                     # Apply settings script
