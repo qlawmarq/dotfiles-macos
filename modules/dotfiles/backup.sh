@@ -32,8 +32,5 @@ if [ -f ~/.zshrc ]; then
     echo "✓ .zshrc synced"
 fi
 
-# .tmux.conf
-if [ -f ~/.tmux.conf ]; then
-    cp ~/.tmux.conf "${SCRIPT_DIR}/.tmux.conf"
-    echo "✓ .tmux.conf synced"
-fi
+echo ""
+echo "Note: tmux configuration is now managed by the 'tmux' module"

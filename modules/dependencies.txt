@@ -1,12 +1,13 @@
 # Module dependencies definition
 # Format: module: dependency1 dependency2 ...
 
-claude: brew mise
+brew:
+mise: brew
+git:
+tmux:
+dotfiles: git tmux
 codex: brew mise dotfiles
 vscode: brew
-brew: 
-mise: brew
-git: 
-dotfiles: git
+claude: brew mise
 finder:
 keyboard: brew

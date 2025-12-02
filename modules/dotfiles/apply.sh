@@ -24,8 +24,6 @@ cp "${SCRIPT_DIR}/.zprofile" ~/.zprofile
 # Setup .zshrc
 cp "${SCRIPT_DIR}/.zshrc" ~/.zshrc
 
-# Setup .tmux.conf
-if [ -f "${SCRIPT_DIR}/.tmux.conf" ]; then
-    cp "${SCRIPT_DIR}/.tmux.conf" ~/.tmux.conf
-    echo "✓ tmux configuration applied"
-fi
+echo "✓ Shell configuration applied"
+echo ""
+echo "Note: tmux configuration is now managed by the 'tmux' module"
