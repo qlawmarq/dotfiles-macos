@@ -194,15 +194,6 @@ sed -e "s|\$HOME|$HOME|g" \
 # Clean up
 rm -f "$TMP_CONFIG"
 
-# Install markitdown-mcp if needed
-if command_exists "uv" && ! uv tool list | grep -q "markitdown-mcp"; then
-    if confirm "Would you like to install markitdown-mcp?"; then
-        uv tool install markitdown-mcp
-    else
-        print_warning "Skipping markitdown-mcp installation"
-    fi
-fi
-
 # Install @anthropic-ai/claude-code if needed
 if confirm "Would you like to install @anthropic-ai/claude-code?"; then
     print_info "Installing @anthropic-ai/claude-code..."
