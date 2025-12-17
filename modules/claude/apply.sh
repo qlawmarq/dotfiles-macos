@@ -209,13 +209,6 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
 
     if [ -f "$CLAUDE_CODE_SETTINGS_SOURCE" ]; then
         mkdir -p "$CLAUDE_CODE_SETTINGS_DIR"
-
-        if [ -f "$CLAUDE_CODE_SETTINGS_TARGET" ]; then
-            local_backup="$CLAUDE_CODE_SETTINGS_TARGET.$(date +%Y%m%d%H%M%S).bak"
-            cp "$CLAUDE_CODE_SETTINGS_TARGET" "$local_backup"
-            print_info "Existing Claude Code settings backed up to $local_backup"
-        fi
-
         cp "$CLAUDE_CODE_SETTINGS_SOURCE" "$CLAUDE_CODE_SETTINGS_TARGET"
         print_success "Claude Code settings applied from common"
     else
