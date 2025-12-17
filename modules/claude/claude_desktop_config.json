@@ -7,20 +7,9 @@
         "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
       }
     },
-    "fetch": {
-      "command": "docker",
-      "args": ["run", "-i", "--rm", "mcp/fetch"]
-    },
     "chrome-devtools": {
       "command": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin/npx",
       "args": ["-y", "chrome-devtools-mcp@latest"],
-      "env": {
-        "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
-      }
-    },
-    "filesystem": {
-      "command": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin/npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "$HOME/Codes"],
       "env": {
         "PATH": "$HOME/.local/share/mise/installs/node/$NODE_VERSION/bin:/usr/local/bin:/usr/bin:/bin"
       }
