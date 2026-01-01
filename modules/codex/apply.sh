@@ -27,13 +27,13 @@ print_info "Checking dependencies..."
 
 # Check if Node.js is installed
 if ! command_exists "node"; then
-    print_error "Node.js is not installed. Please run the mise module first."
+    print_error "Node.js is not installed. Please run the mise module first. You can install it via the 'mise' module."
     exit 1
 fi
 
 # Check if npm is available
 if ! command_exists "npm"; then
-    print_error "npm is not available. Please ensure Node.js is properly installed."
+    print_error "npm is not available. Please ensure Node.js is properly installed. You can install it via the 'mise' module."
     exit 1
 fi
 

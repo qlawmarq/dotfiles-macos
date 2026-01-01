@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 DOTFILES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
@@ -13,14 +13,14 @@ echo "========================================"
 
 # Verify submodule is initialized
 if [ ! -f "$COMMON_DIR/tmux/.tmux.conf" ]; then
-    error "Common submodule not initialized."
-    info "Run: git submodule update --init"
+    print_error "Common submodule not initialized."
+    print_info "Run: git submodule update --init"
     exit 1
 fi
 
 # Deploy from common
 cp "$COMMON_DIR/tmux/.tmux.conf" "$HOME/.tmux.conf"
-success "tmux configuration applied from common repository"
+print_success "tmux configuration applied from common repository"
 
-info ""
-info "Note: Reload tmux with 'tmux source ~/.tmux.conf' if already running"
+print_info ""
+print_info "Note: Reload tmux with 'tmux source ~/.tmux.conf' if already running"

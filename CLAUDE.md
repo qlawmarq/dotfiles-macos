@@ -25,10 +25,10 @@ Module dependencies are defined in `modules/dependencies.txt` (e.g., `claude: br
 
 ```bash
 # Initial setup - interactive module selection with dependency resolution
-sh apply.sh
+bash apply.sh
 
 # Backup existing configurations
-sh backup.sh
+bash backup.sh
 
 # Debug Claude MCP servers
 tail -n 20 -f ~/Library/Logs/Claude/mcp*.log
@@ -48,10 +48,11 @@ tail -n 20 -f ~/Library/Logs/Claude/mcp*.log
 
 ### Shell scripts conventions:
 
-- Use `#!/bin/sh` for portability (not bash-specific features)
-- Source common utilities: `. "$(dirname "$0")/../../lib/common.sh"`
+- Use `#!/bin/bash` (required for arrays, `[[ ]]`, `read -p` used in this project)
+- Source common utilities: `. "$DOTFILES_DIR/lib/utils.sh"`
 - Handle errors gracefully with user prompts to continue/abort
-- Use colored output functions: `success()`, `error()`, `info()`
+- Use colored output functions: `print_success()`, `print_error()`, `print_info()`, `print_warning()`
+- Note: macOS ships bash 3.2 (GPL v2); all features used are compatible
 
 ### Configuration files:
 
@@ -69,7 +70,7 @@ tail -n 20 -f ~/Library/Logs/Claude/mcp*.log
 
 This repository provides user-level Claude Code configurations that are shared across all projects.
 
-These resources are automatically deployed to `~/.claude/` when running `sh apply.sh` (claude module).
+These resources are automatically deployed to `~/.claude/` when running `bash apply.sh` (claude module).
 
 ### Permission Automation System
 
@@ -108,8 +109,8 @@ The claude module implements a hybrid permission automation system to reduce man
 
 When modifying setup scripts:
 
-1. Test module application: `sh modules/<module_name>/apply.sh`
-2. Test full application flow: `sh apply.sh` (select specific modules)
+1. Test module application: `bash modules/<module_name>/apply.sh`
+2. Test full application flow: `bash apply.sh` (select specific modules)
 3. Verify dependencies are correctly resolved
 4. Check symlinks are created properly
 5. For keyboard module: Test that system shortcuts (including Input Source switching) are preserved

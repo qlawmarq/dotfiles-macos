@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 DOTFILES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
@@ -13,8 +13,8 @@ echo "========================================"
 
 # Verify submodule is initialized
 if [ ! -f "$COMMON_DIR/git/.gitconfig" ]; then
-    error "Common submodule not initialized."
-    info "Run: git submodule update --init --recursive"
+    print_error "Common submodule not initialized."
+    print_info "Run: git submodule update --init --recursive"
     exit 1
 fi
 
@@ -65,7 +65,7 @@ rm -f "$TMP_CONFIG"
 mkdir -p ~/.config/git
 cp "$COMMON_DIR/git/.config/git/ignore" ~/.config/git/ignore
 
-success "Git configuration applied from common repository"
+print_success "Git configuration applied from common repository"
 
 # Setup GitHub SSH (macOS-specific)
 setup_github_ssh() {
@@ -99,6 +99,7 @@ EOF
         pbcopy < ~/.ssh/id_ed25519.pub
         echo "SSH public key copied to clipboard."
         echo "Please add it to GitHub: https://github.com/settings/keys"
+        echo "If you want to copy the SSH public key manually, 'pbcopy < ~/.ssh/id_ed25519.pub' to copy it again."
         echo "Press Enter when you have added the key..."
         read -r
     else
@@ -108,4 +109,4 @@ EOF
 
 setup_github_ssh "$GIT_EMAIL"
 
-success "Git setup completed"
+print_success "Git setup completed"

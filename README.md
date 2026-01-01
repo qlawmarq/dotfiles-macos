@@ -120,7 +120,7 @@ When setting up a new Mac for the first time:
 # Clone with submodules (includes shared configurations)
 git clone --recurse-submodules https://github.com/qlawmarq/dotfiles-macos.git
 cd dotfiles-macos
-sh apply.sh
+bash apply.sh
 ```
 
 If you cloned without `--recurse-submodules`, initialize the submodule:
@@ -134,7 +134,7 @@ git submodule update --init --recursive
 When applying configurations to an existing setup:
 
 ```sh
-sh apply.sh
+bash apply.sh
 ```
 
 - You will be prompted to select which modules to apply.
@@ -146,7 +146,7 @@ sh apply.sh
 To backup current system settings to configuration files:
 
 ```sh
-sh backup.sh
+bash backup.sh
 ```
 
 - Select which modules to backup.

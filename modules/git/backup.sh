@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 DOTFILES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
@@ -23,18 +23,18 @@ if [ -f ~/.gitconfig ]; then
 
     cp "$TMP_CONFIG" "$COMMON_DIR/git/.gitconfig"
     rm -f "$TMP_CONFIG"
-    success ".gitconfig backed up to common/git/"
+    print_success ".gitconfig backed up to common/git/"
 fi
 
 # Backup gitignore
 if [ -f ~/.config/git/ignore ]; then
     mkdir -p "$COMMON_DIR/git/.config/git"
     cp ~/.config/git/ignore "$COMMON_DIR/git/.config/git/ignore"
-    success "git ignore backed up to common/git/"
+    print_success "git ignore backed up to common/git/"
 fi
 
-warning "Remember to commit and push changes in common submodule:"
-info "  cd $COMMON_DIR"
-info "  git add git/"
-info "  git commit -m 'Update git configuration'"
-info "  git push"
+print_warning "Remember to commit and push changes in common submodule:"
+print_info "  cd $COMMON_DIR"
+print_info "  git add git/"
+print_info "  git commit -m 'Update git configuration'"
+print_info "  git push"
