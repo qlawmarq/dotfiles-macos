@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # ====================
 # Main dotfiles application script with dependency management
@@ -157,8 +157,8 @@ for module in $RESOLVED_MODULES; do
     print_info "Setting up $module..."
     
     # Check module dependencies
-    local deps=$(get_module_deps "$module")
-    local missing_deps=""
+    deps=$(get_module_deps "$module")
+    missing_deps=""
     if [ -n "$deps" ] && [ $SKIP_DEPENDENCIES -eq 1 ]; then
         print_warning "$module depends on the following modules that will be skipped:"
         for dep in $deps; do
@@ -201,9 +201,9 @@ for module in $RESOLVED_MODULES; do
             MODULE_STATUS="$MODULE_STATUS $module:failed"
             
             # Check if any modules depend on this one
-            local dependent_modules=""
+            dependent_modules=""
             for m in $SELECTED_MODULES; do
-                local all_deps=$(get_all_dependencies "$m")
+                all_deps=$(get_all_dependencies "$m")
                 if echo " $all_deps " | grep -q " $module "; then
                     dependent_modules="$dependent_modules $m"
                 fi

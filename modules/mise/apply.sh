@@ -14,24 +14,24 @@ check_macos
 
 # check if mise is installed
 if ! command_exists mise; then
-    print_error "mise could not be found"
+    print_error "mise could not be found. You can install it via the 'brew' module."
     exit 1
 fi
 
 # Install Go
 if confirm "Would you like to install Go?"; then
-    print_info "Installing Go..."
+    print_info "Installing Go...('mise use -g go@latest')"
     mise use -g go@latest
     print_success "Go installed"
 fi
 
 # Install Python
 if confirm "Would you like to install Python? (necessary for Claude Desktop)"; then
-    print_info "Installing Python..."
+    print_info "Installing Python...('mise use -g python@latest')"
     mise use -g python@latest
     print_success "Python installed"
-    if confirm "Would you like to install `uv`?"; then
-        print_info "Installing uv..."
+    if confirm "Would you like to install 'uv'?"; then
+        print_info "Installing uv...('mise use -g uv@latest')"
         mise use -g uv@latest
         print_success "uv installed"
     fi
@@ -39,11 +39,11 @@ fi
 
 # Install Node.js
 if confirm "Would you like to install Node.js? (necessary for Claude Desktop)"; then
-    print_info "Installing Node.js..."
+    print_info "Installing Node.js...('mise use -g node@lts')"
     mise use -g node@lts
     print_success "Node.js installed"
-    if confirm "Would you like to install `pnpm`?"; then
-        print_info "Installing pnpm..."
+    if confirm "Would you like to install 'pnpm'?"; then
+        print_info "Installing pnpm...('mise use -g pnpm@latest')"
         mise use -g pnpm@latest
         print_success "pnpm installed"
     fi

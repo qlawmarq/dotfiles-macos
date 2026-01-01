@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 DOTFILES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
@@ -13,16 +13,16 @@ echo "========================================"
 
 # Check if config exists
 if [ ! -f "$HOME/.tmux.conf" ]; then
-    warning "No .tmux.conf found in home directory"
+    print_warning "No .tmux.conf found in home directory"
     exit 0
 fi
 
 # Backup to common
 cp "$HOME/.tmux.conf" "$COMMON_DIR/tmux/.tmux.conf"
-success "tmux configuration backed up to common/tmux/"
+print_success "tmux configuration backed up to common/tmux/"
 
-warning "Remember to commit and push changes in common submodule:"
-info "  cd $COMMON_DIR"
-info "  git add tmux/.tmux.conf"
-info "  git commit -m 'Update tmux configuration'"
-info "  git push"
+print_warning "Remember to commit and push changes in common submodule:"
+print_info "  cd $COMMON_DIR"
+print_info "  git add tmux/.tmux.conf"
+print_info "  git commit -m 'Update tmux configuration'"
+print_info "  git push"

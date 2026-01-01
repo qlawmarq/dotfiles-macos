@@ -85,25 +85,25 @@ print_info "Checking dependencies..."
 
 # Check if mise is installed
 if ! command_exists "mise"; then
-    print_error "mise is not installed. Please run the mise setup first."
+    print_error "mise is not installed. Please run the mise setup first. You can install it via the 'brew' module."
     exit 1
 fi
 
 # Check if uv is installed
 if ! command_exists "uv"; then
-    print_error "uv is not installed. Please install Node.js first. 'mise use uv@latest'"
+    print_error "uv is not installed. Please install Node.js first. You can install it via the 'mise' module."
     exit 1
 fi
 
 # Check if node is installed
 if ! command_exists "node"; then
-    print_error "Node.js is not installed. Please install Node.js first."
+    print_error "Node.js is not installed. Please install Node.js first. You can install it via the 'mise' module."
     exit 1
 fi
 
 # Check if Claude Desktop is installed
 if [ ! -d "/Applications/Claude.app" ]; then
-    print_error "Claude Desktop is not installed. Please install it first."
+    print_error "Claude Desktop is not installed. Please install it first. You can install it via the 'brew' module."
     exit 1
 fi
 
