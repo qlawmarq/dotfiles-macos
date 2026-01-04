@@ -78,15 +78,16 @@ The scripts will check for and attempt to install other necessary dependencies a
 
 ### Initial Setup
 
-When setting up a new Mac for the first time:
+When setting up a new Mac for the first time, download the repository from:
 
 https://github.com/qlawmarq/dotfiles-macos/archive/refs/heads/main.zip
 
+And open the Terminal App, then run:
 
 ```sh
 cd ~/Downloads/dotfiles-macos-main
 bash apply.sh
-# Install at least the 'brew' and 'mise' modules first to ensure dependencies are met.
+# Install at least the 'brew' and 'mise' and 'dotfiles' modules first to ensure dependencies are met.
 ```
 
 Or clone the repository with submodules (Need `git` installed):
@@ -126,49 +127,6 @@ bash backup.sh
 
 - Select which modules to backup.
 - Each selected module will run its sync script.
-
----
-
-## Module Structure
-
-Modules are located in the `modules/` directory. Each module is a subdirectory that can contain:
-
-- `apply.sh` — Script for applying settings to the system.
-- `backup.sh` — Script for backing up current settings to configuration files.
-- Additional files or resources as needed.
-
-Example structure:
-
-```
-modules/
-  ├── common/              # Submodule (dotfiles-common)
-  │   ├── claude/         # Shared Claude Code configurations
-  │   └── tmux/           # Shared tmux configuration
-  ├── dependencies.txt     # Defines module dependencies
-  ├── brew/
-  │   ├── .Brewfile       # List of packages to install
-  │   ├── apply.sh         # Apply settings script
-  │   └── backup.sh         # Backup settings script
-  ├── tmux/
-  │   ├── apply.sh         # Wrapper script (uses common/tmux)
-  │   └── backup.sh         # Backup script
-  ├── claude/
-  │   ├── claude_desktop_config.json  # Desktop-specific configuration
-  │   ├── apply.sh                     # Apply script (uses common/claude)
-  │   └── backup.sh                     # Backup script
-  ├── finder/
-  │   ├── finder-settings.txt         # Finder preferences configuration
-  │   ├── apply.sh                     # Apply settings script
-  │   └── backup.sh                     # Backup settings script
-  ├── keyboard/
-  │   ├── karabiner.json              # Karabiner-Elements configuration
-  │   ├── complex_modifications/      # Karabiner complex modifications
-  │   ├── keyboard-shortcuts.xml      # System keyboard shortcuts (XML export)
-  │   ├── keyboard-settings.txt       # Application keyboard shortcuts
-  │   ├── apply.sh                     # Apply settings script
-  │   └── backup.sh                     # Backup settings script
-  ├── ...
-```
 
 ---
 
