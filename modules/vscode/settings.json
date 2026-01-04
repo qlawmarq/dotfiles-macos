@@ -1,25 +1,27 @@
 {
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true,
-  "javascript.updateImportsOnFileMove.enabled": "always",
-  "launch": {
-    "configurations": [],
-    "compounds": []
-  },
   "notebook.lineNumbers": "on",
-  "typescript.updateImportsOnFileMove.enabled": "always",
-  "svelte.enable-ts-plugin": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "updateImportsOnFileMove.enabled": "always"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "updateImportsOnFileMove.enabled": "always"
+  },
   "[go]": {
     "editor.defaultFormatter": "golang.go",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "toolsManagement.autoUpdate": true
   },
   "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.fixAll": "explicit"
     }
   },
-  "go.toolsManagement.autoUpdate": true,
   "github.copilot.nextEditSuggestions.enabled": true,
   "terminal.integrated.scrollback": 1000000,
   "files.maxMemoryForLargeFilesMB": 8192

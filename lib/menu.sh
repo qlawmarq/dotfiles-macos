@@ -245,16 +245,15 @@ smart_select_items() {
 
 # Function to select from Brewfile
 # Usage: select_from_brewfile "header_message" "brewfile_path"
-# Returns: Arrays of selected components in $SELECTED_TAPS, $SELECTED_BREWS, $SELECTED_CASKS, $SELECTED_VSCODE
+# Returns: Arrays of selected components in $SELECTED_TAPS, $SELECTED_BREWS, $SELECTED_CASKS
 select_from_brewfile() {
     local header="$1"
     local brewfile="$2"
-    
+
     # Initialize arrays
     SELECTED_TAPS=""
     SELECTED_BREWS=""
     SELECTED_CASKS=""
-    SELECTED_VSCODE=""
     
     # Check if file exists
     if [ ! -f "$brewfile" ]; then
@@ -266,8 +265,7 @@ select_from_brewfile() {
     taps=()
     brews=()
     casks=()
-    vscode=()
-    
+
     while IFS= read -r line; do
         if echo "$line" | grep -q '^tap\ \+"'; then
             name=$(echo "$line" | sed -E 's/^tap[[:space:]]+"([^"]+)".*/\1/')
@@ -278,9 +276,6 @@ select_from_brewfile() {
         elif echo "$line" | grep -q '^cask\ \+"'; then
             name=$(echo "$line" | sed -E 's/^cask[[:space:]]+"([^"]+)".*/\1/')
             casks+=("$name")
-        elif echo "$line" | grep -q '^vscode\ \+"'; then
-            name=$(echo "$line" | sed -E 's/^vscode[[:space:]]+"([^"]+)".*/\1/')
-            vscode+=("$name")
         fi
     done < "$brewfile"
     
@@ -306,13 +301,6 @@ select_from_brewfile() {
         print_info "Selecting Homebrew casks..."
         smart_select_items "Select Homebrew casks" "${casks[@]}"
         SELECTED_CASKS="$SELECTED_ITEMS"
-    fi
-    
-    # Process vscode extensions
-    if [ ${#vscode[@]} -gt 0 ]; then
-        print_info "Selecting VSCode extensions..."
-        smart_select_items "Select VSCode extensions" "${vscode[@]}"
-        SELECTED_VSCODE="$SELECTED_ITEMS"
     fi
 }
 

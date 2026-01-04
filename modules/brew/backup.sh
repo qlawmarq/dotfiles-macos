@@ -12,7 +12,7 @@ fi
 
 check_macos
 
-# Sync Brewfile
+# Sync Brewfile (excluding vscode extensions, managed by vscode module)
 echo "Syncing Brewfile..."
-brew bundle dump --force --file="${SCRIPT_DIR}/.Brewfile"
+brew bundle dump --force --no-vscode --file="${SCRIPT_DIR}/.Brewfile"
 echo "✓ Brewfile updated"
