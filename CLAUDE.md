@@ -126,3 +126,67 @@ This repository configures extensive MCP servers for Claude Desktop:
 - Various development tools
 
 Configuration is in `modules/claude/claude_desktop_config.json` and deployed to `~/Library/Application Support/Claude/claude_desktop_config.json`.
+
+---
+
+## Customization
+
+You can easily add, remove, or modify modules to suit your needs:
+
+1. **Add a new module:**  
+   Create a new directory under `modules/` (e.g., `modules/mytool/`). Add `apply.sh` and/or `backup.sh` as needed.
+
+2. **Add module dependencies:**  
+   Edit `modules/dependencies.txt` to define dependencies for your new module using the format:
+
+   ```
+   module_name: dependency1 dependency2 ...
+   ```
+
+3. **Customize existing modules:**  
+   Edit the `apply.sh` or `backup.sh` scripts within any module to change its setup or backup behavior.
+
+4. **Change the selection menu:**  
+   The menu logic is handled in `lib/menu.sh`. You can modify this script to change how modules are presented or selected.
+
+5. **Shared utilities:**  
+   Common functions and helpers are in `lib/utils.sh` and `lib/defaults.sh`. You can add your own utility functions here for use across modules.
+   - `lib/utils.sh`: General utilities and macOS checks
+   - `lib/defaults.sh`: macOS defaults command utilities for settings management
+
+---
+
+## Dependency Management
+
+### How Dependencies Work
+
+1. **Definition**: Dependencies are defined in `modules/dependencies.txt` using a simple format:
+
+   ```
+   module_name: dependency1 dependency2 ...
+   ```
+
+2. **Resolution**: When modules are selected for installation, the system:
+
+   - Builds a directed graph of dependencies
+   - Performs a topological sort to determine installation order
+   - Detects circular dependencies and provides appropriate warnings
+   - Shows the resolved installation order before proceeding
+
+3. **Installation**: Modules are installed in the resolved order, ensuring that dependencies are satisfied before a dependent module is installed.
+
+4. **Failure Handling**: If a dependency fails to install, the system warns about potential impact on dependent modules and offers the choice to continue or abort.
+
+### Adding Dependencies to New Modules
+
+When creating a new module, simply add an entry to `modules/dependencies.txt` to define its dependencies:
+
+```
+mynewmodule: dependency1 dependency2
+```
+
+If your module has no dependencies, still add an entry with an empty dependency list:
+
+```
+mynewmodule:
+```

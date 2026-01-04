@@ -74,47 +74,22 @@ The scripts will check for and attempt to install other necessary dependencies a
 
 ---
 
-## Claude Code Configuration
-
-This repository provides a comprehensive Claude Code setup with:
-
-- **Configurations** (`~/.claude/`): Shared agents, commands, tools, and hooks available across all projects
-- **Permission Automation**: Hybrid approach using Permission Modes + PreToolUse Hooks to reduce permission prompts
-  - File edits auto-approved during session (`defaultMode: "acceptEdits"`)
-  - Safe read-only commands auto-approved (cat, ls, grep, git status, etc.)
-  - Build/test/lint commands auto-approved (pnpm test, npm run build, etc.)
-  - Dangerous commands blocked or require confirmation (sudo, rm -rf, git push, etc.)
-
-### Permission Automation Details
-
-The claude module configures automatic permission handling through two mechanisms:
-
-1. **Permission Mode** (`defaultMode: "acceptEdits"`):
-
-   - File Edit/Write operations are automatically approved for the session
-   - Reduces interruptions when Claude modifies code
-
-2. **PreToolUse Hook** (`hooks/auto-approve-safe-commands.sh`):
-   - Automatically approves safe bash commands without prompting
-   - Uses whitelist approach - only known-safe commands are auto-approved
-   - Handles complex commands with shell operators (&&, ||, ;, |)
-   - Categories of auto-approved commands:
-     - Read-only: `cat`, `ls`, `grep`, `find`, `head`, `tail`, etc.
-     - Git read: `git status`, `git diff`, `git log`, `git show`, etc.
-     - Testing: `pnpm test`, `npm test`, `pytest`, `jest`, etc.
-     - Linting: `eslint`, `prettier`, `ruff check`, `black`, etc.
-     - Building: `pnpm build`, `npm run dev`, `cargo build`, etc.
-   - Unknown commands prompt for user approval (fail-safe approach)
-
-You can customize the auto-approved patterns by editing `~/.claude/hooks/auto-approve-safe-commands.sh`.
-
----
-
 ## Usage
 
 ### Initial Setup
 
 When setting up a new Mac for the first time:
+
+https://github.com/qlawmarq/dotfiles-macos/archive/refs/heads/main.zip
+
+
+```sh
+cd ~/Downloads/dotfiles-macos-main
+bash apply.sh
+# Install at least the 'brew' and 'mise' modules first to ensure dependencies are met.
+```
+
+Or clone the repository with submodules (Need `git` installed):
 
 ```sh
 # Clone with submodules (includes shared configurations)
@@ -197,70 +172,6 @@ modules/
 
 ---
 
-## Customization
-
-You can easily add, remove, or modify modules to suit your needs:
-
-1. **Add a new module:**  
-   Create a new directory under `modules/` (e.g., `modules/mytool/`). Add `apply.sh` and/or `backup.sh` as needed.
-
-2. **Add module dependencies:**  
-   Edit `modules/dependencies.txt` to define dependencies for your new module using the format:
-
-   ```
-   module_name: dependency1 dependency2 ...
-   ```
-
-3. **Customize existing modules:**  
-   Edit the `apply.sh` or `backup.sh` scripts within any module to change its setup or backup behavior.
-
-4. **Change the selection menu:**  
-   The menu logic is handled in `lib/menu.sh`. You can modify this script to change how modules are presented or selected.
-
-5. **Shared utilities:**  
-   Common functions and helpers are in `lib/utils.sh` and `lib/defaults.sh`. You can add your own utility functions here for use across modules.
-   - `lib/utils.sh`: General utilities and macOS checks
-   - `lib/defaults.sh`: macOS defaults command utilities for settings management
-
----
-
-## Dependency Management
-
-### How Dependencies Work
-
-1. **Definition**: Dependencies are defined in `modules/dependencies.txt` using a simple format:
-
-   ```
-   module_name: dependency1 dependency2 ...
-   ```
-
-2. **Resolution**: When modules are selected for installation, the system:
-
-   - Builds a directed graph of dependencies
-   - Performs a topological sort to determine installation order
-   - Detects circular dependencies and provides appropriate warnings
-   - Shows the resolved installation order before proceeding
-
-3. **Installation**: Modules are installed in the resolved order, ensuring that dependencies are satisfied before a dependent module is installed.
-
-4. **Failure Handling**: If a dependency fails to install, the system warns about potential impact on dependent modules and offers the choice to continue or abort.
-
-### Adding Dependencies to New Modules
-
-When creating a new module, simply add an entry to `modules/dependencies.txt` to define its dependencies:
-
-```
-mynewmodule: dependency1 dependency2
-```
-
-If your module has no dependencies, still add an entry with an empty dependency list:
-
-```
-mynewmodule:
-```
-
----
-
 ## Troubleshooting
 
 ### Common Issues
@@ -286,8 +197,3 @@ tail -n 20 -f ~/Library/Logs/Claude/mcp*.log
 cat ~/Library/Application\ Support/Claude/claude_desktop_config.json
 ```
 
----
-
-## License
-
-MIT
