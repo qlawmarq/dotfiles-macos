@@ -5,35 +5,29 @@
 # ====================
 
 # Function to build a Brewfile from selections
-# Usage: build_brewfile "output_path" "taps" "brews" "casks" "vscode"
+# Usage: build_brewfile "output_path" "taps" "brews" "casks"
 build_brewfile() {
     local output="$1"
     local taps="$2"
     local brews="$3"
     local casks="$4"
-    local vscode="$5"
-    
+
     # Clear output file
     > "$output"
-    
+
     # Add taps
     for tap in $taps; do
         echo "tap \"$tap\"" >> "$output"
     done
-    
+
     # Add brews
     for brew in $brews; do
         echo "brew \"$brew\"" >> "$output"
     done
-    
+
     # Add casks
     for cask in $casks; do
         echo "cask \"$cask\"" >> "$output"
-    done
-    
-    # Add vscode extensions
-    for ext in $vscode; do
-        echo "vscode \"$ext\"" >> "$output"
     done
 }
 
@@ -98,14 +92,14 @@ fi
 select_from_brewfile "Homebrew Package Selection" "$BREWFILE_PATH"
 
 # Check if anything was selected
-if [ -z "$SELECTED_TAPS$SELECTED_BREWS$SELECTED_CASKS$SELECTED_VSCODE" ]; then
+if [ -z "$SELECTED_TAPS$SELECTED_BREWS$SELECTED_CASKS" ]; then
     print_warning "No packages selected for installation"
     exit 0
 fi
 
 # Create temporary Brewfile with selected packages
 TEMP_BREWFILE=$(mktemp)
-build_brewfile "$TEMP_BREWFILE" "$SELECTED_TAPS" "$SELECTED_BREWS" "$SELECTED_CASKS" "$SELECTED_VSCODE"
+build_brewfile "$TEMP_BREWFILE" "$SELECTED_TAPS" "$SELECTED_BREWS" "$SELECTED_CASKS"
 
 # Display selected packages
 print_info "Selected packages for installation:"
