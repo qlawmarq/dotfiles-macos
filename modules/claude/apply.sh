@@ -107,10 +107,6 @@ if [ ! -d "/Applications/Claude.app" ]; then
     exit 1
 fi
 
-# Create MCP directory if not exists
-print_info "Setting up MCP directory..."
-mkdir -p "$HOME/Codes"
-
 # Create Claude config directory
 print_info "Setting up Claude Desktop configuration..."
 CLAUDE_CONFIG_DIR="$HOME/Library/Application Support/Claude"

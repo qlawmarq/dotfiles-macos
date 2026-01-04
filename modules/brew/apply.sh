@@ -155,3 +155,7 @@ fi
 rm -f "$TEMP_BREWFILE"
 
 print_success "Homebrew setup completed"
+echo ""
+print_info "Note: to enable zsh completions for brew, add the following line to your .zprofile:"
+echo '  eval "$(/opt/homebrew/bin/brew shellenv)"'
+print_info "Or you can use 'dotfiles' module to setup shell environment automatically."

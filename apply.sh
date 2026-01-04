@@ -264,13 +264,15 @@ if [ $SKIP_DEPENDENCIES -eq 1 ] && [ -n "$DEPENDENCY_MODULES" ]; then
         echo " - $module"
     done
     echo ""
-    print_info "If you encounter issues with installed modules, try installing these dependencies."
+    print_warning "If you encounter issues with installed modules, try installing these dependencies."
 fi
 
 # Source profile to apply changes
 if [ -f ~/.zprofile ]; then
     print_info "Sourcing ~/.zprofile to apply changes"
     . ~/.zprofile
+else
+    print_warning "~/.zprofile not found. You can use 'dotfiles' module to setup shell environment automatically."
 fi
 
 print_success "Setup completed! Please restart your terminal."
