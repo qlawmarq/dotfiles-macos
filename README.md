@@ -47,7 +47,7 @@ The following macOS-specific modules are available:
 - **git**: Sets up Git configuration, aliases, and global settings
 - **vscode**: Installs and configures Visual Studio Code and extensions
 - **finder**: Manages macOS Finder preferences and settings
-- **keyboard**: Manages keyboard shortcuts and Karabiner-Elements configuration
+- **keyboard**: Manages keyboard shortcuts and modifier key mappings
 - **claude**: Configures Claude Desktop (MCP servers) and Claude Code CLI (uses common/claude)
 
 Each module is independent but may depend on other modules for proper functionality.

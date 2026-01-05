@@ -22,38 +22,11 @@ check_macos
 
 echo "Setting up Keyboard configurations..."
 
-# 1. Setup Karabiner-Elements
-echo "Configuring Karabiner-Elements..."
-
-# Check if Karabiner-Elements is installed
-if [ ! -d "/Applications/Karabiner-Elements.app" ]; then
-    echo "Warning: Karabiner-Elements is not installed."
-    echo "It should be installed via the brew module."
-    if ! confirm "Continue without Karabiner-Elements?"; then
-        exit 1
-    fi
-else
-    # Create Karabiner config directory
-    KARABINER_CONFIG_DIR="$HOME/.config/karabiner"
-    mkdir -p "$KARABINER_CONFIG_DIR"
-    mkdir -p "$KARABINER_CONFIG_DIR/assets/complex_modifications"
-    
-    # Copy Karabiner configuration
-    if [ -f "$SCRIPT_DIR/karabiner.json" ]; then
-        echo "Applying Karabiner-Elements configuration..."
-        cp "$SCRIPT_DIR/karabiner.json" "$KARABINER_CONFIG_DIR/karabiner.json"
-        echo "✓ Karabiner configuration applied"
-    else
-        echo "Warning: karabiner.json not found. Run backup.sh first."
-    fi
-    
-    # Copy complex modifications if they exist
-    if [ -d "$SCRIPT_DIR/complex_modifications" ] && [ "$(ls -A "$SCRIPT_DIR/complex_modifications" 2>/dev/null | grep -v '.gitkeep')" ]; then
-        echo "Copying complex modifications..."
-        find "$SCRIPT_DIR/complex_modifications" -name "*.json" -exec cp {} "$KARABINER_CONFIG_DIR/assets/complex_modifications/" \;
-        echo "✓ Complex modifications copied"
-    fi
-fi
+# 1. Modifier key mappings info (manual configuration required)
+echo ""
+echo "Note: Modifier key mappings (Cmd/Ctrl swap) require manual configuration."
+echo "      System Settings → Keyboard → Keyboard Shortcuts → Modifier Keys"
+echo ""
 
 # 2. Setup macOS keyboard shortcuts
 echo "Configuring macOS keyboard shortcuts..."
@@ -90,15 +63,6 @@ if [ -f "/System/Library/PrivateFrameworks/SystemAdministration.framework/Resour
     echo "✓ Settings activated"
 else
     echo "Note: Settings will take effect after logout/login or restart"
-fi
-
-# 4. Restart Karabiner-Elements if it's running
-if pgrep -f "Karabiner-Elements" > /dev/null; then
-    echo "Restarting Karabiner-Elements..."
-    osascript -e 'tell application "Karabiner-Elements" to quit' 2>/dev/null || true
-    sleep 2
-    open -a "Karabiner-Elements" 2>/dev/null || true
-    echo "✓ Karabiner-Elements restarted"
 fi
 
 echo "✓ Keyboard configuration setup completed"

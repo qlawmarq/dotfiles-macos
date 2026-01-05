@@ -10,7 +10,7 @@ else
     exit 1
 fi
 
-# Load defaults utilities  
+# Load defaults utilities
 if [ -f "$DOTFILES_DIR/lib/defaults.sh" ]; then
     source "$DOTFILES_DIR/lib/defaults.sh"
 else
@@ -22,33 +22,9 @@ check_macos
 
 echo "Syncing Keyboard configurations..."
 
-# 1. Sync Karabiner-Elements settings
-echo "Syncing Karabiner-Elements settings..."
-
-KARABINER_CONFIG_DIR="$HOME/.config/karabiner"
-if [ -f "$KARABINER_CONFIG_DIR/karabiner.json" ]; then
-    # Copy current settings to module
-    cp "$KARABINER_CONFIG_DIR/karabiner.json" "$SCRIPT_DIR/karabiner.json"
-    echo "✓ Karabiner configuration synced"
-else
-    echo "Warning: Karabiner-Elements configuration not found at $KARABINER_CONFIG_DIR/karabiner.json"
-fi
-
-# Sync complex modifications
-COMPLEX_MOD_DIR="$KARABINER_CONFIG_DIR/assets/complex_modifications"
-if [ -d "$COMPLEX_MOD_DIR" ] && [ "$(ls -A "$COMPLEX_MOD_DIR" 2>/dev/null)" ]; then
-    echo "Syncing complex modifications..."
-    # Clean existing complex modifications in module (except .gitkeep)
-    find "$SCRIPT_DIR/complex_modifications" -name "*.json" -delete 2>/dev/null || true
-    
-    # Copy current complex modifications (excluding system ones)
-    for file in "$COMPLEX_MOD_DIR"/*.json; do
-        if [ -f "$file" ]; then
-            cp "$file" "$SCRIPT_DIR/complex_modifications/"
-        fi
-    done
-    echo "✓ Complex modifications synced"
-fi
+# 1. Sync modifier key mappings (Cmd/Ctrl swap etc.)
+echo "Syncing modifier key mappings..."
+save_modifier_key_mappings "$SCRIPT_DIR/modifier-keys.txt"
 
 # 2. Sync macOS keyboard shortcuts using XML export approach
 echo "Syncing macOS keyboard shortcuts..."

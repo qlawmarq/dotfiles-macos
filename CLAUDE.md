@@ -17,7 +17,7 @@ The repository uses a modular architecture with 8 independent modules:
 - **git**: Git configuration with SSH key setup
 - **vscode**: VS Code settings and extensions
 - **finder**: macOS Finder preferences and settings
-- **keyboard**: Keyboard shortcuts and Karabiner-Elements configuration
+- **keyboard**: Keyboard shortcuts and modifier key mappings
 
 Module dependencies are defined in `modules/dependencies.txt` (e.g., `claude: brew mise` means claude depends on brew and mise).
 
@@ -61,8 +61,8 @@ tail -n 20 -f ~/Library/Logs/Claude/mcp*.log
 - `.gitconfig`: Git aliases and configurations
 - `vscode/settings.json`: VS Code preferences
 - `finder-settings.txt`: macOS Finder preferences in human-readable format
-- `karabiner.json`: Karabiner-Elements configuration for key mappings
 - `keyboard-shortcuts.xml`: System keyboard shortcuts in Apple's native XML format (complete export)
+- `modifier-keys.txt`: Modifier key mappings (Cmd/Ctrl swap etc.) in human-readable format
 - `keyboard-settings.txt`: Application keyboard shortcuts in human-readable format
 - Shell configs are symlinked from `dotfiles/` to home directory
 
