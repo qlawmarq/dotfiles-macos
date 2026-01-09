@@ -18,10 +18,6 @@ CLAUDE_CONFIG_DIR=~/Library/Application\ Support/Claude
 if [ -f "$CLAUDE_CONFIG_DIR/claude_desktop_config.json" ]; then
     echo "Found existing configuration file"
     
-    # Get GitHub token from existing config file
-    GITHUB_TOKEN=$(grep -o '"GITHUB_PERSONAL_ACCESS_TOKEN": "[^"]*"' "$CLAUDE_CONFIG_DIR/claude_desktop_config.json" | cut -d'"' -f4)
-    echo "Extracted GitHub token: ${GITHUB_TOKEN:+[token exists]}"
-    
     # Get current runtime versions from mise
     NODE_VERSION=$(mise current node | awk '{print $1}')
     PYTHON_VERSION=$(mise current python | awk '{print $1}')
@@ -34,8 +30,7 @@ if [ -f "$CLAUDE_CONFIG_DIR/claude_desktop_config.json" ]; then
     # Process the configuration file in a single sed command
     cat "$CLAUDE_CONFIG_DIR/claude_desktop_config.json" | sed -E "s|node/[0-9]+\.[0-9]+\.[0-9]+|node/\$NODE_VERSION|g; \
         s|python/[0-9]+\.[0-9]+\.[0-9]+|python/\$PYTHON_VERSION|g; \
-        s|${HOME}|\$HOME|g; \
-        s|\"GITHUB_PERSONAL_ACCESS_TOKEN\": \"[^\"]*\"|\"GITHUB_PERSONAL_ACCESS_TOKEN\": \"\$GITHUB_TOKEN\"|g;" > "$TMP_CONFIG"
+        s|${HOME}|\$HOME|g;" > "$TMP_CONFIG"
     
     echo "Configuration processed. Checking file size..."
     

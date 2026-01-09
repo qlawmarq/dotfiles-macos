@@ -129,21 +129,6 @@ fi
 
 # Try to get tokens from existing config file
 CONFIG_FILE="$CLAUDE_CONFIG_DIR/claude_desktop_config.json"
-GITHUB_TOKEN=""
-
-if [ -f "$CONFIG_FILE" ]; then
-    # Extract GitHub token if present
-    EXTRACTED_GITHUB_TOKEN=$(grep -o '"GITHUB_PERSONAL_ACCESS_TOKEN": "[^"]*"' "$CONFIG_FILE" | cut -d'"' -f4)
-    if [ -n "$EXTRACTED_GITHUB_TOKEN" ]; then
-        GITHUB_TOKEN="$EXTRACTED_GITHUB_TOKEN"
-    fi
-fi
-
-# Ask for GitHub token if not already set
-if [ -z "$GITHUB_TOKEN" ]; then
-    echo "Please enter your GitHub Personal Access Token: (https://github.com/settings/personal-access-tokens)"
-    read -r GITHUB_TOKEN
-fi
 
 # Parse configuration template and allow selection
 CONFIG_TEMPLATE="$SCRIPT_DIR/claude_desktop_config.json"
@@ -181,11 +166,6 @@ TMP_CONFIG=$(mktemp)
 echo "$TEMPLATE_JSON" | \
     sed -e "s|\$NODE_VERSION|$NODE_VERSION|g" \
         -e "s|\$PYTHON_VERSION|$PYTHON_VERSION|g" > "$TMP_CONFIG"
-
-# Then replace environment variables
-sed -e "s|\$HOME|$HOME|g" \
-    -e "s|\$GITHUB_TOKEN|$GITHUB_TOKEN|g" \
-    "$TMP_CONFIG" > "$CLAUDE_CONFIG_DIR/claude_desktop_config.json"
 
 # Clean up
 rm -f "$TMP_CONFIG"
