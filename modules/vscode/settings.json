@@ -1,14 +1,21 @@
 {
-  "notebook.lineNumbers": "on",
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "prettier.prettier-vscode",
     "editor.formatOnSave": true,
     "updateImportsOnFileMove.enabled": "always"
   },
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "prettier.prettier-vscode",
     "editor.formatOnSave": true,
     "updateImportsOnFileMove.enabled": "always"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "prettier.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "prettier.prettier-vscode",
+    "editor.formatOnSave": true
   },
   "[go]": {
     "editor.defaultFormatter": "golang.go",
@@ -22,7 +29,15 @@
       "source.fixAll": "explicit"
     }
   },
+  "editor.lineNumbers": "on",
+  "notebook.lineNumbers": "on",
   "github.copilot.nextEditSuggestions.enabled": true,
   "terminal.integrated.scrollback": 1000000,
-  "files.maxMemoryForLargeFilesMB": 8192
+  "files.maxMemoryForLargeFilesMB": 8192,
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": true,
+    "scminput": false
+  }
 }
