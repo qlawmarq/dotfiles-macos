@@ -1,20 +1,20 @@
 {
   "[javascript]": {
-    "editor.defaultFormatter": "prettier.prettier-vscode",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
     "updateImportsOnFileMove.enabled": "always"
   },
   "[typescript]": {
-    "editor.defaultFormatter": "prettier.prettier-vscode",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
     "updateImportsOnFileMove.enabled": "always"
   },
   "[json]": {
-    "editor.defaultFormatter": "prettier.prettier-vscode",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
   },
   "[markdown]": {
-    "editor.defaultFormatter": "prettier.prettier-vscode",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
   },
   "[go]": {
@@ -29,7 +29,6 @@
       "source.fixAll": "explicit"
     }
   },
-  "debug.inlineValues": true,
   "editor.lineNumbers": "on",
   "editor.renderControlCharacters": true,
   "editor.renderWhitespace": "all",
