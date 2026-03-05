@@ -42,16 +42,9 @@ print_info "Node.js version: $NODE_VERSION"
 
 # Install Codex CLI globally
 print_info "Installing Codex CLI..."
-if npm list -g @openai/codex >/dev/null 2>&1; then
-    print_warning "Codex CLI is already installed"
-    if confirm "Would you like to upgrade to the latest version?"; then
-        npm install -g @openai/codex@latest
-        print_success "Codex CLI upgraded to latest version"
-    fi
-else
-    npm install -g @openai/codex@latest
-    print_success "Codex CLI installed successfully"
-fi
+
+npm install -g @openai/codex@latest
+print_success "Codex CLI installed successfully"
 
 # Create Codex configuration directory
 print_info "Setting up Codex configuration..."
