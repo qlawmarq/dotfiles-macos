@@ -201,32 +201,77 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
         print_warning "Cleanup mode enabled - old files will be removed"
     fi
 
-    for resource_type in agents commands tools skills; do
-        resource_dir="$COMMON_DIR/claude/$resource_type"
+    # Clean up old directories if requested
+    if [ "$CLEANUP_MODE" = true ]; then
+        # Clean skill directories (both Claude Code and cross-agent)
+        [ -d "$CLAUDE_CODE_SETTINGS_DIR/skills" ] && rm -rf "$CLAUDE_CODE_SETTINGS_DIR/skills"
+        [ -d "$HOME/.agents/skills" ] && rm -rf "$HOME/.agents/skills"
 
-        if [ -d "$resource_dir" ]; then
-            print_info "Deploying $resource_type..."
+        # Clean legacy directories (agents, commands except sdd)
+        [ -d "$CLAUDE_CODE_SETTINGS_DIR/agents" ] && rm -rf "$CLAUDE_CODE_SETTINGS_DIR/agents"
+        [ -d "$CLAUDE_CODE_SETTINGS_DIR/commands" ] && rm -rf "$CLAUDE_CODE_SETTINGS_DIR/commands"
 
-            # Clean up if requested
-            if [ "$CLEANUP_MODE" = true ] && [ -d "$CLAUDE_CODE_SETTINGS_DIR/$resource_type" ]; then
-                print_warning "Removing old $resource_type..."
-                rm -rf "$CLAUDE_CODE_SETTINGS_DIR/$resource_type"
-            fi
+        # Clean tools directory
+        [ -d "$CLAUDE_CODE_SETTINGS_DIR/tools" ] && rm -rf "$CLAUDE_CODE_SETTINGS_DIR/tools"
 
-            mkdir -p "$CLAUDE_CODE_SETTINGS_DIR/$resource_type"
-            if ! cp -r "$resource_dir"/* "$CLAUDE_CODE_SETTINGS_DIR/$resource_type/" 2>/dev/null; then
-                print_warning "Failed to copy some $resource_type files - please check permissions"
-            fi
+        print_warning "Old directories removed"
+    fi
 
-            # Set executable permissions for scripts
-            if [ "$resource_type" = "tools" ] || [ "$resource_type" = "skills" ]; then
-                # Use find to handle nested directory structures (skills may have subdirectories with scripts)
-                find "$CLAUDE_CODE_SETTINGS_DIR/$resource_type" -type f \( -name "*.sh" -o -name "*.py" \) -exec chmod +x {} \; 2>/dev/null || true
-            fi
+    # Deploy cross-agent skills (to both .claude/skills/ and .agents/skills/)
+    COMMON_SKILLS_DIR="$COMMON_DIR/skills"
+    if [ -d "$COMMON_SKILLS_DIR" ]; then
+        print_info "Deploying cross-agent skills..."
 
-            print_success "$resource_type deployed"
-        fi
-    done
+        # Claude Code
+        mkdir -p "$CLAUDE_CODE_SETTINGS_DIR/skills"
+        cp -r "$COMMON_SKILLS_DIR"/* "$CLAUDE_CODE_SETTINGS_DIR/skills/" 2>/dev/null || true
+
+        # Codex CLI / Gemini CLI (.agents/skills/)
+        AGENTS_SKILLS_DIR="$HOME/.agents/skills"
+        mkdir -p "$AGENTS_SKILLS_DIR"
+        cp -r "$COMMON_SKILLS_DIR"/* "$AGENTS_SKILLS_DIR/" 2>/dev/null || true
+
+        # Set executable permissions for scripts in skills
+        find "$CLAUDE_CODE_SETTINGS_DIR/skills" -type f \( -name "*.sh" -o -name "*.py" \) -exec chmod +x {} \; 2>/dev/null || true
+        find "$AGENTS_SKILLS_DIR" -type f \( -name "*.sh" -o -name "*.py" \) -exec chmod +x {} \; 2>/dev/null || true
+
+        print_success "Cross-agent skills deployed to ~/.claude/skills/ and ~/.agents/skills/"
+    fi
+
+    # Deploy Claude-specific skills
+    CLAUDE_SKILLS_DIR="$COMMON_DIR/claude/skills"
+    if [ -d "$CLAUDE_SKILLS_DIR" ]; then
+        print_info "Deploying Claude-specific skills..."
+        mkdir -p "$CLAUDE_CODE_SETTINGS_DIR/skills"
+        cp -r "$CLAUDE_SKILLS_DIR"/* "$CLAUDE_CODE_SETTINGS_DIR/skills/" 2>/dev/null || true
+
+        # Set executable permissions for scripts
+        find "$CLAUDE_CODE_SETTINGS_DIR/skills" -type f \( -name "*.sh" -o -name "*.py" \) -exec chmod +x {} \; 2>/dev/null || true
+
+        print_success "Claude-specific skills deployed"
+    fi
+
+    # Deploy SDD system (Claude Code specific, legacy commands format)
+    SDD_DIR="$COMMON_DIR/claude/commands/sdd"
+    if [ -d "$SDD_DIR" ]; then
+        print_info "Deploying SDD commands..."
+        mkdir -p "$CLAUDE_CODE_SETTINGS_DIR/commands/sdd"
+        cp -r "$SDD_DIR"/* "$CLAUDE_CODE_SETTINGS_DIR/commands/sdd/" 2>/dev/null || true
+        print_success "SDD commands deployed"
+    fi
+
+    # Deploy tools from common
+    TOOLS_DIR="$COMMON_DIR/claude/tools"
+    if [ -d "$TOOLS_DIR" ]; then
+        print_info "Deploying tools..."
+        mkdir -p "$CLAUDE_CODE_SETTINGS_DIR/tools"
+        cp -r "$TOOLS_DIR"/* "$CLAUDE_CODE_SETTINGS_DIR/tools/" 2>/dev/null || true
+
+        # Set executable permissions for scripts
+        find "$CLAUDE_CODE_SETTINGS_DIR/tools" -type f \( -name "*.sh" -o -name "*.py" \) -exec chmod +x {} \; 2>/dev/null || true
+
+        print_success "Tools deployed"
+    fi
 
     # Deploy hooks from common
     print_info "Deploying hooks from common..."
