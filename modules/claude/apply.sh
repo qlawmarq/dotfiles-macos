@@ -207,7 +207,7 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
         [ -d "$CLAUDE_CODE_SETTINGS_DIR/skills" ] && rm -rf "$CLAUDE_CODE_SETTINGS_DIR/skills"
         [ -d "$HOME/.agents/skills" ] && rm -rf "$HOME/.agents/skills"
 
-        # Clean legacy directories (agents, commands except sdd)
+        # Clean legacy directories (agents, commands)
         [ -d "$CLAUDE_CODE_SETTINGS_DIR/agents" ] && rm -rf "$CLAUDE_CODE_SETTINGS_DIR/agents"
         [ -d "$CLAUDE_CODE_SETTINGS_DIR/commands" ] && rm -rf "$CLAUDE_CODE_SETTINGS_DIR/commands"
 
@@ -249,15 +249,6 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
         find "$CLAUDE_CODE_SETTINGS_DIR/skills" -type f \( -name "*.sh" -o -name "*.py" \) -exec chmod +x {} \; 2>/dev/null || true
 
         print_success "Claude-specific skills deployed"
-    fi
-
-    # Deploy SDD system (Claude Code specific, legacy commands format)
-    SDD_DIR="$COMMON_DIR/claude/commands/sdd"
-    if [ -d "$SDD_DIR" ]; then
-        print_info "Deploying SDD commands..."
-        mkdir -p "$CLAUDE_CODE_SETTINGS_DIR/commands/sdd"
-        cp -r "$SDD_DIR"/* "$CLAUDE_CODE_SETTINGS_DIR/commands/sdd/" 2>/dev/null || true
-        print_success "SDD commands deployed"
     fi
 
     # Deploy tools from common
