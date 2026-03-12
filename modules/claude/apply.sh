@@ -217,19 +217,34 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
         print_warning "Old directories removed"
     fi
 
+    # Deploy skills with subfolder flattening
+    # Supports both flat (skill-name/SKILL.md) and grouped (group/skill-name/SKILL.md) structures
+    # Output is always flat: dest/group-skill-name/ (Open Standard compliant)
+    deploy_skills_flat() {
+        local src_dir="$1"
+        local dest_dir="$2"
+
+        mkdir -p "$dest_dir"
+
+        find "$src_dir" -name "SKILL.md" -type f | while read -r skill_file; do
+            local skill_dir
+            skill_dir=$(dirname "$skill_file")
+            local rel_path="${skill_dir#$src_dir/}"
+            local flat_name="${rel_path//\//-}"
+
+            mkdir -p "$dest_dir/$flat_name"
+            cp -r "$skill_dir"/* "$dest_dir/$flat_name/" 2>/dev/null || true
+        done
+    }
+
     # Deploy cross-agent skills (to both .claude/skills/ and .agents/skills/)
     COMMON_SKILLS_DIR="$COMMON_DIR/skills"
     if [ -d "$COMMON_SKILLS_DIR" ]; then
         print_info "Deploying cross-agent skills..."
 
-        # Claude Code
-        mkdir -p "$CLAUDE_CODE_SETTINGS_DIR/skills"
-        cp -r "$COMMON_SKILLS_DIR"/* "$CLAUDE_CODE_SETTINGS_DIR/skills/" 2>/dev/null || true
-
-        # Codex CLI / Gemini CLI (.agents/skills/)
         AGENTS_SKILLS_DIR="$HOME/.agents/skills"
-        mkdir -p "$AGENTS_SKILLS_DIR"
-        cp -r "$COMMON_SKILLS_DIR"/* "$AGENTS_SKILLS_DIR/" 2>/dev/null || true
+        deploy_skills_flat "$COMMON_SKILLS_DIR" "$CLAUDE_CODE_SETTINGS_DIR/skills"
+        deploy_skills_flat "$COMMON_SKILLS_DIR" "$AGENTS_SKILLS_DIR"
 
         # Set executable permissions for scripts in skills
         find "$CLAUDE_CODE_SETTINGS_DIR/skills" -type f \( -name "*.sh" -o -name "*.py" \) -exec chmod +x {} \; 2>/dev/null || true
@@ -242,8 +257,7 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
     CLAUDE_SKILLS_DIR="$COMMON_DIR/claude/skills"
     if [ -d "$CLAUDE_SKILLS_DIR" ]; then
         print_info "Deploying Claude-specific skills..."
-        mkdir -p "$CLAUDE_CODE_SETTINGS_DIR/skills"
-        cp -r "$CLAUDE_SKILLS_DIR"/* "$CLAUDE_CODE_SETTINGS_DIR/skills/" 2>/dev/null || true
+        deploy_skills_flat "$CLAUDE_SKILLS_DIR" "$CLAUDE_CODE_SETTINGS_DIR/skills"
 
         # Set executable permissions for scripts
         find "$CLAUDE_CODE_SETTINGS_DIR/skills" -type f \( -name "*.sh" -o -name "*.py" \) -exec chmod +x {} \; 2>/dev/null || true
