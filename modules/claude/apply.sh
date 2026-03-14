@@ -225,7 +225,8 @@ if confirm "Would you like to install @anthropic-ai/claude-code?"; then
 
         mkdir -p "$dest_dir"
 
-        for skill_dir in "$src_dir"/*/; do
+        for skill_dir in "$src_dir"/*; do
+            [ -d "$skill_dir" ] || continue
             [ -f "$skill_dir/SKILL.md" ] || continue
             cp -r "$skill_dir" "$dest_dir/"
         done
