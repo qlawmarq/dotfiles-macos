@@ -143,6 +143,34 @@ bash backup.sh
   chmod +x apply.sh backup.sh lib/*.sh modules/*/apply.sh modules/*/backup.sh
   ```
 
+### Submodule is in detached HEAD state
+
+Git submodules are checked out in detached HEAD by default. When you make changes inside `modules/common` and need to commit/push them:
+
+```sh
+cd modules/common
+
+# Check current state
+git status          # Shows "HEAD detached at ..."
+
+# Option 1: Attach to main before committing
+git checkout main
+git merge --ff-only HEAD@{1}   # Fast-forward main to include your detached commits
+
+# Option 2: If you already committed in detached HEAD
+CURRENT=$(git rev-parse HEAD)
+git checkout main
+git merge --ff-only "$CURRENT"
+
+# Then push the submodule and update the parent
+git push origin main
+cd ../..
+git add modules/common
+git commit -m "chore: update common submodule"
+```
+
+If your local `main` has diverged from the detached commits, use `git merge` (without `--ff-only`) or `git rebase` instead.
+
 ### Debug MCP server for Claude Desktop
 
 ```sh
