@@ -20,7 +20,7 @@ if ! confirm "Back up Claude Code settings into the common submodule?"; then
 fi
 
 TMP=$(mktemp)
-if jq '{"$schema": .["$schema"], permissions, model, hooks, statusLine, env}
+if jq '{"$schema": .["$schema"], permissions, model, tui, hooks, statusLine, env}
        | with_entries(select(.value != null))' "$LIVE_SETTINGS" > "$TMP" \
    && [ -s "$TMP" ] && jq -e . "$TMP" >/dev/null; then
     mv "$TMP" "$REPO_SETTINGS"

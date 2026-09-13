@@ -128,7 +128,19 @@ Consequences:
 - Every other key is deep-merged, preserving local values such as `modelSettings`.
 - The previous file is snapshotted to `~/.claude/.dotfiles-backups/` first.
 - `backup.sh settings` writes back an allowlist (`$schema`, `permissions`, `model`,
-  `hooks`, `statusLine`, `env`) so machine-local UI state never enters the submodule.
+  `tui`, `hooks`, `statusLine`, `env`) so machine-local UI state never enters the
+  submodule.
+
+`tui` is pinned to `fullscreen`. The default `classic` renderer draws inline into the
+terminal scrollback without the alternate screen, so once a frame grows taller than the
+pane, or the pane width changes and the terminal reflows, it can no longer erase what has
+scrolled off and re-emits it: duplicated bands of lines and tables rendered half at the
+old width and half at the new one. Measured here under tmux at 120x20 with a width
+change: `classic` left 7 distinct lines repeated up to 14 times in the scrollback,
+`fullscreen` left none (`#{alternate_on}` 0 vs 1). The cost is that Claude Code owns the
+screen, so tmux copy-mode no longer scrolls its output — the `alternate_on` branch of the
+WheelUp binding in `tmux/.tmux.conf` forwards the wheel to Claude Code instead. Revert
+per machine with `/tui default`.
 
 Bash permission patterns use a `:*` suffix for prefix matching: `Bash(git status:*)`
 matches `git status --short`. `Bash(pnpm *)` is invalid and does nothing.
