@@ -45,7 +45,7 @@ fi
 
 CLAUDE_DIR="$HOME/.claude"
 
-ALL_STEPS="cli hooks settings skills mcp notifications doctor"
+ALL_STEPS="cli settings skills mcp doctor"
 
 # ------------------------------------------------------------
 # Resolve which steps to run

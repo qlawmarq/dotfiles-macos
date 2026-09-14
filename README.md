@@ -34,7 +34,7 @@ The system intelligently manages dependencies between modules, ensuring they are
 Common configurations are managed in [dotfiles-common](https://github.com/qlawmarq/dotfiles-common) and shared with [dotfiles-linux](https://github.com/qlawmarq/dotfiles-linux):
 
 - **common/tmux**: Cross-platform tmux configuration with automatic clipboard detection
-- **common/claude**: Claude Code settings (agents, commands, skills, tools, hooks) for consistent development experience across platforms
+- **common/claude**: Claude Code settings (agents, commands, skills, tools) for consistent development experience across platforms
 
 ### Platform-Specific Modules
 
@@ -48,7 +48,7 @@ The following macOS-specific modules are available:
 - **vscode**: Installs and configures Visual Studio Code and extensions
 - **finder**: Manages macOS Finder preferences and settings
 - **keyboard**: Manages keyboard shortcuts and modifier key mappings
-- **claude**: Configures Claude Code — CLI, settings, hooks, skills and MCP servers (uses common/claude). Runs as independent steps, so skills can be updated without reinstalling the CLI: `sh modules/claude/apply.sh skills`
+- **claude**: Configures Claude Code — CLI, settings, skills and MCP servers (uses common/claude). Runs as independent steps, so skills can be updated without reinstalling the CLI: `sh modules/claude/apply.sh skills`
 
 Each module is independent but may depend on other modules for proper functionality.
 
