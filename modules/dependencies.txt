@@ -10,4 +10,5 @@ codex: brew mise dotfiles
 vscode: brew
 claude: brew mise
 finder:
+terminal:
 keyboard:
