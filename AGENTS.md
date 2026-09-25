@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to coding agents when working with code in this repository.
 
 ## Repository Overview
 
@@ -24,7 +24,7 @@ This is a modular macOS dotfiles management system that automates development en
 
 ## Claude Code Integration
 
-The `claude` module's design notes (symlinked skills, settings.json merge semantics, notifications, MCP) live in `modules/claude/CLAUDE.md`.
+The `claude` module's design notes (symlinked skills, settings.json merge semantics, notifications, MCP) live in `modules/claude/AGENTS.md`.
 
 Never edit `~/.claude.json` directly to configure MCP — it is live client state the CLI writes continuously; use `claude mcp add-json`.
 
