@@ -7,17 +7,19 @@
 ISSUES=0
 
 CLAUDE_SKILLS="$CLAUDE_DIR/skills"
+AGENTS_SKILLS="$HOME/.agents/skills"
 
 # --- broken links (repository moved, renamed or a skill deleted upstream)
-if [ -d "$CLAUDE_SKILLS" ]; then
-    BROKEN=$(find "$CLAUDE_SKILLS" -maxdepth 1 -type l ! -exec test -e {} \; -print 2>/dev/null)
+for d in "$CLAUDE_SKILLS" "$AGENTS_SKILLS"; do
+    [ -d "$d" ] || continue
+    BROKEN=$(find "$d" -maxdepth 1 -type l ! -exec test -e {} \; -print 2>/dev/null)
     if [ -n "$BROKEN" ]; then
         print_warning "Broken skill links:"
         printf %s "$BROKEN" | sed 's/^/  /'
         print_info "  Repair: sh modules/claude/apply.sh skills"
         ISSUES=$((ISSUES + 1))
     fi
-fi
+done
 
 # --- skills edited in place through a symlink
 if [ -d "$COMMON_DIR/.git" ] || [ -f "$COMMON_DIR/.git" ]; then
@@ -32,18 +34,20 @@ if [ -d "$COMMON_DIR/.git" ] || [ -f "$COMMON_DIR/.git" ]; then
 fi
 
 # --- real directories where a managed link is expected
-if [ -d "$CLAUDE_SKILLS" ]; then
-    for e in "$CLAUDE_SKILLS"/*; do
+# (`npx skills add` replaces a same-named link with a copy in either directory)
+for d in "$CLAUDE_SKILLS" "$AGENTS_SKILLS"; do
+    [ -d "$d" ] || continue
+    for e in "$d"/*; do
         [ -d "$e" ] || continue
         [ -L "$e" ] && continue
         n=$(basename "$e")
         if [ -d "$COMMON_DIR/skills/$n" ] || [ -d "$COMMON_DIR/claude/skills/$n" ]; then
-            print_warning "Unmanaged copy shadowing a repository skill: $n"
+            print_warning "Unmanaged copy shadowing a repository skill: $d/$n"
             print_info "  Repair: sh modules/claude/apply.sh skills"
             ISSUES=$((ISSUES + 1))
         fi
     done
-fi
+done
 
 # --- leftover migration backups
 for d in "$CLAUDE_DIR"/skills.pre-symlink.*; do

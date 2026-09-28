@@ -38,8 +38,18 @@ Consequences:
   `~/.claude/skills.pre-symlink.<timestamp>/` rather than deleted.
 - A moved or renamed repository leaves dangling links: the skills disappear from `/skills`,
   `doctor` lists them, and re-running the `skills` step repairs them.
-- `~/.agents/skills/` (Codex CLI / Gemini CLI) defaults to copy mode because their
-  symlink support is unverified. Set `AGENTS_SKILLS_MODE=symlink` to opt in.
+- `~/.agents/skills/` (Codex CLI / Gemini CLI) is symlinked the same way. Verified on
+  2026-09-28 with Codex CLI 0.151.0 (`codex debug prompt-input` lists a symlinked
+  `.agents/skills/<name>` in the model-visible prompt; its loader sets
+  `DirectorySymlinkPolicy::Follow` for user and repo scopes) and Gemini CLI 0.28.0
+  (`gemini skills list --all` resolves a symlinked entry; `gemini skills link` itself
+  creates symlinks). Set `AGENTS_SKILLS_MODE=copy` to fall back to copies; the first
+  symlink run deletes the copies recorded in `~/.agents/skills/.dotfiles-manifest`
+  instead of migrating them, because they are exact copies of the submodule.
+- The skills are also installable elsewhere with `npx skills add qlawmarq/dotfiles-common`
+  (see `modules/common/README.md`). Never run that on a machine managed by this
+  repository: the CLI replaces same-named entries in `~/.claude/skills` and
+  `~/.agents/skills` without asking.
 
 ### settings.json merge semantics
 
