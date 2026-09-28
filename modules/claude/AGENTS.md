@@ -1,7 +1,7 @@
 # Claude Code Integration
 
 This repository provides user-level Claude Code configuration shared across all projects.
-The `claude` module targets **Claude Code only** — Claude Desktop is no longer configured here.
+The `claude` module targets **Claude Code only**.
 
 ### Step-based application
 
@@ -30,8 +30,6 @@ Consequences:
 - **Claude Code edits skills in place inside the submodule.** This is detectable and
   reversible: `sh modules/claude/apply.sh doctor` reports it, `git -C modules/common
   checkout -- skills claude/skills` discards it, `git -C modules/common commit` keeps it.
-  Under the previous copy-based deployment the same edit was invisible to git and was
-  silently destroyed by the next apply.
 - Stale skills are pruned by deleting the link. Pruning only touches symlinks whose
   target is inside `modules/common`, so hand-written skills in `~/.claude/skills/` survive.
 - On first run, pre-existing real directories are moved to
