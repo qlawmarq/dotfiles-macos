@@ -18,6 +18,10 @@ if ! command_exists mise; then
     exit 1
 fi
 
+# Remove the versions `mise upgrade` replaced on the next mise command
+# instead of after the default 24h grace period (upgrade.prune_after)
+mise settings set upgrade.prune_after 0s
+
 # Install Go
 if confirm "Would you like to install Go?"; then
     print_info "Installing Go...('mise use -g go@latest')"
